@@ -1,0 +1,121 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{9E5EDD1C-34CE-4FAC-9E3A-DF48DE9F897A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ServiceInventario</RootNamespace>
+    <AssemblyName>ServiceInventario</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Interfaces\IAnalisis.cs" />
+    <Compile Include="Interfaces\IAuditoria.cs" />
+    <Compile Include="Interfaces\IConcepto.cs" />
+    <Compile Include="Interfaces\IConfiguracion.cs" />
+    <Compile Include="Interfaces\ICosto.cs" />
+    <Compile Include="Interfaces\IDepartamento.cs" />
+    <Compile Include="Interfaces\IDeposito.cs" />
+    <Compile Include="Interfaces\IEmpaqueMedida.cs" />
+    <Compile Include="Interfaces\IGrupo.cs" />
+    <Compile Include="Interfaces\IKardex.cs" />
+    <Compile Include="Interfaces\IMarca.cs" />
+    <Compile Include="Interfaces\IMovimiento.cs" />
+    <Compile Include="Interfaces\IMovTransito.cs" />
+    <Compile Include="Interfaces\IPermisos.cs" />
+    <Compile Include="Interfaces\IPrecio.cs" />
+    <Compile Include="Interfaces\IProducto.cs" />
+    <Compile Include="Interfaces\IProveedor.cs" />
+    <Compile Include="Interfaces\IReporteDocumentos.cs" />
+    <Compile Include="Interfaces\IReportes.cs" />
+    <Compile Include="Interfaces\IService.cs" />
+    <Compile Include="Interfaces\ISistema.cs" />
+    <Compile Include="Interfaces\ISucursal.cs" />
+    <Compile Include="Interfaces\ITasaImpuesto.cs" />
+    <Compile Include="Interfaces\ITool.cs" />
+    <Compile Include="Interfaces\IUsuario.cs" />
+    <Compile Include="Interfaces\IVisor.cs" />
+    <Compile Include="MyServide\Analisis.cs" />
+    <Compile Include="MyServide\Auditoria.cs" />
+    <Compile Include="MyServide\Concepto.cs" />
+    <Compile Include="MyServide\Configuracion.cs" />
+    <Compile Include="MyServide\Costo.cs" />
+    <Compile Include="MyServide\Departamento.cs" />
+    <Compile Include="MyServide\Deposito.cs" />
+    <Compile Include="MyServide\EmpaqueMedida.cs" />
+    <Compile Include="MyServide\Grupo.cs" />
+    <Compile Include="MyServide\Kardex.cs" />
+    <Compile Include="MyServide\Marca.cs" />
+    <Compile Include="MyServide\Movimiento.cs" />
+    <Compile Include="MyServide\MovTransito.cs" />
+    <Compile Include="MyServide\Permisos.cs" />
+    <Compile Include="MyServide\Precio.cs" />
+    <Compile Include="MyServide\Producto.cs" />
+    <Compile Include="MyServide\Proveedor.cs" />
+    <Compile Include="MyServide\Reportes.cs" />
+    <Compile Include="MyServide\Service.cs" />
+    <Compile Include="MyServide\Sistema.cs" />
+    <Compile Include="MyServide\Sucursal.cs" />
+    <Compile Include="MyServide\TasaImpuesto.cs" />
+    <Compile Include="MyServide\Tool.cs" />
+    <Compile Include="MyServide\Usuario.cs" />
+    <Compile Include="MyServide\Visor.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DtoLibInventario\DtoLibInventario.csproj">
+      <Project>{8866b712-613d-498a-b285-924f6401f456}</Project>
+      <Name>DtoLibInventario</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DtoLib\DtoLib.csproj">
+      <Project>{d9f4fbb8-7f86-4c1a-9568-ada43072250c}</Project>
+      <Name>DtoLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ILibInventario\ILibInventario.csproj">
+      <Project>{fda7c93e-2df3-4bb2-9db5-2212b1044c45}</Project>
+      <Name>ILibInventario</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProvLibInventario\ProvLibInventario.csproj">
+      <Project>{05606fc0-751b-4e6f-9065-6cf64416b56b}</Project>
+      <Name>ProvLibInventario</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

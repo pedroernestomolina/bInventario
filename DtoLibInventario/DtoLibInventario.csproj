@@ -1,0 +1,292 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{8866B712-613D-498A-B285-924F6401F456}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DtoLibInventario</RootNamespace>
+    <AssemblyName>DtoLibInventario</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Analisis\Detallado\Ficha.cs" />
+    <Compile Include="Analisis\Detallado\Filtro.cs" />
+    <Compile Include="Analisis\Enumerados.cs" />
+    <Compile Include="Analisis\Existencia\Ficha.cs" />
+    <Compile Include="Analisis\Existencia\Filtro.cs" />
+    <Compile Include="Analisis\General\Ficha.cs" />
+    <Compile Include="Analisis\General\Filtro.cs" />
+    <Compile Include="Auditoria\Buscar\Ficha.cs" />
+    <Compile Include="Auditoria\Entidad\Ficha.cs" />
+    <Compile Include="Categoria\Resumen.cs" />
+    <Compile Include="Concepto\Agregar.cs" />
+    <Compile Include="Concepto\Editar.cs" />
+    <Compile Include="Concepto\Ficha.cs" />
+    <Compile Include="Concepto\Resumen.cs" />
+    <Compile Include="Configuracion\BusquedaPredeterminada\Editar\Ficha.cs" />
+    <Compile Include="Configuracion\CostoEdad\Editar\Ficha.cs" />
+    <Compile Include="Configuracion\DepositoConceptoDev\BaseFicha.cs" />
+    <Compile Include="Configuracion\DepositoConceptoDev\Captura\Ficha.cs" />
+    <Compile Include="Configuracion\DepositoConceptoDev\Editar\Ficha.cs" />
+    <Compile Include="Configuracion\DepositoPredeterminado\Ficha.cs" />
+    <Compile Include="Configuracion\DepositoPredeterminado\Item.cs" />
+    <Compile Include="Configuracion\Enumerados.cs" />
+    <Compile Include="Configuracion\MetodoCalculoUtilidad\CapturarData\Ficha.cs" />
+    <Compile Include="Configuracion\MetodoCalculoUtilidad\Editar\Ficha.cs" />
+    <Compile Include="Configuracion\MetodoCalculoUtilidad\Editar\FichaPrecio.cs" />
+    <Compile Include="Configuracion\MetodoCalculoUtilidad\Editar\Precio.cs" />
+    <Compile Include="Configuracion\PreferenciaPrecio\Editar\Ficha.cs" />
+    <Compile Include="Configuracion\RedondeoPrecio\Editar\Ficha.cs" />
+    <Compile Include="Costo\Editar\Ficha.cs" />
+    <Compile Include="Costo\Editar\FichaHistorica.cs" />
+    <Compile Include="Costo\Editar\FichaPrecio.cs" />
+    <Compile Include="Costo\Enumerados.cs" />
+    <Compile Include="Costo\Historico\Data.cs" />
+    <Compile Include="Costo\Historico\Filtro.cs" />
+    <Compile Include="Costo\Historico\Resumen.cs" />
+    <Compile Include="Departamento\Agregar.cs" />
+    <Compile Include="Departamento\Editar.cs" />
+    <Compile Include="Departamento\Ficha.cs" />
+    <Compile Include="Departamento\Resumen.cs" />
+    <Compile Include="Deposito\Ficha.cs" />
+    <Compile Include="Deposito\Resumen.cs" />
+    <Compile Include="EmpaqueMedida\Agregar.cs" />
+    <Compile Include="EmpaqueMedida\Editar.cs" />
+    <Compile Include="EmpaqueMedida\Ficha.cs" />
+    <Compile Include="EmpaqueMedida\Resumen.cs" />
+    <Compile Include="Empresa\Data\Ficha.cs" />
+    <Compile Include="Grupo\Agregar.cs" />
+    <Compile Include="Grupo\Editar.cs" />
+    <Compile Include="Grupo\Ficha.cs" />
+    <Compile Include="Grupo\Resumen.cs" />
+    <Compile Include="Kardex\Enumerados.cs" />
+    <Compile Include="Kardex\Movimiento\Detalle\Data.cs" />
+    <Compile Include="Kardex\Movimiento\Detalle\Ficha.cs" />
+    <Compile Include="Kardex\Movimiento\Detalle\Filtro.cs" />
+    <Compile Include="Kardex\Movimiento\Filtro.cs" />
+    <Compile Include="Kardex\Movimiento\Resumen\Data.cs" />
+    <Compile Include="Kardex\Movimiento\Resumen\Ficha.cs" />
+    <Compile Include="Kardex\Movimiento\Resumen\Filtro.cs" />
+    <Compile Include="Marca\Agregar.cs" />
+    <Compile Include="Marca\Editar.cs" />
+    <Compile Include="Marca\Ficha.cs" />
+    <Compile Include="Marca\Resumen.cs" />
+    <Compile Include="MonitorPos\Entidad\Ficha.cs" />
+    <Compile Include="MonitorPos\Lista\Filtro.cs" />
+    <Compile Include="Movimiento\AjusteInvCero\Capture\Data.cs" />
+    <Compile Include="Movimiento\AjusteInvCero\Capture\Ficha.cs" />
+    <Compile Include="Movimiento\AjusteInvCero\Capture\Filtro.cs" />
+    <Compile Include="Movimiento\AjusteInvCero\Insertar\Ficha.cs" />
+    <Compile Include="Movimiento\AjusteInvCero\Insertar\FichaMov.cs" />
+    <Compile Include="Movimiento\AjusteInvCero\Insertar\FichaMovDeposito.cs" />
+    <Compile Include="Movimiento\AjusteInvCero\Insertar\FichaMovDetalle.cs" />
+    <Compile Include="Movimiento\AjusteInvCero\Insertar\FichaMovKardex.cs" />
+    <Compile Include="Movimiento\Ajuste\Insertar\Ficha.cs" />
+    <Compile Include="Movimiento\Ajuste\Insertar\FichaMov.cs" />
+    <Compile Include="Movimiento\Ajuste\Insertar\FichaMovDeposito.cs" />
+    <Compile Include="Movimiento\Ajuste\Insertar\FichaMovDetalle.cs" />
+    <Compile Include="Movimiento\Ajuste\Insertar\FichaMovKardex.cs" />
+    <Compile Include="Movimiento\Anular\Ajuste\Ficha.cs" />
+    <Compile Include="Movimiento\Anular\Cargo\Ficha.cs" />
+    <Compile Include="Movimiento\Anular\Descargo\Ficha.cs" />
+    <Compile Include="Movimiento\Anular\FichaBase.cs" />
+    <Compile Include="Movimiento\Anular\Traslado\Ficha.cs" />
+    <Compile Include="Movimiento\Cargo\CapturaMov\Data.cs" />
+    <Compile Include="Movimiento\Cargo\CapturaMov\Ficha.cs" />
+    <Compile Include="Movimiento\Cargo\CapturaMov\Filtro.cs" />
+    <Compile Include="Movimiento\Cargo\Insertar\Ficha.cs" />
+    <Compile Include="Movimiento\Cargo\Insertar\FichaMov.cs" />
+    <Compile Include="Movimiento\Cargo\Insertar\FichaMovDeposito.cs" />
+    <Compile Include="Movimiento\Cargo\Insertar\FichaMovDetalle.cs" />
+    <Compile Include="Movimiento\Cargo\Insertar\FichaMovKardex.cs" />
+    <Compile Include="Movimiento\Cargo\Insertar\FichaPrdCosto.cs" />
+    <Compile Include="Movimiento\Cargo\Insertar\FichaPrdCostoHistorico.cs" />
+    <Compile Include="Movimiento\Cargo\Insertar\FichaPrdPrecio.cs" />
+    <Compile Include="Movimiento\Cargo\Insertar\FichaPrdPrecioHistorico.cs" />
+    <Compile Include="Movimiento\Cargo\Insertar\FichaPrdPrecioMargen.cs" />
+    <Compile Include="Movimiento\Cargo\Insertar\FichaPrecio.cs" />
+    <Compile Include="Movimiento\Cargo\Insertar\FichaPrecioMargen.cs" />
+    <Compile Include="Movimiento\Descargo\CapturaMov\Data.cs" />
+    <Compile Include="Movimiento\Descargo\CapturaMov\Ficha.cs" />
+    <Compile Include="Movimiento\Descargo\CapturaMov\Filtro.cs" />
+    <Compile Include="Movimiento\Descargo\Insertar\Ficha.cs" />
+    <Compile Include="Movimiento\Descargo\Insertar\FichaMov.cs" />
+    <Compile Include="Movimiento\Descargo\Insertar\FichaMovDeposito.cs" />
+    <Compile Include="Movimiento\Descargo\Insertar\FichaMovDetalle.cs" />
+    <Compile Include="Movimiento\Descargo\Insertar\FichaMovKardex.cs" />
+    <Compile Include="Movimiento\enumerados.cs" />
+    <Compile Include="Movimiento\Insertar\BaseFichaMov.cs" />
+    <Compile Include="Movimiento\Insertar\BaseFichaMovDeposito.cs" />
+    <Compile Include="Movimiento\Insertar\BaseFichaMovDetalle.cs" />
+    <Compile Include="Movimiento\Insertar\BaseFichaMovKardex.cs" />
+    <Compile Include="Movimiento\Lista\Filtro.cs" />
+    <Compile Include="Movimiento\Lista\Resumen.cs" />
+    <Compile Include="Movimiento\Traslado\CapturaMov\Data.cs" />
+    <Compile Include="Movimiento\Traslado\CapturaMov\Ficha.cs" />
+    <Compile Include="Movimiento\Traslado\CapturaMov\Filtro.cs" />
+    <Compile Include="Movimiento\Traslado\Capturar\ProductoPorDebajoNivelMinimo\Ficha.cs" />
+    <Compile Include="Movimiento\Traslado\Capturar\ProductoPorDebajoNivelMinimo\Filtro.cs" />
+    <Compile Include="Movimiento\Traslado\Consultar\Filtro.cs" />
+    <Compile Include="Movimiento\Traslado\Consultar\ProductoPorDebajoNivelMinimo.cs" />
+    <Compile Include="Movimiento\Traslado\Insertar\Ficha.cs" />
+    <Compile Include="Movimiento\Traslado\Insertar\FichaMov.cs" />
+    <Compile Include="Movimiento\Traslado\Insertar\FichaMovDeposito.cs" />
+    <Compile Include="Movimiento\Traslado\Insertar\FichaMovDetalle.cs" />
+    <Compile Include="Movimiento\Traslado\Insertar\FichaMovKardex.cs" />
+    <Compile Include="Movimiento\Verificar\CostoEdad\Ficha.cs" />
+    <Compile Include="Movimiento\Verificar\CostoEdad\FichaDetalle.cs" />
+    <Compile Include="Movimiento\Verificar\ExistenciaDisponible\Ficha.cs" />
+    <Compile Include="Movimiento\Ver\Detalle.cs" />
+    <Compile Include="Movimiento\Ver\Ficha.cs" />
+    <Compile Include="Permiso\Enumerados.cs" />
+    <Compile Include="Permiso\Ficha.cs" />
+    <Compile Include="Precio\Editar\Ficha.cs" />
+    <Compile Include="Precio\Editar\FichaHistorica.cs" />
+    <Compile Include="Precio\Editar\FichaPrecio.cs" />
+    <Compile Include="Precio\Historico\Data.cs" />
+    <Compile Include="Precio\Historico\Filtro.cs" />
+    <Compile Include="Precio\Historico\Resumen.cs" />
+    <Compile Include="Precio\PrecioCosto\Ficha.cs" />
+    <Compile Include="Producto\AdmDivisa\Resumen.cs" />
+    <Compile Include="Producto\Agregar\Ficha.cs" />
+    <Compile Include="Producto\Agregar\FichaCodAlterno.cs" />
+    <Compile Include="Producto\Categoria\Resumen.cs" />
+    <Compile Include="Producto\Clasificacion\Resumen.cs" />
+    <Compile Include="Producto\Depositos\Asignar\DepAsignar.cs" />
+    <Compile Include="Producto\Depositos\Asignar\DepRemover.cs" />
+    <Compile Include="Producto\Depositos\Asignar\Ficha.cs" />
+    <Compile Include="Producto\Depositos\Editar\Ficha.cs" />
+    <Compile Include="Producto\Depositos\Lista\Data.cs" />
+    <Compile Include="Producto\Depositos\Lista\Ficha.cs" />
+    <Compile Include="Producto\Depositos\Ver\Ficha.cs" />
+    <Compile Include="Producto\Depositos\Ver\Filtro.cs" />
+    <Compile Include="Producto\Editar\Actualizar\Ficha.cs" />
+    <Compile Include="Producto\Editar\Actualizar\FichaCodAlterno.cs" />
+    <Compile Include="Producto\Editar\Actualizar\FichaPrecio.cs" />
+    <Compile Include="Producto\Editar\Obtener\Ficha.cs" />
+    <Compile Include="Producto\Editar\Obtener\FichaAlterno.cs" />
+    <Compile Include="Producto\Enumerados.cs" />
+    <Compile Include="Producto\Estatus\Actual\Ficha.cs" />
+    <Compile Include="Producto\Estatus\Lista\Resumen.cs" />
+    <Compile Include="Producto\Filtro.cs" />
+    <Compile Include="Producto\Oferta\Resumen.cs" />
+    <Compile Include="Producto\Origen\Resumen.cs" />
+    <Compile Include="Producto\Pesado\Resumen.cs" />
+    <Compile Include="Producto\Plu\Lista\Resumen.cs" />
+    <Compile Include="Producto\Resumen.cs" />
+    <Compile Include="Producto\VerData\CodAlterno.cs" />
+    <Compile Include="Producto\VerData\Costo.cs" />
+    <Compile Include="Producto\VerData\Deposito.cs" />
+    <Compile Include="Producto\VerData\Existencia.cs" />
+    <Compile Include="Producto\VerData\Extra.cs" />
+    <Compile Include="Producto\VerData\Ficha.cs" />
+    <Compile Include="Producto\VerData\Identificacion.cs" />
+    <Compile Include="Producto\VerData\Imagen.cs" />
+    <Compile Include="Producto\VerData\Precio.cs" />
+    <Compile Include="Producto\VerData\Proveedor\Detalle.cs" />
+    <Compile Include="Producto\VerData\Proveedor\Ficha.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Proveedor\Enumerados.cs" />
+    <Compile Include="Proveedor\Lista\Filtro.cs" />
+    <Compile Include="Proveedor\Lista\Resumen.cs" />
+    <Compile Include="Reportes\CompraVentaAlmacen\Ficha.cs" />
+    <Compile Include="Reportes\CompraVentaAlmacen\FichaAlmacen.cs" />
+    <Compile Include="Reportes\CompraVentaAlmacen\FichaCompra.cs" />
+    <Compile Include="Reportes\CompraVentaAlmacen\FichaVenta.cs" />
+    <Compile Include="Reportes\CompraVentaAlmacen\Filtro.cs" />
+    <Compile Include="Reportes\DepositoResumen\Ficha.cs" />
+    <Compile Include="Reportes\enumerados.cs" />
+    <Compile Include="Reportes\KardexResumen\Ficha.cs" />
+    <Compile Include="Reportes\Kardex\Existencia.cs" />
+    <Compile Include="Reportes\Kardex\Ficha.cs" />
+    <Compile Include="Reportes\Kardex\Filtro.cs" />
+    <Compile Include="Reportes\Kardex\Mov.cs" />
+    <Compile Include="Reportes\MaestroExistencia\Ficha.cs" />
+    <Compile Include="Reportes\MaestroExistencia\Filtro.cs" />
+    <Compile Include="Reportes\MaestroInventario\Ficha.cs" />
+    <Compile Include="Reportes\MaestroInventario\Filtro.cs" />
+    <Compile Include="Reportes\MaestroNivelMinimo\Ficha.cs" />
+    <Compile Include="Reportes\MaestroNivelMinimo\Filtro.cs" />
+    <Compile Include="Reportes\MaestroPrecio\Ficha.cs" />
+    <Compile Include="Reportes\MaestroPrecio\Filtro.cs" />
+    <Compile Include="Reportes\MaestroProducto\Ficha.cs" />
+    <Compile Include="Reportes\MaestroProducto\Filtro.cs" />
+    <Compile Include="Reportes\Top20\Ficha.cs" />
+    <Compile Include="Reportes\Top20\Filtro.cs" />
+    <Compile Include="Reportes\TopDepartUtilidad\Ficha.cs" />
+    <Compile Include="Reportes\TopDepartUtilidad\Filtro.cs" />
+    <Compile Include="Reportes\Valorizacion\Ficha.cs" />
+    <Compile Include="Reportes\Valorizacion\Filtro.cs" />
+    <Compile Include="Sistema\TipoDocumento\Entidad\Ficha.cs" />
+    <Compile Include="Sucursal\Ficha.cs" />
+    <Compile Include="Sucursal\Resumen.cs" />
+    <Compile Include="TasaImpuesto\Resumen.cs" />
+    <Compile Include="Tool\AjusteNivelMinimoMaximo\Ajustar\Ficha.cs" />
+    <Compile Include="Tool\AjusteNivelMinimoMaximo\Capturar\Ficha.cs" />
+    <Compile Include="Tool\AjusteNivelMinimoMaximo\Capturar\Filtro.cs" />
+    <Compile Include="Transito\Movimiento\Agregar\Detalle.cs" />
+    <Compile Include="Transito\Movimiento\Agregar\Ficha.cs" />
+    <Compile Include="Transito\Movimiento\Agregar\Mov.cs" />
+    <Compile Include="Transito\Movimiento\Entidad\Detalle.cs" />
+    <Compile Include="Transito\Movimiento\Entidad\Ficha.cs" />
+    <Compile Include="Transito\Movimiento\Entidad\Mov.cs" />
+    <Compile Include="Transito\Movimiento\Lista\Ficha.cs" />
+    <Compile Include="Transito\Movimiento\Lista\Filtro.cs" />
+    <Compile Include="Usuario\ActualizarSesion\Ficha.cs" />
+    <Compile Include="Usuario\Buscar\Ficha.cs" />
+    <Compile Include="Usuario\Ficha.cs" />
+    <Compile Include="Visor\Ajuste\Ficha.cs" />
+    <Compile Include="Visor\Ajuste\FichaDetalle.cs" />
+    <Compile Include="Visor\Ajuste\Filtro.cs" />
+    <Compile Include="Visor\CostoEddad\Ficha.cs" />
+    <Compile Include="Visor\CostoEddad\FichaDetalle.cs" />
+    <Compile Include="Visor\CostoEddad\Filtro.cs" />
+    <Compile Include="Visor\CostoExistencia\Ficha.cs" />
+    <Compile Include="Visor\CostoExistencia\Filtro.cs" />
+    <Compile Include="Visor\Existencia\Enumerados.cs" />
+    <Compile Include="Visor\Existencia\Ficha.cs" />
+    <Compile Include="Visor\Existencia\Filtro.cs" />
+    <Compile Include="Visor\Precio\Ficha.cs" />
+    <Compile Include="Visor\Precio\Filtro.cs" />
+    <Compile Include="Visor\Traslado\Ficha.cs" />
+    <Compile Include="Visor\Traslado\Filtro.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
