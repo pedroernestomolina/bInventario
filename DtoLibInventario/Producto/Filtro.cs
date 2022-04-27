@@ -36,6 +36,10 @@ namespace DtoLibInventario.Producto
 
         public bool? precioMayorHabilitado { get; set; }
 
+        public bool activarBusquedaPorTrasalado { get; set; }
+        public string autoDepOrigen { get; set; }
+        public string autoDepDestino { get; set; }
+
 
         public Filtro()
         {
@@ -56,6 +60,10 @@ namespace DtoLibInventario.Producto
             existencia = Existencia.SinDefinir ;
             catalogo = Enumerados.EnumCatalogo.SnDefinir;
             precioMayorHabilitado = null;
+
+            activarBusquedaPorTrasalado = false;
+            autoDepOrigen = "";
+            autoDepDestino = "";
         }
 
     }

@@ -58,7 +58,7 @@
     <Compile Include="IProducto.cs" />
     <Compile Include="IProveedor.cs" />
     <Compile Include="IProvider.cs" />
-    <Compile Include="IPrueba.cs" />
+    <Compile Include="IMovPend.cs" />
     <Compile Include="IReportes.cs" />
     <Compile Include="ISistema.cs" />
     <Compile Include="ISucursal.cs" />

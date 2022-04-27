@@ -66,10 +66,12 @@
     <Compile Include="Deposito.cs" />
     <Compile Include="EmpaqueMedida.cs" />
     <Compile Include="Grupo.cs" />
+    <Compile Include="Helpers.cs" />
     <Compile Include="Kardex.cs" />
     <Compile Include="Marca.cs" />
     <Compile Include="MonitorPos.cs" />
     <Compile Include="Movimiento.cs" />
+    <Compile Include="MovPend.cs" />
     <Compile Include="MovTransito.cs" />
     <Compile Include="Permisos.cs" />
     <Compile Include="Precio.cs" />

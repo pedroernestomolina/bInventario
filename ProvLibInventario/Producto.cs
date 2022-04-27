@@ -15,7 +15,8 @@ namespace ProvLibInventario
     public partial class Provider : ILibInventario.IProvider
     {
 
-        public DtoLib.ResultadoLista<DtoLibInventario.Producto.Resumen> Producto_GetLista(DtoLibInventario.Producto.Filtro filtro)
+        public DtoLib.ResultadoLista<DtoLibInventario.Producto.Resumen> 
+            Producto_GetLista(DtoLibInventario.Producto.Filtro filtro)
         {
             var rt = new DtoLib.ResultadoLista<DtoLibInventario.Producto.Resumen>();
 
@@ -40,24 +41,13 @@ namespace ProvLibInventario
                         pext.pdmf_1 as pDivisaFullMay_1,
                         pext.pdmf_2 as pDivisaFullMay_2,
                         p.divisa as costoDivisa, (select sum(fisica) from productos_deposito where auto_producto=p.auto) as existencia from productos as p ";
-
                     var xsql2 = @" join empresa_departamentos as ed on p.auto_departamento=ed.auto
                                 join productos_grupo as pg on p.auto_grupo=pg.auto 
                                 join productos_medida as pm on p.auto_empaque_compra=pm.auto 
                                 join productos_marca as pmarca on p.auto_marca=pmarca.auto 
                                 join empresa_tasas as etasa on p.auto_tasa=etasa.auto 
                                 join productos_ext as pext on p.auto=pext.auto_producto ";
-
                     var xsql3 = "where 1=1 ";
-
-
-                    //var sql = "select *, (select sum(fisica) from productos_deposito where auto_producto=p.auto) as existencia from productos as p " +
-                    //    " join empresa_departamentos as ed on p.auto_departamento=ed.auto " +
-                    //    " join productos_grupo as pg on p.auto_grupo=pg.auto " +
-                    //    " join productos_medida as pm on p.auto_empaque_compra=pm.auto " +
-                    //    " join productos_marca as pmarca on p.auto_marca=pmarca.auto " +
-                    //    " join empresa_tasas as etasa on p.auto_tasa=etasa.auto " +
-                    //    " where 1=1 ";
 
                     var p1 = new MySql.Data.MySqlClient.MySqlParameter();
                     var p2 = new MySql.Data.MySqlClient.MySqlParameter();
@@ -296,215 +286,23 @@ namespace ProvLibInventario
                         }
                     }
 
+                    var t1 = new MySql.Data.MySqlClient.MySqlParameter();
+                    var t2 = new MySql.Data.MySqlClient.MySqlParameter();
+                    if (filtro.activarBusquedaPorTrasalado)
+                    {
+                        t1.ParameterName ="@t1";
+                        t1.Value = filtro.autoDepOrigen;
+                        t2.ParameterName = "t2";
+                        t2.Value = filtro.autoDepDestino;
+
+                        xsql2 += " join productos_deposito as origen on origen.auto_producto=p.auto and origen.auto_deposito=@t1 ";
+                        xsql2 += " join productos_deposito as destino on destino.auto_producto=p.auto and destino.auto_deposito=@t2 ";
+                        xsql3 += " and origen.fisica > 0 ";
+                    }
+
                     var xsql = xsql1 + xsql2 + xsql3;
-                    var q = cnn.Database.SqlQuery<DtoLibInventario.Producto.Resumen>(xsql, p1, p2, p3, p4, p5, p6, p7, p8, p9, pA, pB, pC, pD, pE, pF).ToList();
+                    var q = cnn.Database.SqlQuery<DtoLibInventario.Producto.Resumen>(xsql, p1, p2, p3, p4, p5, p6, p7, p8, p9, pA, pB, pC, pD, pE, pF, t1, t2).ToList();
                     rt.Lista = q;
-
-                    //var q = cnn.productos.SqlQuery(sql, p1,p2,p3,p4,p5,p6,p7,p8,p9,pA,pB,pC,pD).ToList();
-                    //if (filtro.autoDepartamento != "")
-                    //{
-                    //    q = q.Where(w => w.auto_departamento == filtro.autoDepartamento).ToList();
-                    //}
-                    //if (filtro.autoGrupo != "")
-                    //{
-                    //    q = q.Where(w => w.auto_grupo == filtro.autoGrupo).ToList();
-                    //}
-                    //if (filtro.autoMarca != "")
-                    //{
-                    //    q = q.Where(w => w.auto_marca == filtro.autoMarca).ToList();
-                    //}
-                    //if (filtro.autoTasa != "")
-                    //{
-                    //    q = q.Where(w => w.auto_tasa == filtro.autoTasa).ToList();
-                    //}
-                    //if (filtro.estatus != DtoLibInventario.Producto.Enumerados.EnumEstatus.SnDefinir)
-                    //{
-                    //    if (filtro.estatus == DtoLibInventario.Producto.Enumerados.EnumEstatus.Suspendido)
-                    //    {
-                    //        q = q.Where(w => w.estatus_cambio.Trim().ToUpper() == "1").ToList();
-                    //    }
-                    //    else
-                    //    {
-                    //        var _f = "ACTIVO";
-                    //        if (filtro.estatus == DtoLibInventario.Producto.Enumerados.EnumEstatus.Inactivo)
-                    //        {
-                    //            _f = "INACTIVO";
-                    //        }
-                    //        q = q.Where(w => w.estatus.Trim().ToUpper() == _f && w.estatus_cambio == "0").ToList();
-                    //    }
-                    //}
-                    //if (filtro.admPorDivisa != DtoLibInventario.Producto.Enumerados.EnumAdministradorPorDivisa.SnDefinir)
-                    //{
-                    //    var _f = "1";
-                    //    if (filtro.admPorDivisa == DtoLibInventario.Producto.Enumerados.EnumAdministradorPorDivisa.No)
-                    //    {
-                    //        _f = "0";
-                    //    }
-                    //    q = q.Where(w => w.estatus_divisa == _f).ToList();
-                    //}
-                    //if (filtro.categoria != DtoLibInventario.Producto.Enumerados.EnumCategoria.SnDefinir)
-                    //{
-                    //    var _f = "";
-                    //    switch (filtro.categoria)
-                    //    {
-                    //        case DtoLibInventario.Producto.Enumerados.EnumCategoria.BienServicio:
-                    //            _f = "BIEN DE SERVICIO";
-                    //            break;
-                    //        case DtoLibInventario.Producto.Enumerados.EnumCategoria.ProductoTerminado:
-                    //            _f = "PRODUCTO TERMINADO";
-                    //            break;
-                    //        case DtoLibInventario.Producto.Enumerados.EnumCategoria.MateriaPrima:
-                    //            _f = "MATERIA PRIMA ";
-                    //            break;
-                    //        case DtoLibInventario.Producto.Enumerados.EnumCategoria.SubProducto:
-                    //            _f = "SUB PRODUCTO";
-                    //            break;
-                    //        case DtoLibInventario.Producto.Enumerados.EnumCategoria.UsoInterno:
-                    //            _f = "USO INTERNO";
-                    //            break;
-                    //    }
-                    //    q = q.Where(w => w.categoria.Trim().ToUpper() == _f).ToList();
-                    //}
-                    //if (filtro.origen != DtoLibInventario.Producto.Enumerados.EnumOrigen.SnDefinir)
-                    //{
-                    //    var _f = "NACIONAL";
-                    //    if (filtro.origen == DtoLibInventario.Producto.Enumerados.EnumOrigen.Importado)
-                    //    {
-                    //        _f = "IMPORTADO";
-                    //    }
-                    //    q = q.Where(w => w.origen.Trim().ToUpper() == _f).ToList();
-                    //}
-                    //if (filtro.pesado != DtoLibInventario.Producto.Enumerados.EnumPesado.SnDefinir)
-                    //{
-                    //    var _f = "1";
-                    //    if (filtro.pesado == DtoLibInventario.Producto.Enumerados.EnumPesado.No)
-                    //    {
-                    //        _f = "0";
-                    //    }
-                    //    q = q.Where(w => w.estatus_pesado.Trim().ToUpper() == _f).ToList();
-                    //}
-                    //if (filtro.oferta != DtoLibInventario.Producto.Enumerados.EnumOferta.SnDefinir)
-                    //{
-                    //    var _f = "1";
-                    //    if (filtro.oferta == DtoLibInventario.Producto.Enumerados.EnumOferta.No)
-                    //    {
-                    //        _f = "0";
-                    //    }
-                    //    q = q.Where(w => w.estatus_oferta.Trim().ToUpper() == _f).ToList();
-                    //}
-                    //if (filtro.autoDeposito != "")
-                    //{
-                    //    q = q.Join(cnn.productos_deposito, p => p.auto, d => d.auto_producto,
-                    //        (p, d) => new { p, d }).Where(w => w.d.auto_deposito == filtro.autoDeposito).Select(s => s.p).ToList();
-                    //}
-                    //if (filtro.autoProveedor != "")
-                    //{
-                    //    q = q.Join(cnn.productos_proveedor, p => p.auto, prv => prv.auto_producto,
-                    //        (p, prv) => new { p, prv }).Where(w => w.prv.auto_proveedor == filtro.autoProveedor).Select(s => s.p).ToList();
-                    //}
-
-                    //var list = new List<DtoLibInventario.Producto.Resumen>();
-                    //if (q != null)
-                    //{
-                    //    if (q.Count() > 0)
-                    //    {
-                    //        list = q.Select(s =>
-                    //        {
-                    //            var _estatus = DtoLibInventario.Producto.Enumerados.EnumEstatus.Activo;
-                    //            if (s.estatus_cambio.Trim().ToUpper() == "1")
-                    //            {
-                    //                _estatus = DtoLibInventario.Producto.Enumerados.EnumEstatus.Suspendido;
-                    //            }
-                    //            else if (s.estatus.Trim().ToUpper() != "ACTIVO")
-                    //            {
-                    //                _estatus = DtoLibInventario.Producto.Enumerados.EnumEstatus.Inactivo;
-                    //            }
-
-                    //            var _admDivisa = s.estatus_divisa.Trim().ToUpper() == "1" ?
-                    //                DtoLibInventario.Producto.Enumerados.EnumAdministradorPorDivisa.Si :
-                    //                DtoLibInventario.Producto.Enumerados.EnumAdministradorPorDivisa.No;
-
-                    //            var _depart = s.empresa_departamentos.nombre;
-                    //            var _grupo = s.productos_grupo.nombre;
-                    //            var _empaque = s.productos_medida2.nombre;
-                    //            var _marca = s.productos_marca.nombre;
-                    //            var _tasaIvaDescripcion = s.empresa_tasas.nombre;
-                    //            var _tasaIva = s.empresa_tasas.tasa;
-                    //            var _catalogo = DtoLibInventario.Producto.Enumerados.EnumCatalogo.No;
-                    //            if (s.estatus_catalogo == "1")
-                    //                _catalogo = DtoLibInventario.Producto.Enumerados.EnumCatalogo.Si;
-                    //            var _esPesado = DtoLibInventario.Producto.Enumerados.EnumPesado.No;
-                    //            if (s.estatus_pesado == "1")
-                    //            {
-                    //                _esPesado = DtoLibInventario.Producto.Enumerados.EnumPesado.Si;
-                    //            }
-                    //            var _enOferta = DtoLibInventario.Producto.Enumerados.EnumOferta.No;
-                    //            if (s.estatus_oferta == "1")
-                    //            {
-                    //                _enOferta = DtoLibInventario.Producto.Enumerados.EnumOferta.Si;
-                    //            }
-                    //            var _origen = DtoLibInventario.Producto.Enumerados.EnumOrigen.SnDefinir;
-                    //            switch (s.origen.Trim().ToUpper())
-                    //            {
-                    //                case "NACIONAL":
-                    //                    _origen = DtoLibInventario.Producto.Enumerados.EnumOrigen.Nacional;
-                    //                    break;
-                    //                case "IMPORTADO":
-                    //                    _origen = DtoLibInventario.Producto.Enumerados.EnumOrigen.Importado;
-                    //                    break;
-                    //            }
-                    //            var _categoria = DtoLibInventario.Producto.Enumerados.EnumCategoria.SnDefinir;
-                    //            switch (s.categoria.Trim().ToUpper())
-                    //            {
-                    //                case "PRODUCTO TERMINADO":
-                    //                    _categoria = DtoLibInventario.Producto.Enumerados.EnumCategoria.ProductoTerminado;
-                    //                    break;
-                    //                case "BIEN DE SERVICIO":
-                    //                    _categoria = DtoLibInventario.Producto.Enumerados.EnumCategoria.BienServicio;
-                    //                    break;
-                    //                case "MATERIA PRIMA":
-                    //                    _categoria = DtoLibInventario.Producto.Enumerados.EnumCategoria.MateriaPrima;
-                    //                    break;
-                    //                case "USO INTERNO":
-                    //                    _categoria = DtoLibInventario.Producto.Enumerados.EnumCategoria.UsoInterno;
-                    //                    break;
-                    //                case "SUB PRODUCTO":
-                    //                    _categoria = DtoLibInventario.Producto.Enumerados.EnumCategoria.SubProducto;
-                    //                    break;
-                    //            }
-
-                    //            var r = new DtoLibInventario.Producto.Resumen()
-                    //            {
-                    //                auto = s.auto,
-                    //                codigo = s.codigo,
-                    //                contenido = s.contenido_compras,
-                    //                nombre = s.nombre_corto,
-                    //                descripcion = s.nombre,
-                    //                modelo = s.modelo,
-                    //                referencia = s.referencia,
-                    //                estatus = _estatus,
-                    //                admPorDivisa = _admDivisa,
-                    //                departamento = _depart,
-                    //                grupo = _grupo,
-                    //                tasaIva = _tasaIva,
-                    //                categoria = _categoria,
-                    //                empaque = _empaque,
-                    //                fechaAlta = s.fecha_alta,
-                    //                fechaUltCambioCosto = s.fecha_ult_costo,
-                    //                fechaUltActualizacion = s.fecha_cambio,
-                    //                marca = _marca,
-                    //                origen = _origen,
-                    //                tasaIvaDescripcion = _tasaIvaDescripcion,
-                    //                esPesado = _esPesado,
-                    //                enOferta = _enOferta,
-                    //                activarCatalogo=_catalogo,
-                    //                costoDivisa=s.divisa,
-                    //                existencia=s.
-                    //            };
-                    //            return r;
-                    //        }).ToList();
-                    //    }
-                    //}
                 }
             }
             catch (Exception e)

@@ -14,7 +14,7 @@ namespace ProvLibInventario
     public partial class Provider : ILibInventario.IProvider
     {
 
-        static EntityConnectionStringBuilder _cnInv ;
+        public static EntityConnectionStringBuilder _cnInv ;
         static MySqlConnectionStringBuilder _cnn2;
         private string _Instancia;
         private string _BaseDatos;

@@ -168,6 +168,8 @@
     <Compile Include="Movimiento\Verificar\ExistenciaDisponible\Ficha.cs" />
     <Compile Include="Movimiento\Ver\Detalle.cs" />
     <Compile Include="Movimiento\Ver\Ficha.cs" />
+    <Compile Include="MovPend\Lista\Ficha.cs" />
+    <Compile Include="MovPend\Lista\Filtro.cs" />
     <Compile Include="Permiso\Enumerados.cs" />
     <Compile Include="Permiso\Ficha.cs" />
     <Compile Include="Precio\Editar\Ficha.cs" />
