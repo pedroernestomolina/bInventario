@@ -15,7 +15,6 @@ namespace DtoLibInventario.Producto.VerData
         public string autoDepartamento { get; set; }
         public string autoMarca { get; set; }
         public string autoGrupo { get; set; }
-
         public string codigo { get; set; }
         public string nombre { get; set; }
         public string descripcion { get; set; }
@@ -23,6 +22,8 @@ namespace DtoLibInventario.Producto.VerData
         public string referencia { get; set; }
         public int contenidoCompra { get; set; }
         public string empaqueCompra { get; set; }
+        public string empInventario{ get; set; }
+        public int contEmpInv { get; set; }
         public string decimales { get; set; }
         public Enumerados.EnumOrigen origen { get; set; }
         public Enumerados.EnumCategoria categoria { get; set; }
@@ -63,6 +64,8 @@ namespace DtoLibInventario.Producto.VerData
             referencia = "";
             contenidoCompra = 1;
             empaqueCompra = "";
+            empInventario = "";
+            contEmpInv = 1;
             decimales = "0";
             origen = Enumerados.EnumOrigen.SnDefinir;
             categoria = Enumerados.EnumCategoria.SnDefinir;

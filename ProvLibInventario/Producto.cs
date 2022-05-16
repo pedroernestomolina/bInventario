@@ -40,7 +40,8 @@ namespace ProvLibInventario
                         pext.contenido_may_1 as contMay1, pext.contenido_may_2 as contMay2, 
                         pext.pdmf_1 as pDivisaFullMay_1,
                         pext.pdmf_2 as pDivisaFullMay_2,
-                        p.divisa as costoDivisa, (select sum(fisica) from productos_deposito where auto_producto=p.auto) as existencia from productos as p ";
+                        p.divisa as costoDivisa,
+                        pext.cont_emp_inv_1 as contEmpInv ";
                     var xsql2 = @" join empresa_departamentos as ed on p.auto_departamento=ed.auto
                                 join productos_grupo as pg on p.auto_grupo=pg.auto 
                                 join productos_medida as pm on p.auto_empaque_compra=pm.auto 
@@ -177,7 +178,8 @@ namespace ProvLibInventario
                             {
                                 _f = "Inactivo";
                             }
-                            xsql3 += " and p.estatus=@estatus and p.estatus_cambio='0' ";
+                            //xsql3 += " and p.estatus=@estatus and p.estatus_cambio='0' ";
+                            xsql3 += " and p.estatus=@estatus ";
                             p7.ParameterName = "@estatus";
                             p7.Value = _f;
                         }
@@ -264,10 +266,15 @@ namespace ProvLibInventario
                     }
                     if (filtro.autoDeposito != "")
                     {
+                        xsql1 += @",(select sum(fisica) from productos_deposito where auto_producto=p.auto and auto_deposito=@autoDeposito) as existencia from productos as p ";
                         xsql2 += " join productos_deposito as pdeposito on pdeposito.auto_producto=p.auto ";
                         xsql3 += " and pdeposito.auto_deposito=@autoDeposito ";
                         pE.ParameterName = "@autoDeposito";
                         pE.Value = filtro.autoDeposito;
+                    }
+                    else 
+                    {
+                        xsql1 += ",(select sum(fisica) from productos_deposito where auto_producto=p.auto) as existencia from productos as p ";
                     }
                     if (filtro.autoProveedor != "")
                     {
@@ -985,7 +992,8 @@ namespace ProvLibInventario
             return result;
         }
 
-        public DtoLib.ResultadoEntidad<DtoLibInventario.Producto.Editar.Obtener.Ficha> Producto_Editar_GetFicha(string autoPrd)
+        public DtoLib.ResultadoEntidad<DtoLibInventario.Producto.Editar.Obtener.Ficha>
+            Producto_Editar_GetFicha(string autoPrd)
         {
             var rt = new DtoLib.ResultadoEntidad<DtoLibInventario.Producto.Editar.Obtener.Ficha>();
 
@@ -1000,9 +1008,20 @@ namespace ProvLibInventario
                         rt.Result = DtoLib.Enumerados.EnumResult.isError;
                         return rt;
                     };
-
                     var entPrdExtra = cnn.productos_extra.Find(autoPrd);
-
+                    if (entPrdExtra == null)
+                    {
+                        rt.Mensaje = "[ ID ] PRODUCTO_EXTRA NO ENCONTRADO";
+                        rt.Result = DtoLib.Enumerados.EnumResult.isError;
+                        return rt;
+                    }
+                    var entPrdExt = cnn.productos_ext.Find(autoPrd);
+                    if (entPrdExt == null)
+                    {
+                        rt.Mensaje = "[ ID ] PRODUCTO_EXT NO ENCONTRADO";
+                        rt.Result = DtoLib.Enumerados.EnumResult.isError;
+                        return rt;
+                    }
                     var entPrdAlterno = cnn.productos_alterno.Where(w => w.auto_producto == autoPrd).ToList();
 
                     var _origen = entPrd.origen.Trim().ToUpper() == "NACIONAL" ?
@@ -1078,25 +1097,23 @@ namespace ProvLibInventario
                         autoMarca = entPrd.auto_marca,
                         autoEmpCompra = entPrd.auto_empaque_compra,
                         autoTasaImpuesto = entPrd.auto_tasa,
-
                         codigo = entPrd.codigo,
                         nombre = entPrd.nombre_corto,
                         descripcion = entPrd.nombre,
                         modelo = entPrd.modelo,
                         referencia = entPrd.referencia,
                         contenidoCompra = entPrd.contenido_compras,
-
                         origen = _origen,
                         categoria = _categoria,
                         AdmPorDivisa = _admDivisa,
                         Clasificacion = _clasificacion,
-
                         imagen = _imagen,
                         esPesado = _pesado,
                         plu = entPrd.plu,
                         diasEmpaque = entPrd.dias_garantia,
-
                         activarCatalogo = _catalogo,
+                        autoEmpInv= entPrdExt.auto_emp_inv_1,
+                        contEmpInv = entPrdExt.cont_emp_inv_1,
                     };
                     var listPrdAlt = new List<DtoLibInventario.Producto.Editar.Obtener.FichaAlterno>();
                     foreach (var rg in entPrdAlterno)
@@ -1116,8 +1133,8 @@ namespace ProvLibInventario
 
             return rt;
         }
-
-        public DtoLib.Resultado Producto_Editar_Actualizar(DtoLibInventario.Producto.Editar.Actualizar.Ficha ficha)
+        public DtoLib.Resultado
+            Producto_Editar_Actualizar(DtoLibInventario.Producto.Editar.Actualizar.Ficha ficha)
         {
             var rt = new DtoLib.Resultado();
 
@@ -1136,9 +1153,7 @@ namespace ProvLibInventario
                             rt.Result = DtoLib.Enumerados.EnumResult.isError;
                             return rt;
                         };
-
                         var entPrdAlterno = cnn.productos_alterno.Where(w => w.auto_producto == ficha.auto).ToList();
-
                         var entPrdExtra = cnn.productos_extra.Find(ficha.auto);
 
                         entPrd.codigo = ficha.codigo;
@@ -1162,31 +1177,31 @@ namespace ProvLibInventario
                         entPrd.plu = ficha.plu;
                         entPrd.dias_garantia = ficha.diasEmpaque;
                         entPrd.estatus_catalogo = ficha.estatusCatalogo;
-                        if (ficha.precio_1 != null)
-                        {
-                            entPrd.precio_1 = ficha.precio_1.neto;
-                            entPrd.pdf_1 = ficha.precio_1.divisaFull;
-                        }
-                        if (ficha.precio_2 != null)
-                        {
-                            entPrd.precio_2 = ficha.precio_2.neto;
-                            entPrd.pdf_2 = ficha.precio_2.divisaFull;
-                        }
-                        if (ficha.precio_3 != null)
-                        {
-                            entPrd.precio_3 = ficha.precio_3.neto;
-                            entPrd.pdf_3 = ficha.precio_3.divisaFull;
-                        }
-                        if (ficha.precio_4 != null)
-                        {
-                            entPrd.precio_4 = ficha.precio_4.neto;
-                            entPrd.pdf_4 = ficha.precio_4.divisaFull;
-                        }
-                        if (ficha.precio_5 != null)
-                        {
-                            entPrd.precio_pto = ficha.precio_5.neto;
-                            entPrd.pdf_pto = ficha.precio_5.divisaFull;
-                        }
+                        //if (ficha.precio_1 != null)
+                        //{
+                        //    entPrd.precio_1 = ficha.precio_1.neto;
+                        //    entPrd.pdf_1 = ficha.precio_1.divisaFull;
+                        //}
+                        //if (ficha.precio_2 != null)
+                        //{
+                        //    entPrd.precio_2 = ficha.precio_2.neto;
+                        //    entPrd.pdf_2 = ficha.precio_2.divisaFull;
+                        //}
+                        //if (ficha.precio_3 != null)
+                        //{
+                        //    entPrd.precio_3 = ficha.precio_3.neto;
+                        //    entPrd.pdf_3 = ficha.precio_3.divisaFull;
+                        //}
+                        //if (ficha.precio_4 != null)
+                        //{
+                        //    entPrd.precio_4 = ficha.precio_4.neto;
+                        //    entPrd.pdf_4 = ficha.precio_4.divisaFull;
+                        //}
+                        //if (ficha.precio_5 != null)
+                        //{
+                        //    entPrd.precio_pto = ficha.precio_5.neto;
+                        //    entPrd.pdf_pto = ficha.precio_5.divisaFull;
+                        //}
                         cnn.SaveChanges();
 
                         if (entPrdExtra != null)
@@ -1209,34 +1224,31 @@ namespace ProvLibInventario
                             cnn.SaveChanges();
                         }
 
+                        var p1 = new MySql.Data.MySqlClient.MySqlParameter("@autoEmpInv", ficha.autoEmpInv);
+                        var p2 = new MySql.Data.MySqlClient.MySqlParameter("@contEmpInv", ficha.contenidoInv);
+                        var p3 = new MySql.Data.MySqlClient.MySqlParameter("@auto", ficha.auto);
+                        var xsql = @"update productos_ext set auto_emp_inv_1=@autoEmpInv, cont_emp_inv_1=@contEmpInv
+                                    where auto_producto=@auto";
+                        var r1 = cnn.Database.ExecuteSqlCommand(xsql, p1, p2, p3);
+                        if (r1 == 0) 
+                        {
+                            rt.Mensaje = "PRODUCTO_EXT NO ENCONTRADO";
+                            rt.Result = DtoLib.Enumerados.EnumResult.isError;
+                            return rt;
+                        }
+
                         ts.Complete();
                     }
                 }
             }
+            catch (MySql.Data.MySqlClient.MySqlException ex)
+            {
+                rt.Mensaje = Helpers.MYSQL_VerificaError(ex);
+                rt.Result = DtoLib.Enumerados.EnumResult.isError;
+            }
             catch (DbUpdateException ex)
             {
-                var dbUpdateEx = ex as DbUpdateException;
-                var sqlEx = dbUpdateEx.InnerException;
-                if (sqlEx != null)
-                {
-                    var exx = (MySql.Data.MySqlClient.MySqlException)sqlEx.InnerException;
-                    if (exx != null)
-                    {
-                        if (exx.Number == 1451)
-                        {
-                            rt.Mensaje = "REGISTRO CONTIENE DATA RELACIONADA";
-                            rt.Result = DtoLib.Enumerados.EnumResult.isError;
-                            return rt;
-                        }
-                        if (exx.Number == 1062)
-                        {
-                            rt.Mensaje = exx.Message;
-                            rt.Result = DtoLib.Enumerados.EnumResult.isError;
-                            return rt;
-                        }
-                    }
-                }
-                rt.Mensaje = ex.Message;
+                rt.Mensaje = Helpers.ENTITY_VerificaError(ex);
                 rt.Result = DtoLib.Enumerados.EnumResult.isError;
             }
             catch (Exception e)
@@ -1309,7 +1321,8 @@ namespace ProvLibInventario
             return rt;
         }
 
-        public DtoLib.ResultadoAuto Producto_Nuevo_Agregar(DtoLibInventario.Producto.Agregar.Ficha ficha)
+        public DtoLib.ResultadoAuto 
+            Producto_Nuevo_Agregar(DtoLibInventario.Producto.Agregar.Ficha ficha)
         {
             var rt = new DtoLib.ResultadoAuto();
 
@@ -1438,24 +1451,55 @@ namespace ProvLibInventario
                         cnn.productos_extra.Add(entPrdExtra);
                         cnn.SaveChanges();
 
-                        var entPrdExt= new productos_ext()
+                        var entPrdExt = new productos_ext()
                         {
                             auto_producto = autoPrd,
                             auto_precio_may_1 = "0000000001",
                             auto_precio_may_2 = "0000000001",
                             auto_precio_may_3 = "0000000001",
+                            auto_precio_may_4 = "0000000001",
                             contenido_may_1 = 1,
                             contenido_may_2 = 1,
                             contenido_may_3 = 1,
+                            cont_may_4 = 1,
                             pdmf_1 = 0.0m,
                             pdmf_2 = 0.0m,
                             pdmf_3 = 0.0m,
+                            pdmf_4 = 0.0m,
                             precio_may_1 = 0.0m,
                             precio_may_2 = 0.0m,
                             precio_may_3 = 0.0m,
+                            precio_may_4 = 0.0m,
                             utilidad_may_1 = 0.0m,
                             utilidad_may_2 = 0.0m,
                             utilidad_may_3 = 0.0m,
+                            utilidad_may_4 = 0.0m,
+                            auto_emp_inv_1 = ficha.autoEmpInv,
+                            cont_emp_inv_1 = ficha.contEmpInv,
+                            //
+                            auto_precio_dsp_1 = "0000000001",
+                            cont_dsp_1 =1,
+                            utilidad_dsp_1=0m,
+                            precio_dsp_1=0m,
+                            pdivisafull_dsp_1=0m,
+                            //
+                            auto_precio_dsp_2 = "0000000001",
+                            cont_dsp_2 = 1,
+                            utilidad_dsp_2 = 0m,
+                            precio_dsp_2 = 0m,
+                            pdivisafull_dsp_2 = 0m,
+                            //
+                            auto_precio_dsp_3 = "0000000001",
+                            cont_dsp_3 = 1,
+                            utilidad_dsp_3 = 0m,
+                            precio_dsp_3 = 0m,
+                            pdivisafull_dsp_3 = 0m,
+                            //
+                            auto_precio_dsp_4 = "0000000001",
+                            cont_dsp_4 = 1,
+                            utilidad_dsp_4 = 0m,
+                            precio_dsp_4 = 0m,
+                            pdivisafull_dsp_4 = 0m,
                         };
                         cnn.productos_ext.Add(entPrdExt);
                         cnn.SaveChanges();
@@ -1476,30 +1520,14 @@ namespace ProvLibInventario
                     }
                 }
             }
+            catch (MySql.Data.MySqlClient.MySqlException ex)
+            {
+                rt.Mensaje = Helpers.MYSQL_VerificaError(ex);
+                rt.Result = DtoLib.Enumerados.EnumResult.isError;
+            }
             catch (DbUpdateException ex)
             {
-                var dbUpdateEx = ex as DbUpdateException;
-                var sqlEx = dbUpdateEx.InnerException;
-                if (sqlEx != null)
-                {
-                    var exx = (MySql.Data.MySqlClient.MySqlException)sqlEx.InnerException;
-                    if (exx != null)
-                    {
-                        if (exx.Number == 1451)
-                        {
-                            rt.Mensaje = "REGISTRO CONTIENE DATA RELACIONADA";
-                            rt.Result = DtoLib.Enumerados.EnumResult.isError;
-                            return rt;
-                        }
-                        if (exx.Number == 1062)
-                        {
-                            rt.Mensaje = exx.Message;
-                            rt.Result = DtoLib.Enumerados.EnumResult.isError;
-                            return rt;
-                        }
-                    }
-                }
-                rt.Mensaje = ex.Message;
+                rt.Mensaje = Helpers.ENTITY_VerificaError(ex);
                 rt.Result = DtoLib.Enumerados.EnumResult.isError;
             }
             catch (Exception e)
@@ -2217,7 +2245,8 @@ namespace ProvLibInventario
             return rt;
         }
 
-        public DtoLib.ResultadoEntidad<DtoLibInventario.Producto.VerData.Identificacion> Producto_GetIdentificacion(string autoPrd)
+        public DtoLib.ResultadoEntidad<DtoLibInventario.Producto.VerData.Identificacion> 
+            Producto_GetIdentificacion(string autoPrd)
         {
             var rt = new DtoLib.ResultadoEntidad<DtoLibInventario.Producto.VerData.Identificacion>();
 
@@ -2232,7 +2261,15 @@ namespace ProvLibInventario
                         rt.Result = DtoLib.Enumerados.EnumResult.isError;
                         return rt;
                     };
+                    var entPrdExt = cnn.productos_ext.Find(autoPrd);
+                    if (entPrdExt == null)
+                    {
+                        rt.Mensaje = "PRODUCTO_EXT NO ENCONTRADO";
+                        rt.Result = DtoLib.Enumerados.EnumResult.isError;
+                        return rt;
+                    };
                     var entPrdAlterno = cnn.productos_alterno.Where(w => w.auto_producto == autoPrd).ToList();
+                    var entPrdMedidaEmpInv = cnn.productos_medida.Find(entPrdExt.auto_emp_inv_1);
 
                     var entPrdMed = cnn.productos_medida.Find(entPrd.auto_empaque_compra);
                     var _depart = entPrd.empresa_departamentos.nombre;
@@ -2318,6 +2355,8 @@ namespace ProvLibInventario
                         estatusPesado = entPrd.estatus_pesado,
                         plu = entPrd.plu,
                         diasEmpaque = entPrd.dias_garantia,
+                        empInventario = entPrdMedidaEmpInv.nombre,
+                        contEmpInv= entPrdExt.cont_emp_inv_1,
                         codAlterno = entPrdAlterno.Select(s =>
                         {
                             var nr = new DtoLibInventario.Producto.VerData.CodAlterno()

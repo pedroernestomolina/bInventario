@@ -18,6 +18,11 @@ namespace ProvLibInventario
             MYSQL_VerificaError(MySql.Data.MySqlClient.MySqlException ex) 
         {
             var msg = "";
+            if (ex.Number == 1054)
+            {
+                msg = "FALLO EN CAMPO NO ENCONTRADO" + Environment.NewLine + ex.Message;
+                return msg;
+            }
             if (ex.Number == 1452)
             {
                 msg= "FALLO EN CLAVE FORANEA" + Environment.NewLine + ex.Message;
@@ -47,6 +52,11 @@ namespace ProvLibInventario
                 var exx = (MySql.Data.MySqlClient.MySqlException)sqlEx.InnerException;
                 if (exx != null)
                 {
+                    if (exx.Number == 1054)
+                    {
+                        msg = "FALLO EN CAMPO NO ENCONTRADO" + Environment.NewLine + ex.Message;
+                        return msg;
+                    }
                     if (exx.Number == 1452)
                     {
                         msg = "FALLO EN CLAVE FORANEA" + Environment.NewLine + exx.Message;

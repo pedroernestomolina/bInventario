@@ -12,7 +12,8 @@ namespace ServiceInventario.MyService
     public partial class Service: IService
     {
 
-        public DtoLib.ResultadoLista<DtoLibInventario.Producto.Resumen> Producto_GetLista(DtoLibInventario.Producto.Filtro filtro)
+        public DtoLib.ResultadoLista<DtoLibInventario.Producto.Resumen> 
+            Producto_GetLista(DtoLibInventario.Producto.Filtro filtro)
         {
             return ServiceProv.Producto_GetLista(filtro);
         }
@@ -113,7 +114,8 @@ namespace ServiceInventario.MyService
             return ServiceProv.Producto_Clasificacion_Lista();
         }
 
-        public DtoLib.ResultadoEntidad<DtoLibInventario.Producto.Editar.Obtener.Ficha> Producto_Editar_GetFicha(string autoPrd)
+        public DtoLib.ResultadoEntidad<DtoLibInventario.Producto.Editar.Obtener.Ficha> 
+            Producto_Editar_GetFicha(string autoPrd)
         {
             return ServiceProv.Producto_Editar_GetFicha(autoPrd);
         }

@@ -143,5 +143,6 @@ namespace LibEntityInventario
         public virtual ICollection<productos_precios> productos_precios { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<productos_proveedor> productos_proveedor { get; set; }
+        public virtual productos_ext productos_ext { get; set; }
     }
 }

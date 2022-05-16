@@ -172,6 +172,7 @@
     <Compile Include="MovPend\Lista\Filtro.cs" />
     <Compile Include="Permiso\Enumerados.cs" />
     <Compile Include="Permiso\Ficha.cs" />
+    <Compile Include="PrecioCosto\Entidad\Ficha.cs" />
     <Compile Include="Precio\Editar\Ficha.cs" />
     <Compile Include="Precio\Editar\FichaHistorica.cs" />
     <Compile Include="Precio\Editar\FichaPrecio.cs" />

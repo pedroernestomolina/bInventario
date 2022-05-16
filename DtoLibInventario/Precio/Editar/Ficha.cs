@@ -23,6 +23,12 @@ namespace DtoLibInventario.Precio.Editar
         public FichaPrecio precio_5 { get; set; }
         public FichaPrecio may_1 { get; set; }
         public FichaPrecio may_2 { get; set; }
+        public FichaPrecio may_3 { get; set; }
+        public FichaPrecio may_4 { get; set; }
+        public FichaPrecio dsp_1 { get; set; }
+        public FichaPrecio dsp_2 { get; set; }
+        public FichaPrecio dsp_3 { get; set; }
+        public FichaPrecio dsp_4 { get; set; }
         public List<FichaHistorica> historia { get; set; }
 
 
@@ -40,6 +46,12 @@ namespace DtoLibInventario.Precio.Editar
             precio_5 = new FichaPrecio();
             may_1 = new FichaPrecio();
             may_2 = new FichaPrecio();
+            may_3 = new FichaPrecio();
+            may_4 = new FichaPrecio();
+            dsp_1 = new FichaPrecio();
+            dsp_2 = new FichaPrecio();
+            dsp_3 = new FichaPrecio();
+            dsp_4 = new FichaPrecio();
             historia = new List<FichaHistorica>();
         }
 

@@ -21,12 +21,14 @@ namespace ConsoleInv
             //var r01 = invPrv.MovPend_GetLista(filtro);
             //var r01 = invPrv.MovPend_Anular(1);
 
-            var filtro = new DtoLibInventario.Producto.Filtro();
-            filtro.activarBusquedaPorTrasalado = true;
-            filtro.autoDepOrigen = "0000000001";
-            filtro.autoDepDestino = "0000000008";
-            filtro.estatus = DtoLibInventario.Producto.Enumerados.EnumEstatus.Activo;
-            var r01 = invPrv.Producto_GetLista(filtro);
+            //var filtro = new DtoLibInventario.Producto.Filtro();
+            //filtro.activarBusquedaPorTrasalado = true;
+            //filtro.autoDepOrigen = "0000000001";
+            //filtro.autoDepDestino = "0000000008";
+            //filtro.estatus = DtoLibInventario.Producto.Enumerados.EnumEstatus.Activo;
+            //var r01 = invPrv.Producto_GetLista(filtro);
+
+            //var r01 = invPrv.PrecioCosto_GetData("0000001410");
         }
 
     }

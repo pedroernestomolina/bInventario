@@ -1,6 +1,7 @@
 ﻿using LibEntityInventario;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Validation;
 using System.Linq;
 using System.Text;
@@ -14,7 +15,8 @@ namespace ProvLibInventario
     public partial class Provider : ILibInventario.IProvider
     {
 
-        public DtoLib.ResultadoEntidad<DtoLibInventario.Precio.Historico.Resumen> HistoricoPrecio_GetLista(DtoLibInventario.Precio.Historico.Filtro filtro)
+        public DtoLib.ResultadoEntidad<DtoLibInventario.Precio.Historico.Resumen> 
+            HistoricoPrecio_GetLista(DtoLibInventario.Precio.Historico.Filtro filtro)
         {
             var result = new DtoLib.ResultadoEntidad<DtoLibInventario.Precio.Historico.Resumen>();
 
@@ -126,8 +128,8 @@ namespace ProvLibInventario
 
             return result;
         }
-
-        public DtoLib.ResultadoEntidad<DtoLibInventario.Precio.PrecioCosto.Ficha> PrecioCosto_GetFicha(string autoPrd)
+        public DtoLib.ResultadoEntidad<DtoLibInventario.Precio.PrecioCosto.Ficha>
+            PrecioCosto_GetFicha(string autoPrd)
         {
             var rt = new DtoLib.ResultadoEntidad<DtoLibInventario.Precio.PrecioCosto.Ficha>();
 
@@ -251,8 +253,8 @@ namespace ProvLibInventario
 
             return rt;
         }
-
-        public DtoLib.Resultado PrecioProducto_Actualizar(DtoLibInventario.Precio.Editar.Ficha ficha)
+        public DtoLib.Resultado 
+            PrecioProducto_Actualizar(DtoLibInventario.Precio.Editar.Ficha ficha)
         {
             var result = new DtoLib.Resultado();
 
@@ -310,7 +312,6 @@ namespace ProvLibInventario
                         entPrd.pdf_pto = ficha.precio_5.precio_divisa_Neto;
                         entPrd.contenido_pto= ficha.precio_5.contenido;
                         cnn.SaveChanges();
-
                         //
                         entPrdExt.auto_precio_may_1 = ficha.may_1.autoEmp;
                         entPrdExt.precio_may_1 = ficha.may_1.precioNeto;
@@ -324,6 +325,41 @@ namespace ProvLibInventario
                         entPrdExt.pdmf_2 = ficha.may_2.precio_divisa_Neto;
                         entPrdExt.contenido_may_2 = ficha.may_2.contenido;
                         //
+                        entPrdExt.auto_precio_may_3 = ficha.may_3.autoEmp;
+                        entPrdExt.precio_may_3 = ficha.may_3.precioNeto;
+                        entPrdExt.utilidad_may_3 = ficha.may_3.utilidad;
+                        entPrdExt.pdmf_3 = ficha.may_3.precio_divisa_Neto;
+                        entPrdExt.contenido_may_3 = ficha.may_3.contenido;
+                        //
+                        entPrdExt.auto_precio_may_4 = ficha.may_4.autoEmp;
+                        entPrdExt.precio_may_4 = ficha.may_4.precioNeto;
+                        entPrdExt.utilidad_may_4 = ficha.may_4.utilidad;
+                        entPrdExt.pdmf_4 = ficha.may_4.precio_divisa_Neto;
+                        entPrdExt.cont_may_4 = ficha.may_4.contenido;
+                        //
+                        entPrdExt.auto_precio_dsp_1 = ficha.dsp_1.autoEmp;
+                        entPrdExt.precio_dsp_1 = ficha.dsp_1.precioNeto;
+                        entPrdExt.utilidad_dsp_1 = ficha.dsp_1.utilidad;
+                        entPrdExt.pdivisafull_dsp_1 = ficha.dsp_1.precio_divisa_Neto;
+                        entPrdExt.cont_dsp_1 = ficha.dsp_1.contenido;
+                        //
+                        entPrdExt.auto_precio_dsp_2 = ficha.dsp_2.autoEmp;
+                        entPrdExt.precio_dsp_2 = ficha.dsp_2.precioNeto;
+                        entPrdExt.utilidad_dsp_2 = ficha.dsp_2.utilidad;
+                        entPrdExt.pdivisafull_dsp_2 = ficha.dsp_2.precio_divisa_Neto;
+                        entPrdExt.cont_dsp_2 = ficha.dsp_2.contenido;
+                        //
+                        entPrdExt.auto_precio_dsp_3 = ficha.dsp_3.autoEmp;
+                        entPrdExt.precio_dsp_3 = ficha.dsp_3.precioNeto;
+                        entPrdExt.utilidad_dsp_3 = ficha.dsp_3.utilidad;
+                        entPrdExt.pdivisafull_dsp_3 = ficha.dsp_3.precio_divisa_Neto;
+                        entPrdExt.cont_dsp_3 = ficha.dsp_3.contenido;
+                        //
+                        entPrdExt.auto_precio_dsp_4 = ficha.dsp_4.autoEmp;
+                        entPrdExt.precio_dsp_4 = ficha.dsp_4.precioNeto;
+                        entPrdExt.utilidad_dsp_4 = ficha.dsp_4.utilidad;
+                        entPrdExt.pdivisafull_dsp_4 = ficha.dsp_4.precio_divisa_Neto;
+                        entPrdExt.cont_dsp_4 = ficha.dsp_4.contenido;
                         cnn.SaveChanges();
 
                         foreach (var it in ficha.historia) 
@@ -356,31 +392,14 @@ namespace ProvLibInventario
                     }
                 }
             }
-            catch (DbEntityValidationException e)
+            catch (MySql.Data.MySqlClient.MySqlException ex)
             {
-                var msg = "";
-                foreach (var eve in e.EntityValidationErrors)
-                {
-                    foreach (var ve in eve.ValidationErrors)
-                    {
-                        msg += ve.ErrorMessage;
-                    }
-                }
-                result.Mensaje = msg;
+                result.Mensaje = Helpers.MYSQL_VerificaError(ex);
                 result.Result = DtoLib.Enumerados.EnumResult.isError;
             }
-            catch (System.Data.Entity.Infrastructure.DbUpdateException e)
+            catch (DbUpdateException ex)
             {
-                var msg = "";
-                foreach (var eve in e.Entries)
-                {
-                    //msg += eve.m;
-                    foreach (var ve in eve.CurrentValues.PropertyNames)
-                    {
-                        msg += ve.ToString();
-                    }
-                }
-                result.Mensaje = msg;
+                result.Mensaje = Helpers.ENTITY_VerificaError(ex);
                 result.Result = DtoLib.Enumerados.EnumResult.isError;
             }
             catch (Exception e)
@@ -389,6 +408,62 @@ namespace ProvLibInventario
                 result.Result = DtoLib.Enumerados.EnumResult.isError;
             }
             return result;
+        }
+        public DtoLib.ResultadoEntidad<DtoLibInventario.PrecioCosto.Entidad.Ficha> 
+            PrecioCosto_GetData(string autoPrd)
+        {
+            var rt = new DtoLib.ResultadoEntidad<DtoLibInventario.PrecioCosto.Entidad.Ficha>();
+
+            try
+            {
+                using (var cnn = new invEntities(_cnInv.ConnectionString))
+                {
+                    var sql = @"select 
+                                    p.auto, p.codigo, p.nombre as descripcion, divisa as costoMonedaDivisa, costo as costoMonedaLocal,
+                                    estatus_divisa as estatusDivisa, eTasa.nombre as nombreTasa, eTasa.tasa as tasaIva,
+                                    pMedCompra. nombre as empCompraDesc, p.contenido_compras as contEmpCompra,
+
+                                    auto_precio_1 as autoEmp_1, contenido_1 as cont_1, utilidad_1, precio_1 as pNeto_1, pdf_1 as pfd_1,
+                                    auto_precio_2 as autoEmp_2, contenido_2 as cont_2, utilidad_2, precio_2 as pNeto_2, pdf_2 as pfd_2,
+                                    auto_precio_3 as autoEmp_3, contenido_3 as cont_3, utilidad_3, precio_3 as pNeto_3, pdf_3 as pfd_3,
+                                    auto_precio_4 as autoEmp_4, contenido_4 as cont_4, utilidad_4, precio_4 as pNeto_4, pdf_4 as pfd_4,
+                                    auto_precio_pto as autoEmp_5, contenido_pto as cont_5, utilidad_pto as utilidad_5, 
+                                    precio_pto as pNeto_5, pdf_pto as pfd_5,
+
+                                    auto_precio_may_1 as autoEmp_M1, contenido_may_1 as cont_M1, utilidad_may_1 as utilidad_M1, precio_may_1 as pNeto_M1, pdmf_1 as pfd_M1,
+                                    auto_precio_may_2 as autoEmp_M2, contenido_may_2 as cont_M2, utilidad_may_2 as utilidad_M2, precio_may_2 as pNeto_M2, pdmf_2 as pfd_M2,
+                                    auto_precio_may_3 as autoEmp_M3, contenido_may_3 as cont_M3, utilidad_may_3 as utilidad_M3, precio_may_3 as pNeto_M3, pdmf_3 as pfd_M3,
+                                    auto_precio_may_4 as autoEmp_M4, cont_may_4 as cont_M4, utilidad_may_4 as utilidad_M4, precio_may_4 as pNeto_M4, pdmf_4 as pfd_M4,
+
+                                    auto_precio_dsp_1 as autoEmp_D1, cont_dsp_1 as cont_D1, utilidad_dsp_1 as utilidad_D1, precio_dsp_1 as pNeto_D1, pdivisafull_dsp_1 as pfd_D1,
+                                    auto_precio_dsp_2 as autoEmp_D2, cont_dsp_2 as cont_D2, utilidad_dsp_2 as utilidad_D2, precio_dsp_2 as pNeto_D2, pdivisafull_dsp_2 as pfd_D2,
+                                    auto_precio_dsp_3 as autoEmp_D3, cont_dsp_3 as cont_D3, utilidad_dsp_3 as utilidad_D3, precio_dsp_3 as pNeto_D3, pdivisafull_dsp_3 as pfd_D3,
+                                    auto_precio_dsp_4 as autoEmp_D4, cont_dsp_4 as cont_D4, utilidad_dsp_4 as utilidad_D4, precio_dsp_4 as pNeto_D4, pdivisafull_dsp_4 as pfd_D4
+
+                                    from productos as p 
+                                    join empresa_tasas as eTasa on eTasa.auto=p.auto_tasa
+                                    join productos_medida as pMedCompra on pMedCompra.auto=p.auto_empaque_compra
+                                    join productos_ext as pExt on pExt.auto_producto=p.auto
+                                    where p.auto=@autoPrd";
+                    var p1 = new MySql.Data.MySqlClient.MySqlParameter("autoPrd", autoPrd);
+                    var p2 = new MySql.Data.MySqlClient.MySqlParameter();
+                    var ent = cnn.Database.SqlQuery<DtoLibInventario.PrecioCosto.Entidad.Ficha>(sql, p1, p2).FirstOrDefault();
+                    if (ent == null) 
+                    {
+                        rt.Mensaje = "[ ID ] PRODUCTO NO ENCONTRADO";
+                        rt.Result = DtoLib.Enumerados.EnumResult.isError;
+                        return rt;
+                    }
+                    rt.Entidad = ent;
+                }
+            }
+            catch (Exception e)
+            {
+                rt.Mensaje = e.Message;
+                rt.Result = DtoLib.Enumerados.EnumResult.isError;
+            }
+
+            return rt;
         }
 
     }

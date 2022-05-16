@@ -23,6 +23,15 @@ namespace LibEntityInventario
             this.productos3 = new HashSet<productos>();
             this.productos4 = new HashSet<productos>();
             this.productos5 = new HashSet<productos>();
+            this.productos_ext = new HashSet<productos_ext>();
+            this.productos_ext1 = new HashSet<productos_ext>();
+            this.productos_ext2 = new HashSet<productos_ext>();
+            this.productos_ext3 = new HashSet<productos_ext>();
+            this.productos_ext4 = new HashSet<productos_ext>();
+            this.productos_ext5 = new HashSet<productos_ext>();
+            this.productos_ext6 = new HashSet<productos_ext>();
+            this.productos_ext7 = new HashSet<productos_ext>();
+            this.productos_ext8 = new HashSet<productos_ext>();
         }
     
         public string auto { get; set; }
@@ -41,5 +50,23 @@ namespace LibEntityInventario
         public virtual ICollection<productos> productos4 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<productos> productos5 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<productos_ext> productos_ext { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<productos_ext> productos_ext1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<productos_ext> productos_ext2 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<productos_ext> productos_ext3 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<productos_ext> productos_ext4 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<productos_ext> productos_ext5 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<productos_ext> productos_ext6 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<productos_ext> productos_ext7 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<productos_ext> productos_ext8 { get; set; }
     }
 }

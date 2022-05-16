@@ -64,10 +64,13 @@ namespace DtoLibInventario.Producto
         public decimal pDivisaFullMay_1 { get; set; }
         public decimal pDivisaFullMay_2 { get; set; }
 
+        //
+        public int contEmpInv { get; set; }
 
-        public Enumerados.EnumCategoria categoria 
+
+        public Enumerados.EnumCategoria categoria
         {
-            get 
+            get
             {
                 var _categoria = DtoLibInventario.Producto.Enumerados.EnumCategoria.SnDefinir;
                 switch (xcategoria.Trim().ToUpper())
@@ -92,9 +95,9 @@ namespace DtoLibInventario.Producto
             }
         }
 
-        public Enumerados.EnumOrigen origen 
+        public Enumerados.EnumOrigen origen
         {
-            get 
+            get
             {
                 var _origen = DtoLibInventario.Producto.Enumerados.EnumOrigen.SnDefinir;
                 switch (xorigen.Trim().ToUpper())
@@ -110,9 +113,9 @@ namespace DtoLibInventario.Producto
             }
         }
 
-        public Enumerados.EnumEstatus estatus 
+        public Enumerados.EnumEstatus estatus
         {
-            get 
+            get
             {
                 var _estatus = DtoLibInventario.Producto.Enumerados.EnumEstatus.Activo;
                 if (estatus_cambio.Trim().ToUpper() == "1")
@@ -124,12 +127,12 @@ namespace DtoLibInventario.Producto
                     _estatus = DtoLibInventario.Producto.Enumerados.EnumEstatus.Inactivo;
                 }
                 return _estatus;
-            } 
+            }
         }
 
-        public Enumerados.EnumAdministradorPorDivisa admPorDivisa 
+        public Enumerados.EnumAdministradorPorDivisa admPorDivisa
         {
-            get 
+            get
             {
                 var _admDivisa = DtoLibInventario.Producto.Enumerados.EnumAdministradorPorDivisa.No;
                 if (estatus_divisa.Trim().ToUpper() == "1")
@@ -138,9 +141,9 @@ namespace DtoLibInventario.Producto
             }
         }
 
-        public Enumerados.EnumPesado esPesado 
+        public Enumerados.EnumPesado esPesado
         {
-            get 
+            get
             {
                 var _esPesado = DtoLibInventario.Producto.Enumerados.EnumPesado.No;
                 if (estatus_pesado == "1")
@@ -149,9 +152,9 @@ namespace DtoLibInventario.Producto
             }
         }
 
-        public Enumerados.EnumCatalogo activarCatalogo 
+        public Enumerados.EnumCatalogo activarCatalogo
         {
-            get 
+            get
             {
                 var _catalogo = DtoLibInventario.Producto.Enumerados.EnumCatalogo.No;
                 if (estatus_catalogo == "1")
@@ -160,9 +163,9 @@ namespace DtoLibInventario.Producto
             }
         }
 
-        public Enumerados.EnumOferta enOferta 
+        public Enumerados.EnumOferta enOferta
         {
-            get 
+            get
             {
                 var _enOferta = DtoLibInventario.Producto.Enumerados.EnumOferta.No;
                 if (estatus_oferta == "1")
