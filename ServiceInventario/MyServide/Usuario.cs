@@ -24,9 +24,15 @@ namespace ServiceInventario.MyService
         {
             return ServiceProv.Usuario_ActualizarSesion(ficha);
         }
-        public DtoLib.ResultadoEntidad<string> Usuario_GetClave_ById(string idUsuario)
+        public DtoLib.ResultadoEntidad<string> 
+            Usuario_GetClave_ById(string idUsuario)
         {
             return ServiceProv.Usuario_GetClave_ById(idUsuario);
+        }
+        public DtoLib.ResultadoEntidad<string> 
+            Usuario_GetId_ByClaveUsuGrupoAdm(string clave)
+        {
+            return ServiceProv.Usuario_GetId_ByClaveUsuGrupoAdm(clave);
         }
 
     }

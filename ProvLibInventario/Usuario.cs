@@ -147,7 +147,8 @@ namespace ProvLibInventario
 
             return result;
         }
-        public DtoLib.ResultadoEntidad<string> Usuario_GetClave_ById(string idUsuario)
+        public DtoLib.ResultadoEntidad<string> 
+            Usuario_GetClave_ById(string idUsuario)
         {
             var result = new DtoLib.ResultadoEntidad<string>();
 
@@ -167,6 +168,38 @@ namespace ProvLibInventario
                         return result;
                     }
                     result.Entidad = clav;
+                }
+            }
+            catch (Exception e)
+            {
+                result.Mensaje = e.Message;
+                result.Result = DtoLib.Enumerados.EnumResult.isError;
+            }
+
+            return result;
+        }
+        public DtoLib.ResultadoEntidad<string> 
+            Usuario_GetId_ByClaveUsuGrupoAdm(string clave)
+        {
+            var result = new DtoLib.ResultadoEntidad<string>();
+
+            try
+            {
+                using (var cnn = new invEntities(_cnInv.ConnectionString))
+                {
+                    var sql = @"SELECT auto 
+                                FROM usuarios 
+                                where clave=@clave and auto_grupo='0000000001'";
+                    var p1 = new MySql.Data.MySqlClient.MySqlParameter("@clave", clave);
+                    var id = cnn.Database.SqlQuery<string>(sql, p1).FirstOrDefault();
+                    if (id == null)
+                    {
+                        result.Entidad = "";
+                    }
+                    else 
+                    {
+                        result.Entidad = id;
+                    }
                 }
             }
             catch (Exception e)

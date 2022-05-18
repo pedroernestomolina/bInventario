@@ -14,7 +14,10 @@ namespace ServiceInventario.Interfaces
         DtoLib.ResultadoEntidad<DtoLibInventario.Usuario.Ficha> Usuario_Principal();
         DtoLib.ResultadoEntidad<DtoLibInventario.Usuario.Ficha> Usuario_Buscar(DtoLibInventario.Usuario.Buscar.Ficha ficha);
         DtoLib.Resultado Usuario_ActualizarSesion(DtoLibInventario.Usuario.ActualizarSesion.Ficha ficha);
-        DtoLib.ResultadoEntidad<string> Usuario_GetClave_ById(string idUsuario);
+        DtoLib.ResultadoEntidad<string>
+            Usuario_GetClave_ById(string idUsuario);
+        DtoLib.ResultadoEntidad<string>
+            Usuario_GetId_ByClaveUsuGrupoAdm(string clave);
 
     }
 
