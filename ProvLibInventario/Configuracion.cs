@@ -14,7 +14,8 @@ namespace ProvLibInventario
     public partial class Provider : ILibInventario.IProvider
     {
 
-        public DtoLib.ResultadoEntidad<DtoLibInventario.Configuracion.Enumerados.EnumPreferenciaBusqueda> Configuracion_PreferenciaBusqueda()
+        public DtoLib.ResultadoEntidad<DtoLibInventario.Configuracion.Enumerados.EnumPreferenciaBusqueda> 
+            Configuracion_PreferenciaBusqueda()
         {
             var result = new DtoLib.ResultadoEntidad<DtoLibInventario.Configuracion.Enumerados.EnumPreferenciaBusqueda>();
 
@@ -55,7 +56,8 @@ namespace ProvLibInventario
 
             return result;
         }
-        public DtoLib.ResultadoEntidad<DtoLibInventario.Configuracion.Enumerados.EnumMetodoCalculoUtilidad> Configuracion_MetodoCalculoUtilidad()
+        public DtoLib.ResultadoEntidad<DtoLibInventario.Configuracion.Enumerados.EnumMetodoCalculoUtilidad> 
+            Configuracion_MetodoCalculoUtilidad()
         {
             var result = new DtoLib.ResultadoEntidad<DtoLibInventario.Configuracion.Enumerados.EnumMetodoCalculoUtilidad>();
 
@@ -93,7 +95,8 @@ namespace ProvLibInventario
 
             return result;
         }
-        public DtoLib.ResultadoEntidad<string> Configuracion_TasaCambioActual()
+        public DtoLib.ResultadoEntidad<string> 
+            Configuracion_TasaCambioActual()
         {
             var result = new DtoLib.ResultadoEntidad<string>();
 
@@ -129,7 +132,8 @@ namespace ProvLibInventario
 
             return result;
         }
-        public DtoLib.ResultadoEntidad<DtoLibInventario.Configuracion.Enumerados.EnumForzarRedondeoPrecioVenta> Configuracion_ForzarRedondeoPrecioVenta()
+        public DtoLib.ResultadoEntidad<DtoLibInventario.Configuracion.Enumerados.EnumForzarRedondeoPrecioVenta> 
+            Configuracion_ForzarRedondeoPrecioVenta()
         {
             var result = new DtoLib.ResultadoEntidad<DtoLibInventario.Configuracion.Enumerados.EnumForzarRedondeoPrecioVenta>();
 
@@ -170,7 +174,8 @@ namespace ProvLibInventario
 
             return result;
         }
-        public DtoLib.ResultadoEntidad<DtoLibInventario.Configuracion.Enumerados.EnumPreferenciaRegistroPrecio> Configuracion_PreferenciaRegistroPrecio()
+        public DtoLib.ResultadoEntidad<DtoLibInventario.Configuracion.Enumerados.EnumPreferenciaRegistroPrecio> 
+            Configuracion_PreferenciaRegistroPrecio()
         {
             var result = new DtoLib.ResultadoEntidad<DtoLibInventario.Configuracion.Enumerados.EnumPreferenciaRegistroPrecio>();
 
@@ -208,7 +213,8 @@ namespace ProvLibInventario
 
             return result;
         }
-        public DtoLib.ResultadoEntidad<int> Configuracion_CostoEdadProducto()
+        public DtoLib.ResultadoEntidad<int> 
+            Configuracion_CostoEdadProducto()
         {
             var result = new DtoLib.ResultadoEntidad<int>();
 
@@ -244,7 +250,8 @@ namespace ProvLibInventario
 
             return result;
         }
-        public DtoLib.ResultadoEntidad<string> Configuracion_VisualizarProductosInactivos()
+        public DtoLib.ResultadoEntidad<string> 
+            Configuracion_VisualizarProductosInactivos()
         {
             var result = new DtoLib.ResultadoEntidad<string>();
 
@@ -271,7 +278,8 @@ namespace ProvLibInventario
 
             return result;
         }
-        public DtoLib.ResultadoEntidad<string> Configuracion_CantDocVisualizar()
+        public DtoLib.ResultadoEntidad<string> 
+            Configuracion_CantDocVisualizar()
         {
             var result = new DtoLib.ResultadoEntidad<string>();
 

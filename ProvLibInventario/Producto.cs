@@ -321,7 +321,8 @@ namespace ProvLibInventario
             return rt;
         }
 
-        public DtoLib.ResultadoEntidad<DtoLibInventario.Producto.VerData.Ficha> Producto_GetFicha(string autoPrd)
+        public DtoLib.ResultadoEntidad<DtoLibInventario.Producto.VerData.Ficha> 
+            Producto_GetFicha(string autoPrd)
         {
             var rt = new DtoLib.ResultadoEntidad<DtoLibInventario.Producto.VerData.Ficha>();
 
@@ -870,7 +871,8 @@ namespace ProvLibInventario
             return rt;
         }
 
-        public DtoLib.Resultado Producto_AsignarRemoverDepositos(DtoLibInventario.Producto.Depositos.Asignar.Ficha ficha)
+        public DtoLib.Resultado 
+            Producto_AsignarRemoverDepositos(DtoLibInventario.Producto.Depositos.Asignar.Ficha ficha)
         {
             var rt = new DtoLib.Resultado();
 
@@ -2061,7 +2063,8 @@ namespace ProvLibInventario
             return result;
         }
 
-        DtoLib.ResultadoEntidad<DtoLibInventario.Producto.Depositos.Lista.Ficha> ILibInventario.IProducto.Producto_GetDepositos(string autoPrd)
+        DtoLib.ResultadoEntidad<DtoLibInventario.Producto.Depositos.Lista.Ficha> 
+            ILibInventario.IProducto.Producto_GetDepositos(string autoPrd)
         {
             var rt = new DtoLib.ResultadoEntidad<DtoLibInventario.Producto.Depositos.Lista.Ficha>();
 
@@ -2116,8 +2119,8 @@ namespace ProvLibInventario
 
             return rt;
         }
-
-        public DtoLib.ResultadoEntidad<DtoLibInventario.Producto.Estatus.Actual.Ficha> Producto_Estatus_GetFicha(string autoPrd)
+        public DtoLib.ResultadoEntidad<DtoLibInventario.Producto.Estatus.Actual.Ficha> 
+            Producto_Estatus_GetFicha(string autoPrd)
         {
             var rt = new DtoLib.ResultadoEntidad<DtoLibInventario.Producto.Estatus.Actual.Ficha>();
 
@@ -2162,8 +2165,8 @@ namespace ProvLibInventario
 
             return rt;
         }
-
-        public DtoLib.ResultadoEntidad<DtoLibInventario.Producto.VerData.Imagen> Producto_GetImagen(string autoPrd)
+        public DtoLib.ResultadoEntidad<DtoLibInventario.Producto.VerData.Imagen> 
+            Producto_GetImagen(string autoPrd)
         {
             var rt = new DtoLib.ResultadoEntidad<DtoLibInventario.Producto.VerData.Imagen>();
 
@@ -2203,8 +2206,8 @@ namespace ProvLibInventario
 
             return rt;
         }
-
-        public DtoLib.ResultadoLista<DtoLibInventario.Producto.Plu.Lista.Resumen> Producto_Plu_Lista()
+        public DtoLib.ResultadoLista<DtoLibInventario.Producto.Plu.Lista.Resumen> 
+            Producto_Plu_Lista()
         {
             var rt = new DtoLib.ResultadoLista<DtoLibInventario.Producto.Plu.Lista.Resumen>();
 
@@ -2244,7 +2247,6 @@ namespace ProvLibInventario
 
             return rt;
         }
-
         public DtoLib.ResultadoEntidad<DtoLibInventario.Producto.VerData.Identificacion> 
             Producto_GetIdentificacion(string autoPrd)
         {
@@ -2379,7 +2381,9 @@ namespace ProvLibInventario
             return rt;
         }
 
-        DtoLib.ResultadoEntidad<DtoLibInventario.Producto.VerData.Proveedor.Ficha> ILibInventario.IProducto.Producto_GetProveedores(string autoPrd)
+
+        DtoLib.ResultadoEntidad<DtoLibInventario.Producto.VerData.Proveedor.Ficha> 
+            ILibInventario.IProducto.Producto_GetProveedores(string autoPrd)
         {
             var rt = new DtoLib.ResultadoEntidad<DtoLibInventario.Producto.VerData.Proveedor.Ficha>();
 
@@ -2426,6 +2430,120 @@ namespace ProvLibInventario
                     }
                     ng.proveedores = list;
                     rt.Entidad = ng;
+                }
+            }
+            catch (Exception e)
+            {
+                rt.Mensaje = e.Message;
+                rt.Result = DtoLib.Enumerados.EnumResult.isError;
+            }
+
+            return rt;
+        }
+
+        
+        public DtoLib.Resultado 
+            Producto_Deposito_AsignacionMasiva(DtoLibInventario.Producto.Depositos.AsignacionMasiva.Ficha ficha)
+        {
+            var rt = new DtoLib.Resultado();
+
+            try
+            {
+                var listDep = "";
+                if (ficha.departamentosNoIncluir.Count > 0)
+                {
+                    foreach (var rg in ficha.departamentosNoIncluir.ToList())
+                    {
+                        if (listDep.Trim() != "")
+                        {
+                            listDep += ", ";
+                        }
+                        listDep += "'"+rg.auto+"'";
+                    }
+                }
+                using (var cnn = new invEntities(_cnInv.ConnectionString))
+                {
+                    using (var ts = new TransactionScope())
+                    {
+                        var sql_1 = @"select p.auto from productos as p
+                                    where auto not in (
+                                                        SELECT pd.auto_producto 
+                                                        FROM productos_deposito as pd
+                                                        where pd.auto_deposito=@autoDeposito
+                                                        )
+                                    and p.estatus='ACTIVO'
+                                    and p.categoria ='Producto Terminado'
+                                    and p.auto_departamento NOT IN ("+listDep+")";
+                        var p1 = new MySql.Data.MySqlClient.MySqlParameter("@autoDeposito", ficha.depositoDestino.autoDeposito);
+                        var lst = cnn.Database.SqlQuery<string>(sql_1, p1).ToList();
+                        if (lst.Count > 0)
+                        {
+                            var xp1 = new MySql.Data.MySqlClient.MySqlParameter("@xp1", "");
+                            var xp2 = new MySql.Data.MySqlClient.MySqlParameter("@xp2", ficha.depositoDestino.autoDeposito);
+                            var xsql_2 = @"INSERT INTO productos_deposito (
+                                            auto_producto ,
+                                            auto_deposito ,
+                                            fisica ,
+                                            reservada ,
+                                            disponible ,
+                                            ubicacion_1 ,
+                                            ubicacion_2 ,
+                                            ubicacion_3 ,
+                                            ubicacion_4 ,
+                                            nivel_minimo ,
+                                            pto_pedido ,
+                                            nivel_optimo ,
+                                            fecha_conteo ,
+                                            resultado_conteo ,
+                                            averia)
+                                         VALUES (@xp1, @xp2, '0.000', '0.000', '0.000', '', '', '', '', '0.000', '0.000', '0.000', '2000-01-01', '', '')";
+                            foreach (var it in lst)
+                            {
+                                xp1.Value = it;
+                                var res = cnn.Database.ExecuteSqlCommand(xsql_2, xp1, xp2);
+                                if (res == 0) 
+                                {
+                                    rt.Mensaje = "PRODUCTO NO ASIGNADO AL DEPOSITO";
+                                    rt.Result = DtoLib.Enumerados.EnumResult.isError;
+                                    return rt;
+                                }
+                            }
+                            cnn.SaveChanges();
+                        }
+                        ts.Complete();
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                rt.Mensaje = e.Message;
+                rt.Result = DtoLib.Enumerados.EnumResult.isError;
+            }
+
+            return rt;
+        }
+        public DtoLib.ResultadoEntidad<string> 
+            Producto_GetId_ByCodigoBarra(string codBarra)
+        {
+            var rt = new DtoLib.ResultadoEntidad<string>();
+
+            try
+            {
+                using (var cnn = new invEntities(_cnInv.ConnectionString))
+                {
+
+                    var p1 = new MySql.Data.MySqlClient.MySqlParameter("@codBarra",codBarra);
+                    var sql_1 = @"select auto_producto from productos_alterno where codigo_alterno=@codBarra";
+                    var sql = sql_1;
+                    var ent = cnn.Database.SqlQuery<string>(sql, p1).FirstOrDefault();
+                    if (ent == null)
+                    {
+                        rt.Entidad = "";
+                    }
+                    else 
+                    {
+                        rt.Entidad = ent;
+                    }
                 }
             }
             catch (Exception e)

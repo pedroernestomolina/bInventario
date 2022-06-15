@@ -51,6 +51,12 @@ namespace ILibInventario
         DtoLib.ResultadoEntidad<bool> Producto_Verificar_QueExista_EstatusActivo_NoSeaBienServicio(string autoPrd);
         DtoLib.Resultado Producto_Verificar_DepositoRemover(string autoPrd, string autoDeposito);
 
+
+        DtoLib.Resultado
+            Producto_Deposito_AsignacionMasiva(DtoLibInventario.Producto.Depositos.AsignacionMasiva.Ficha ficha);
+        DtoLib.ResultadoEntidad<string> 
+            Producto_GetId_ByCodigoBarra(string codBarra);
+
     }
 
 }

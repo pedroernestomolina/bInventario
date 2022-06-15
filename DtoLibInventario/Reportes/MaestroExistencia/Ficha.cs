@@ -29,6 +29,11 @@ namespace DtoLibInventario.Reportes.MaestroExistencia
         public string precioId { get; set; }
         public string departamento { get; set; }
         public string grupo { get; set; }
+        //
+        public int contEmpCompra { get; set; }
+        public int contEmpInv { get; set; }
+        public string nombreEmpCompra { get; set; }
+        public string nombreEmpInv { get; set; }
 
     }
 

@@ -185,6 +185,9 @@
     <Compile Include="Producto\Agregar\FichaCodAlterno.cs" />
     <Compile Include="Producto\Categoria\Resumen.cs" />
     <Compile Include="Producto\Clasificacion\Resumen.cs" />
+    <Compile Include="Producto\Depositos\AsignacionMasiva\Ficha.cs" />
+    <Compile Include="Producto\Depositos\AsignacionMasiva\FichaDepartamentos.cs" />
+    <Compile Include="Producto\Depositos\AsignacionMasiva\FichaDepositoDestino.cs" />
     <Compile Include="Producto\Depositos\Asignar\DepAsignar.cs" />
     <Compile Include="Producto\Depositos\Asignar\DepRemover.cs" />
     <Compile Include="Producto\Depositos\Asignar\Ficha.cs" />
@@ -234,6 +237,8 @@
     <Compile Include="Reportes\Kardex\Ficha.cs" />
     <Compile Include="Reportes\Kardex\Filtro.cs" />
     <Compile Include="Reportes\Kardex\Mov.cs" />
+    <Compile Include="Reportes\MaestroExistenciaInventario\Ficha.cs" />
+    <Compile Include="Reportes\MaestroExistenciaInventario\Filtro.cs" />
     <Compile Include="Reportes\MaestroExistencia\Ficha.cs" />
     <Compile Include="Reportes\MaestroExistencia\Filtro.cs" />
     <Compile Include="Reportes\MaestroInventario\Ficha.cs" />

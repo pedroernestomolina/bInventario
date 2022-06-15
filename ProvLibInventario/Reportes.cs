@@ -12,7 +12,8 @@ namespace ProvLibInventario
     public partial class Provider : ILibInventario.IProvider
     {
 
-        public DtoLib.ResultadoLista<DtoLibInventario.Reportes.MaestroProducto.Ficha> Reportes_MaestroProducto(DtoLibInventario.Reportes.MaestroProducto.Filtro filtro)
+        public DtoLib.ResultadoLista<DtoLibInventario.Reportes.MaestroProducto.Ficha> 
+            Reportes_MaestroProducto(DtoLibInventario.Reportes.MaestroProducto.Filtro filtro)
         {
             var rt = new DtoLib.ResultadoLista<DtoLibInventario.Reportes.MaestroProducto.Ficha>();
 
@@ -144,8 +145,8 @@ namespace ProvLibInventario
 
             return rt;
         }
-
-        public DtoLib.ResultadoLista<DtoLibInventario.Reportes.MaestroInventario.Ficha> Reportes_MaestroInventario(DtoLibInventario.Reportes.MaestroInventario.Filtro filtro)
+        public DtoLib.ResultadoLista<DtoLibInventario.Reportes.MaestroInventario.Ficha> 
+            Reportes_MaestroInventario(DtoLibInventario.Reportes.MaestroInventario.Filtro filtro)
         {
             var rt = new DtoLib.ResultadoLista<DtoLibInventario.Reportes.MaestroInventario.Ficha>();
 
@@ -254,8 +255,8 @@ namespace ProvLibInventario
 
             return rt;
         }
-
-        public DtoLib.ResultadoLista<DtoLibInventario.Reportes.Top20.Ficha> Reportes_Top20(DtoLibInventario.Reportes.Top20.Filtro filtro)
+        public DtoLib.ResultadoLista<DtoLibInventario.Reportes.Top20.Ficha>
+            Reportes_Top20(DtoLibInventario.Reportes.Top20.Filtro filtro)
         {
             var rt = new DtoLib.ResultadoLista<DtoLibInventario.Reportes.Top20.Ficha>();
 
@@ -322,8 +323,8 @@ namespace ProvLibInventario
 
             return rt;
         }
-
-        public DtoLib.ResultadoLista<DtoLibInventario.Reportes.TopDepartUtilidad.Ficha> Reportes_TopDepartUtilidad(DtoLibInventario.Reportes.TopDepartUtilidad.Filtro filtro)
+        public DtoLib.ResultadoLista<DtoLibInventario.Reportes.TopDepartUtilidad.Ficha>
+            Reportes_TopDepartUtilidad(DtoLibInventario.Reportes.TopDepartUtilidad.Filtro filtro)
         {
             var rt = new DtoLib.ResultadoLista<DtoLibInventario.Reportes.TopDepartUtilidad.Ficha>();
 
@@ -368,8 +369,8 @@ namespace ProvLibInventario
 
             return rt;
         }
-
-        public DtoLib.ResultadoLista<DtoLibInventario.Reportes.MaestroExistencia.Ficha> Reportes_MaestroExistencia(DtoLibInventario.Reportes.MaestroExistencia.Filtro filtro)
+        public DtoLib.ResultadoLista<DtoLibInventario.Reportes.MaestroExistencia.Ficha> 
+            Reportes_MaestroExistencia(DtoLibInventario.Reportes.MaestroExistencia.Filtro filtro)
         {
             var rt = new DtoLib.ResultadoLista<DtoLibInventario.Reportes.MaestroExistencia.Ficha>();
 
@@ -451,8 +452,8 @@ namespace ProvLibInventario
 
             return rt;
         }
-
-        public DtoLib.ResultadoLista<DtoLibInventario.Reportes.MaestroPrecio.Ficha> Reportes_MaestroPrecio(DtoLibInventario.Reportes.MaestroPrecio.Filtro filtro)
+        public DtoLib.ResultadoLista<DtoLibInventario.Reportes.MaestroPrecio.Ficha> 
+            Reportes_MaestroPrecio(DtoLibInventario.Reportes.MaestroPrecio.Filtro filtro)
         {
             var rt = new DtoLib.ResultadoLista<DtoLibInventario.Reportes.MaestroPrecio.Ficha>();
 
@@ -582,8 +583,8 @@ namespace ProvLibInventario
 
             return rt;
         }
-
-        public DtoLib.ResultadoEntidad<DtoLibInventario.Reportes.Kardex.Ficha> Reportes_Kardex(DtoLibInventario.Reportes.Kardex.Filtro filtro)
+        public DtoLib.ResultadoEntidad<DtoLibInventario.Reportes.Kardex.Ficha> 
+            Reportes_Kardex(DtoLibInventario.Reportes.Kardex.Filtro filtro)
         {
             var rt = new DtoLib.ResultadoEntidad<DtoLibInventario.Reportes.Kardex.Ficha>();
 
@@ -690,8 +691,8 @@ namespace ProvLibInventario
 
             return rt;
         }
-
-        public DtoLib.ResultadoEntidad<DtoLibInventario.Reportes.CompraVentaAlmacen.Ficha> Reportes_CompraVentaAlmacen(DtoLibInventario.Reportes.CompraVentaAlmacen.Filtro filtro)
+        public DtoLib.ResultadoEntidad<DtoLibInventario.Reportes.CompraVentaAlmacen.Ficha> 
+            Reportes_CompraVentaAlmacen(DtoLibInventario.Reportes.CompraVentaAlmacen.Filtro filtro)
         {
             var rt = new DtoLib.ResultadoEntidad<DtoLibInventario.Reportes.CompraVentaAlmacen.Ficha>();
 
@@ -762,8 +763,8 @@ namespace ProvLibInventario
 
             return rt;
         }
-
-        public DtoLib.ResultadoLista<DtoLibInventario.Reportes.DepositoResumen.Ficha> Reportes_DepositoResumen()
+        public DtoLib.ResultadoLista<DtoLibInventario.Reportes.DepositoResumen.Ficha> 
+            Reportes_DepositoResumen()
         {
             var rt = new DtoLib.ResultadoLista<DtoLibInventario.Reportes.DepositoResumen.Ficha>();
 
@@ -815,8 +816,8 @@ namespace ProvLibInventario
 
             return rt;
         }
-
-        public DtoLib.ResultadoLista<DtoLibInventario.Reportes.MaestroNivelMinimo.Ficha> Reportes_NivelMinimo(DtoLibInventario.Reportes.MaestroNivelMinimo.Filtro filtro)
+        public DtoLib.ResultadoLista<DtoLibInventario.Reportes.MaestroNivelMinimo.Ficha> 
+            Reportes_NivelMinimo(DtoLibInventario.Reportes.MaestroNivelMinimo.Filtro filtro)
         {
             var rt = new DtoLib.ResultadoLista<DtoLibInventario.Reportes.MaestroNivelMinimo.Ficha>();
 
@@ -879,8 +880,8 @@ namespace ProvLibInventario
 
             return rt;
         }
-
-        public DtoLib.ResultadoLista<DtoLibInventario.Reportes.Valorizacion.Ficha> Reportes_Valorizacion(DtoLibInventario.Reportes.Valorizacion.Filtro filtro)
+        public DtoLib.ResultadoLista<DtoLibInventario.Reportes.Valorizacion.Ficha> 
+            Reportes_Valorizacion(DtoLibInventario.Reportes.Valorizacion.Filtro filtro)
         {
             var rt = new DtoLib.ResultadoLista<DtoLibInventario.Reportes.Valorizacion.Ficha>();
 
@@ -953,8 +954,8 @@ namespace ProvLibInventario
 
             return rt;
         }
-
-        public DtoLib.ResultadoLista<DtoLibInventario.Reportes.KardexResumen.Ficha> Reportes_KardexResumen(DtoLibInventario.Reportes.Kardex.Filtro filtro)
+        public DtoLib.ResultadoLista<DtoLibInventario.Reportes.KardexResumen.Ficha> 
+            Reportes_KardexResumen(DtoLibInventario.Reportes.Kardex.Filtro filtro)
         {
             var rt = new DtoLib.ResultadoLista<DtoLibInventario.Reportes.KardexResumen.Ficha>();
 
@@ -1012,6 +1013,71 @@ namespace ProvLibInventario
 
             return rt;
         }
+
+        public DtoLib.ResultadoLista<DtoLibInventario.Reportes.MaestroExistenciaInventario.Ficha>
+            Reportes_MaestroExistenciaInventario(DtoLibInventario.Reportes.MaestroExistenciaInventario.Filtro filtro)
+        {
+            var rt = new DtoLib.ResultadoLista<DtoLibInventario.Reportes.MaestroExistenciaInventario.Ficha>();
+
+            try
+            {
+                using (var cnn = new invEntities(_cnInv.ConnectionString))
+                {
+                    var p1 = new MySql.Data.MySqlClient.MySqlParameter();
+                    var p2 = new MySql.Data.MySqlClient.MySqlParameter();
+                    var p3 = new MySql.Data.MySqlClient.MySqlParameter();
+                    var sql_1 = @"select
+                                    p.codigo as codigoPrd, 
+                                    p.nombre as nombrePrd, 
+                                    p.contenido_compras as contEmpCompra, 
+                                    pDeposito.fisica as eFisica,
+                                    eDepart.nombre as nombreDepart,
+                                    pGrupo.nombre as nombreGrupo ,
+                                    pMedCompra.nombre nombreEmpCompra,
+                                    pMedInv.nombre as nombreEmpInv,
+                                    pExt.cont_emp_inv_1 as contEmpInv,
+                                    eDeposito.nombre as nombreDeposito
+                                    FROM productos as p
+                                    join productos_deposito as pDeposito on pDeposito.auto_producto=p.auto
+                                    join empresa_depositos as eDeposito on eDeposito.auto=pDeposito.auto_deposito
+                                    join empresa_departamentos as eDepart on eDepart.auto=p.auto_departamento
+                                    join productos_grupo as pGrupo on pGrupo.auto=p.auto_grupo
+                                    join productos_medida as pMedCompra on pMedCompra.auto=p.auto_empaque_compra
+                                    join productos_ext as pExt on pExt.auto_producto=p.auto
+                                    join productos_medida as pMedInv on pMedInv.auto=pExt.auto_emp_inv_1 ";
+                    var sql_2=" where p.estatus='Activo' and p.categoria<>'Bien de Servicio' and pDeposito.fisica>0 ";
+                    if (filtro.autoDepartamento != "")
+                    {
+                        sql_2 += " and p.auto_departamento=@autoDepartamento ";
+                        p1.ParameterName = "@autoDepartamento";
+                        p1.Value = filtro.autoDepartamento;
+                    }
+                    if (filtro.autoDeposito != "")
+                    {
+                        sql_2 += " and pDeposito.auto_deposito=@autoDeposito ";
+                        p2.ParameterName = "@autoDeposito";
+                        p2.Value = filtro.autoDeposito;
+                    }
+                    if (filtro.autoGrupo != "")
+                    {
+                        sql_2 += " and p.auto_grupo=@autoGrupo ";
+                        p3.ParameterName = "@autoGrupo";
+                        p3.Value = filtro.autoGrupo;
+                    }
+                    var sql = sql_1 + sql_2;
+                    var list = cnn.Database.SqlQuery<DtoLibInventario.Reportes.MaestroExistenciaInventario.Ficha>(sql, p1, p2, p3).ToList();
+                    rt.Lista = list;
+                }
+            }
+            catch (Exception e)
+            {
+                rt.Mensaje = e.Message;
+                rt.Result = DtoLib.Enumerados.EnumResult.isError;
+            }
+
+            return rt;
+        }
+
 
     }
 
