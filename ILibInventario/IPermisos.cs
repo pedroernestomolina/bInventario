@@ -68,11 +68,17 @@ namespace ILibInventario
         DtoLib.ResultadoEntidad<DtoLibInventario.Permiso.Ficha> Permiso_DefinirNivelMinimoMaximoInventario(string autoGrupoUsuario);
         DtoLib.ResultadoEntidad<DtoLibInventario.Permiso.Ficha> Permiso_MovimientoTrasladoEntreSucursales_PorExistenciaDebajoDelMinimo(string autoGrupoUsuario);
 
-        DtoLib.ResultadoEntidad<DtoLibInventario.Permiso.Ficha> Permiso_Reportes (string autoGrupoUsuario);
-        DtoLib.ResultadoEntidad<DtoLibInventario.Permiso.Ficha> Permiso_Visor (string autoGrupoUsuario);
-        DtoLib.ResultadoEntidad<DtoLibInventario.Permiso.Ficha> Permiso_Estadistica (string autoGrupoUsuario);
 
-        DtoLib.ResultadoEntidad<DtoLibInventario.Permiso.Ficha> Permiso_Configuracion_Sistema(string autoGrupoUsuario);
+        DtoLib.ResultadoEntidad<DtoLibInventario.Permiso.Ficha> 
+            Permiso_Reportes (string autoGrupoUsuario);
+        DtoLib.ResultadoEntidad<DtoLibInventario.Permiso.Ficha> 
+            Permiso_Visor (string autoGrupoUsuario);
+        DtoLib.ResultadoEntidad<DtoLibInventario.Permiso.Ficha> 
+            Permiso_Estadistica (string autoGrupoUsuario);
+        DtoLib.ResultadoEntidad<DtoLibInventario.Permiso.Ficha> 
+            Permiso_Configuracion_Sistema(string autoGrupoUsuario);
+        DtoLib.ResultadoEntidad<DtoLibInventario.Permiso.Ficha>
+            Permiso_AsignacionMasivaProductosDeposito(string autoGrupoUsuario);
 
     }
 

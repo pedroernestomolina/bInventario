@@ -139,15 +139,18 @@ namespace ServiceInventario.MyService
         }
 
 
-        public DtoLib.ResultadoEntidad<string> Permiso_PedirClaveAcceso_NivelMaximo()
+        public DtoLib.ResultadoEntidad<string> 
+            Permiso_PedirClaveAcceso_NivelMaximo()
         {
             return ServiceProv.Permiso_PedirClaveAcceso_NivelMaximo ();
         }
-        public DtoLib.ResultadoEntidad<string> Permiso_PedirClaveAcceso_NivelMedio()
+        public DtoLib.ResultadoEntidad<string> 
+            Permiso_PedirClaveAcceso_NivelMedio()
         {
             return ServiceProv.Permiso_PedirClaveAcceso_NivelMedio ();
         }
-        public DtoLib.ResultadoEntidad<string> Permiso_PedirClaveAcceso_NivelMinimo()
+        public DtoLib.ResultadoEntidad<string> 
+            Permiso_PedirClaveAcceso_NivelMinimo()
         {
             return ServiceProv.Permiso_PedirClaveAcceso_NivelMinimo ();
         }
@@ -200,37 +203,41 @@ namespace ServiceInventario.MyService
         {
             return ServiceProv.Permiso_DefinirNivelMinimoMaximoInventario(autoGrupoUsuario);
         }
-
         public DtoLib.ResultadoEntidad<DtoLibInventario.Permiso.Ficha> Permiso_MovimientoTrasladoEntreSucursales_PorExistenciaDebajoDelMinimo(string autoGrupoUsuario)
         {
             return ServiceProv.Permiso_MovimientoTrasladoEntreSucursales_PorExistenciaDebajoDelMinimo(autoGrupoUsuario);
         }
 
-        public DtoLib.ResultadoEntidad<DtoLibInventario.Permiso.Ficha> Permiso_Reportes(string autoGrupoUsuario)
+
+        public DtoLib.ResultadoEntidad<DtoLibInventario.Permiso.Ficha> 
+            Permiso_Reportes(string autoGrupoUsuario)
         {
             return ServiceProv.Permiso_Reportes(autoGrupoUsuario);
         }
-
-        public DtoLib.ResultadoEntidad<DtoLibInventario.Permiso.Ficha> Permiso_Visor(string autoGrupoUsuario)
+        public DtoLib.ResultadoEntidad<DtoLibInventario.Permiso.Ficha> 
+            Permiso_Visor(string autoGrupoUsuario)
         {
             return ServiceProv.Permiso_Visor(autoGrupoUsuario);
         }
-
-        public DtoLib.ResultadoEntidad<DtoLibInventario.Permiso.Ficha> Permiso_Estadistica(string autoGrupoUsuario)
+        public DtoLib.ResultadoEntidad<DtoLibInventario.Permiso.Ficha> 
+            Permiso_Estadistica(string autoGrupoUsuario)
         {
             return ServiceProv.Permiso_Estadistica(autoGrupoUsuario);
         }
-
-
-        public DtoLib.ResultadoEntidad<DtoLibInventario.Permiso.Ficha> Permiso_Configuracion_Sistema(string autoGrupoUsuario)
+        public DtoLib.ResultadoEntidad<DtoLibInventario.Permiso.Ficha> 
+            Permiso_Configuracion_Sistema(string autoGrupoUsuario)
         {
             return ServiceProv.Permiso_Configuracion_Sistema(autoGrupoUsuario);
         }
-
-
-        public DtoLib.ResultadoEntidad<DtoLibInventario.Permiso.Ficha> Permiso_MovimientoTraslado_Procesar(string autoGrupoUsuario)
+        public DtoLib.ResultadoEntidad<DtoLibInventario.Permiso.Ficha> 
+            Permiso_MovimientoTraslado_Procesar(string autoGrupoUsuario)
         {
             return ServiceProv.Permiso_MovimientoTraslado_Procesar(autoGrupoUsuario);
+        }
+        public DtoLib.ResultadoEntidad<DtoLibInventario.Permiso.Ficha> 
+            Permiso_AsignacionMasivaProductosDeposito(string autoGrupoUsuario)
+        {
+            return ServiceProv.Permiso_AsignacionMasivaProductosDeposito(autoGrupoUsuario);
         }
 
     }

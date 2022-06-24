@@ -11,9 +11,13 @@ namespace ServiceInventario.Interfaces
     public interface IPermisos
     {
 
-        DtoLib.ResultadoEntidad<string> Permiso_PedirClaveAcceso_NivelMaximo();
-        DtoLib.ResultadoEntidad<string> Permiso_PedirClaveAcceso_NivelMedio();
-        DtoLib.ResultadoEntidad<string> Permiso_PedirClaveAcceso_NivelMinimo();
+        DtoLib.ResultadoEntidad<string> 
+            Permiso_PedirClaveAcceso_NivelMaximo();
+        DtoLib.ResultadoEntidad<string> 
+            Permiso_PedirClaveAcceso_NivelMedio();
+        DtoLib.ResultadoEntidad<string> 
+            Permiso_PedirClaveAcceso_NivelMinimo();
+
 
         DtoLib.ResultadoEntidad<DtoLibInventario.Permiso.Ficha> Permiso_CrearProducto(string autoGrupoUsuario);
         DtoLib.ResultadoEntidad<DtoLibInventario.Permiso.Ficha> Permiso_ModificarProducto(string autoGrupoUsuario);
@@ -66,13 +70,20 @@ namespace ServiceInventario.Interfaces
         DtoLib.ResultadoEntidad<DtoLibInventario.Permiso.Ficha> Permiso_DefinirNivelMinimoMaximoInventario(string autoGrupoUsuario);
         DtoLib.ResultadoEntidad<DtoLibInventario.Permiso.Ficha> Permiso_MovimientoTrasladoEntreSucursales_PorExistenciaDebajoDelMinimo(string autoGrupoUsuario);
 
-        DtoLib.ResultadoEntidad<DtoLibInventario.Permiso.Ficha> Permiso_Reportes(string autoGrupoUsuario);
-        DtoLib.ResultadoEntidad<DtoLibInventario.Permiso.Ficha> Permiso_Visor(string autoGrupoUsuario);
-        DtoLib.ResultadoEntidad<DtoLibInventario.Permiso.Ficha> Permiso_Estadistica(string autoGrupoUsuario);
 
-        DtoLib.ResultadoEntidad<DtoLibInventario.Permiso.Ficha> Permiso_Configuracion_Sistema(string autoGrupoUsuario);
+        DtoLib.ResultadoEntidad<DtoLibInventario.Permiso.Ficha> 
+            Permiso_Reportes(string autoGrupoUsuario);
+        DtoLib.ResultadoEntidad<DtoLibInventario.Permiso.Ficha> 
+            Permiso_Visor(string autoGrupoUsuario);
+        DtoLib.ResultadoEntidad<DtoLibInventario.Permiso.Ficha> 
+            Permiso_Estadistica(string autoGrupoUsuario);
+        DtoLib.ResultadoEntidad<DtoLibInventario.Permiso.Ficha> 
+            Permiso_Configuracion_Sistema(string autoGrupoUsuario);
+        DtoLib.ResultadoEntidad<DtoLibInventario.Permiso.Ficha> 
+            Permiso_MovimientoTraslado_Procesar(string autoGrupoUsuario);
+        DtoLib.ResultadoEntidad<DtoLibInventario.Permiso.Ficha>
+            Permiso_AsignacionMasivaProductosDeposito(string autoGrupoUsuario);
 
-        DtoLib.ResultadoEntidad<DtoLibInventario.Permiso.Ficha> Permiso_MovimientoTraslado_Procesar(string autoGrupoUsuario);
 
     }
 

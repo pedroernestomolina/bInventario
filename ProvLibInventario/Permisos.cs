@@ -13,7 +13,8 @@ namespace ProvLibInventario
     {
 
 
-        public DtoLib.ResultadoEntidad<string> Permiso_PedirClaveAcceso_NivelMaximo()
+        public DtoLib.ResultadoEntidad<string> 
+            Permiso_PedirClaveAcceso_NivelMaximo()
         {
             var result = new DtoLib.ResultadoEntidad<string>();
 
@@ -40,7 +41,8 @@ namespace ProvLibInventario
 
             return result;
         }
-        public DtoLib.ResultadoEntidad<string> Permiso_PedirClaveAcceso_NivelMedio()
+        public DtoLib.ResultadoEntidad<string> 
+            Permiso_PedirClaveAcceso_NivelMedio()
         {
             var result = new DtoLib.ResultadoEntidad<string>();
 
@@ -67,7 +69,8 @@ namespace ProvLibInventario
 
             return result;
         }
-        public DtoLib.ResultadoEntidad<string> Permiso_PedirClaveAcceso_NivelMinimo()
+        public DtoLib.ResultadoEntidad<string> 
+            Permiso_PedirClaveAcceso_NivelMinimo()
         {
             var result = new DtoLib.ResultadoEntidad<string>();
 
@@ -1337,7 +1340,9 @@ namespace ProvLibInventario
             return result;
         }
 
-        public DtoLib.ResultadoEntidad<DtoLibInventario.Permiso.Ficha> Permiso_Reportes(string autoGrupoUsuario)
+
+        public DtoLib.ResultadoEntidad<DtoLibInventario.Permiso.Ficha> 
+            Permiso_Reportes(string autoGrupoUsuario)
         {
             var result = new DtoLib.ResultadoEntidad<DtoLibInventario.Permiso.Ficha>();
 
@@ -1367,7 +1372,8 @@ namespace ProvLibInventario
 
             return result;
         }
-        public DtoLib.ResultadoEntidad<DtoLibInventario.Permiso.Ficha> Permiso_Visor(string autoGrupoUsuario)
+        public DtoLib.ResultadoEntidad<DtoLibInventario.Permiso.Ficha> 
+            Permiso_Visor(string autoGrupoUsuario)
         {
             var result = new DtoLib.ResultadoEntidad<DtoLibInventario.Permiso.Ficha>();
 
@@ -1397,7 +1403,8 @@ namespace ProvLibInventario
 
             return result;
         }
-        public DtoLib.ResultadoEntidad<DtoLibInventario.Permiso.Ficha> Permiso_Estadistica(string autoGrupoUsuario)
+        public DtoLib.ResultadoEntidad<DtoLibInventario.Permiso.Ficha> 
+            Permiso_Estadistica(string autoGrupoUsuario)
         {
             var result = new DtoLib.ResultadoEntidad<DtoLibInventario.Permiso.Ficha>();
 
@@ -1427,7 +1434,8 @@ namespace ProvLibInventario
 
             return result;
         }
-        public DtoLib.ResultadoEntidad<DtoLibInventario.Permiso.Ficha> Permiso_Configuracion_Sistema(string autoGrupoUsuario)
+        public DtoLib.ResultadoEntidad<DtoLibInventario.Permiso.Ficha> 
+            Permiso_Configuracion_Sistema(string autoGrupoUsuario)
         {
             var result = new DtoLib.ResultadoEntidad<DtoLibInventario.Permiso.Ficha>();
 
@@ -1457,8 +1465,8 @@ namespace ProvLibInventario
 
             return result;
         }
-
-        public DtoLib.ResultadoEntidad<DtoLibInventario.Permiso.Ficha> Permiso_MovimientoTraslado_Procesar(string autoGrupoUsuario)
+        public DtoLib.ResultadoEntidad<DtoLibInventario.Permiso.Ficha> 
+            Permiso_MovimientoTraslado_Procesar(string autoGrupoUsuario)
         {
             var result = new DtoLib.ResultadoEntidad<DtoLibInventario.Permiso.Ficha>();
 
@@ -1470,6 +1478,37 @@ namespace ProvLibInventario
                     p1.ParameterName = "@p1";
                     p1.Value = autoGrupoUsuario;
                     var permiso = cnn.Database.SqlQuery<DtoLibInventario.Permiso.Ficha>("select estatus, seguridad from usuarios_grupo_permisos where codigo_grupo=@p1 and codigo_funcion='0308070000'", p1).FirstOrDefault();
+                    if (permiso == null)
+                    {
+                        result.Mensaje = "PERMISO NO ENCONTRADO";
+                        result.Result = DtoLib.Enumerados.EnumResult.isError;
+                        result.Entidad = null;
+                        return result;
+                    }
+                    result.Entidad = permiso;
+                }
+            }
+            catch (Exception e)
+            {
+                result.Mensaje = e.Message;
+                result.Result = DtoLib.Enumerados.EnumResult.isError;
+            }
+
+            return result;
+        }
+        public DtoLib.ResultadoEntidad<DtoLibInventario.Permiso.Ficha> 
+            Permiso_AsignacionMasivaProductosDeposito(string autoGrupoUsuario)
+        {
+            var result = new DtoLib.ResultadoEntidad<DtoLibInventario.Permiso.Ficha>();
+
+            try
+            {
+                using (var cnn = new invEntities(_cnInv.ConnectionString))
+                {
+                    var p1 = new MySql.Data.MySqlClient.MySqlParameter();
+                    p1.ParameterName = "@p1";
+                    p1.Value = autoGrupoUsuario;
+                    var permiso = cnn.Database.SqlQuery<DtoLibInventario.Permiso.Ficha>("select estatus, seguridad from usuarios_grupo_permisos where codigo_grupo=@p1 and codigo_funcion='0330090000'", p1).FirstOrDefault();
                     if (permiso == null)
                     {
                         result.Mensaje = "PERMISO NO ENCONTRADO";
