@@ -2496,7 +2496,7 @@ namespace ProvLibInventario
                                             fecha_conteo ,
                                             resultado_conteo ,
                                             averia)
-                                         VALUES (@xp1, @xp2, '0.000', '0.000', '0.000', '', '', '', '', '0.000', '0.000', '0.000', '2000-01-01', '', '')";
+                                         VALUES (@xp1, @xp2, '0.000', '0.000', '0.000', '', '', '', '', '0.000', '0.000', '0.000', '2000-01-01', '0.000', '0.000')";
                             foreach (var it in lst)
                             {
                                 xp1.Value = it;
