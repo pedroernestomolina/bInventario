@@ -10,6 +10,17 @@ namespace DtoLibInventario.Kardex.Movimiento.Resumen
     
     public class Filtro: Movimiento.Filtro
     {
+
+        public string autoDeposito { get; set; }
+
+
+        public Filtro() 
+        {
+            ultDias = 0;
+            autoProducto = "";
+            autoDeposito = "";
+        }
+
     }
 
 }

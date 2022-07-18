@@ -26,6 +26,15 @@ warning 6002: The table/view 'pita.cxc_medio_pago' does not have a primary key d
             <PropertyRef Name="cierre" />
             <PropertyRef Name="fecha_agencia" />
             <PropertyRef Name="cierre_ftp" />
+            <PropertyRef Name="opBanco" />
+            <PropertyRef Name="opNroCta" />
+            <PropertyRef Name="opNroRef" />
+            <PropertyRef Name="opDetalle" />
+            <PropertyRef Name="opMonto" />
+            <PropertyRef Name="opTasa" />
+            <PropertyRef Name="opAplicaConversion" />
+            <PropertyRef Name="estatus_doc_cxc" />
+            <PropertyRef Name="codigo_sucursal" />
           </Key>
           <Property Name="auto_recibo" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="auto_medio_pago" Type="varchar" MaxLength="10" Nullable="false" />
@@ -44,6 +53,16 @@ warning 6002: The table/view 'pita.cxc_medio_pago' does not have a primary key d
           <Property Name="cierre" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="fecha_agencia" Type="date" Nullable="false" />
           <Property Name="cierre_ftp" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="opBanco" Type="varchar" MaxLength="60" Nullable="false" />
+          <Property Name="opNroCta" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="opNroRef" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="opFecha" Type="date" />
+          <Property Name="opDetalle" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="opMonto" Type="decimal" Precision="19" Scale="8" Nullable="false" />
+          <Property Name="opTasa" Type="decimal" Precision="14" Scale="2" Nullable="false" />
+          <Property Name="opAplicaConversion" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="estatus_doc_cxc" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="codigo_sucursal" Type="varchar" MaxLength="10" Nullable="false" />
         </EntityType>
         <EntityType Name="empresa">
           <Key>
@@ -178,6 +197,9 @@ warning 6002: The table/view 'pita.pos_arqueo' does not have a primary key defin
             <PropertyRef Name="cntDocNcr" />
             <PropertyRef Name="montoFac" />
             <PropertyRef Name="montoNcr" />
+            <PropertyRef Name="codigo_sucursal" />
+            <PropertyRef Name="id_equipo" />
+            <PropertyRef Name="cierre_numero" />
           </Key>
           <Property Name="auto_cierre" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="auto_usuario" Type="varchar" MaxLength="10" Nullable="false" />
@@ -222,6 +244,9 @@ warning 6002: The table/view 'pita.pos_arqueo' does not have a primary key defin
           <Property Name="cntDocNcr" Type="int" Nullable="false" />
           <Property Name="montoFac" Type="decimal" Precision="14" Scale="2" Nullable="false" />
           <Property Name="montoNcr" Type="decimal" Precision="14" Scale="2" Nullable="false" />
+          <Property Name="codigo_sucursal" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="id_equipo" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="cierre_numero" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="productos">
           <Key>
@@ -318,6 +343,7 @@ warning 6002: The table/view 'pita.pos_arqueo' does not have a primary key defin
           <Property Name="pdf_3" Type="decimal" Precision="16" Scale="2" Nullable="false" />
           <Property Name="pdf_4" Type="decimal" Precision="16" Scale="2" Nullable="false" />
           <Property Name="pdf_pto" Type="decimal" Precision="16" Scale="2" Nullable="false" />
+          <Property Name="volumen" Type="decimal" Precision="14" Scale="6" Nullable="false" />
         </EntityType>
         <EntityType Name="productos_alterno">
           <Key>
@@ -1306,7 +1332,17 @@ warning 6002: The table/view 'pita.productos_movimientos_detalle' does not have 
 `cxc_medio_pago`.`auto_cobrador`, 
 `cxc_medio_pago`.`cierre`, 
 `cxc_medio_pago`.`fecha_agencia`, 
-`cxc_medio_pago`.`cierre_ftp`
+`cxc_medio_pago`.`cierre_ftp`, 
+`cxc_medio_pago`.`opBanco`, 
+`cxc_medio_pago`.`opNroCta`, 
+`cxc_medio_pago`.`opNroRef`, 
+`cxc_medio_pago`.`opFecha`, 
+`cxc_medio_pago`.`opDetalle`, 
+`cxc_medio_pago`.`opMonto`, 
+`cxc_medio_pago`.`opTasa`, 
+`cxc_medio_pago`.`opAplicaConversion`, 
+`cxc_medio_pago`.`estatus_doc_cxc`, 
+`cxc_medio_pago`.`codigo_sucursal`
 FROM `cxc_medio_pago` AS `cxc_medio_pago`</DefiningQuery>
           </EntitySet>
           <EntitySet Name="pos_arqueo" EntityType="Self.pos_arqueo" store:Type="Tables" store:Schema="pita">
@@ -1353,7 +1389,10 @@ FROM `cxc_medio_pago` AS `cxc_medio_pago`</DefiningQuery>
 `pos_arqueo`.`cntDocFac`, 
 `pos_arqueo`.`cntDocNcr`, 
 `pos_arqueo`.`montoFac`, 
-`pos_arqueo`.`montoNcr`
+`pos_arqueo`.`montoNcr`, 
+`pos_arqueo`.`codigo_sucursal`, 
+`pos_arqueo`.`id_equipo`, 
+`pos_arqueo`.`cierre_numero`
 FROM `pos_arqueo` AS `pos_arqueo`</DefiningQuery>
           </EntitySet>
           <EntitySet Name="productos_kardex" EntityType="Self.productos_kardex" store:Type="Tables" store:Schema="pita">
@@ -1576,123 +1615,7 @@ FROM `productos_movimientos_detalle` AS `productos_movimientos_detalle`</Definin
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="ModelLibInventario" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="productos">
-          <Key>
-            <PropertyRef Name="auto" />
-          </Key>
-          <Property Name="auto" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="codigo" Type="String" MaxLength="60" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="nombre" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="nombre_corto" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="auto_departamento" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="auto_grupo" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="auto_subgrupo" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="auto_tasa" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="auto_empaque_compra" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="costo_proveedor" Type="Decimal" Nullable="false" />
-          <Property Name="costo_proveedor_und" Type="Decimal" Nullable="false" />
-          <Property Name="costo_importacion" Type="Decimal" Nullable="false" />
-          <Property Name="costo_importacion_und" Type="Decimal" Nullable="false" />
-          <Property Name="costo_varios" Type="Decimal" Nullable="false" />
-          <Property Name="costo_varios_und" Type="Decimal" Nullable="false" />
-          <Property Name="costo" Type="Decimal" Nullable="false" />
-          <Property Name="costo_und" Type="Decimal" Nullable="false" />
-          <Property Name="costo_promedio" Type="Decimal" Nullable="false" />
-          <Property Name="costo_promedio_und" Type="Decimal" Nullable="false" />
-          <Property Name="utilidad_1" Type="Decimal" Nullable="false" />
-          <Property Name="utilidad_2" Type="Decimal" Nullable="false" />
-          <Property Name="utilidad_3" Type="Decimal" Nullable="false" />
-          <Property Name="utilidad_4" Type="Decimal" Nullable="false" />
-          <Property Name="utilidad_pto" Type="Decimal" Nullable="false" />
-          <Property Name="precio_1" Type="Decimal" Nullable="false" />
-          <Property Name="precio_2" Type="Decimal" Nullable="false" />
-          <Property Name="precio_3" Type="Decimal" Nullable="false" />
-          <Property Name="precio_4" Type="Decimal" Nullable="false" />
-          <Property Name="precio_pto" Type="Decimal" Nullable="false" />
-          <Property Name="estatus_garantia" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="dias_garantia" Type="Int32" Nullable="false" />
-          <Property Name="modelo" Type="String" MaxLength="60" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="precio_sugerido" Type="Decimal" Nullable="false" />
-          <Property Name="comentarios" Type="String" MaxLength="120" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="referencia" Type="String" MaxLength="60" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="contenido_compras" Type="Int32" Nullable="false" />
-          <Property Name="estatus" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="advertencia" Type="String" MaxLength="120" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="fecha_alta" Type="DateTime" Nullable="false" />
-          <Property Name="fecha_baja" Type="DateTime" Nullable="false" />
-          <Property Name="auto_codigo_plan" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="categoria" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="origen" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="alto" Type="Decimal" Nullable="false" />
-          <Property Name="largo" Type="Decimal" Nullable="false" />
-          <Property Name="ancho" Type="Decimal" Nullable="false" />
-          <Property Name="peso" Type="Decimal" Nullable="false" />
-          <Property Name="codigo_arancel" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="tasa_arancel" Type="Decimal" Nullable="false" />
-          <Property Name="auto_marca" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="estatus_serial" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="estatus_oferta" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="inicio" Type="DateTime" Nullable="false" />
-          <Property Name="fin" Type="DateTime" Nullable="false" />
-          <Property Name="precio_oferta" Type="Decimal" Nullable="false" />
-          <Property Name="estatus_web" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="estatus_corte" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="tasa" Type="Decimal" Nullable="false" />
-          <Property Name="auto_precio_1" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="auto_precio_2" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="auto_precio_3" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="auto_precio_4" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="auto_precio_pto" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="memo" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="contenido_1" Type="Int32" Nullable="false" />
-          <Property Name="contenido_2" Type="Int32" Nullable="false" />
-          <Property Name="contenido_3" Type="Int32" Nullable="false" />
-          <Property Name="contenido_4" Type="Int32" Nullable="false" />
-          <Property Name="contenido_pto" Type="Int32" Nullable="false" />
-          <Property Name="corte" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="estatus_pesado" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="plu" Type="String" MaxLength="5" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="estatus_compuesto" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="estatus_catalogo" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="estatus_cambio" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="fecha_movimiento" Type="DateTime" Nullable="false" />
-          <Property Name="fecha_cambio" Type="DateTime" Nullable="false" />
-          <Property Name="fecha_ult_venta" Type="DateTime" Nullable="false" />
-          <Property Name="presentacion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="lugar" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="fecha_ult_costo" Type="DateTime" Nullable="false" />
-          <Property Name="estatus_lote" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="fecha_lote" Type="DateTime" Nullable="false" />
-          <Property Name="abc" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="divisa" Type="Decimal" Nullable="false" />
-          <Property Name="estatus_divisa" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="pdf_1" Type="Decimal" Nullable="false" />
-          <Property Name="pdf_2" Type="Decimal" Nullable="false" />
-          <Property Name="pdf_3" Type="Decimal" Nullable="false" />
-          <Property Name="pdf_4" Type="Decimal" Nullable="false" />
-          <Property Name="pdf_pto" Type="Decimal" Nullable="false" />
-          <NavigationProperty Name="empresa_departamentos" Relationship="ModelLibInventario.productos_ibfk_1" FromRole="productos" ToRole="empresa_departamentos" />
-          <NavigationProperty Name="empresa_tasas" Relationship="ModelLibInventario.productos_ibfk_12" FromRole="productos" ToRole="empresa_tasas" />
-          <NavigationProperty Name="productos_alterno" Relationship="ModelLibInventario.productos_alterno_ibfk_1" FromRole="productos" ToRole="productos_alterno" />
-          <NavigationProperty Name="productos_costos" Relationship="ModelLibInventario.productos_costos_ibfk_1" FromRole="productos" ToRole="productos_costos" />
-          <NavigationProperty Name="productos_deposito" Relationship="ModelLibInventario.productos_deposito_ibfk_1" FromRole="productos" ToRole="productos_deposito" />
-          <NavigationProperty Name="productos_extra" Relationship="ModelLibInventario.productos_extra_ibfk_1" FromRole="productos" ToRole="productos_extra" />
-          <NavigationProperty Name="productos_medida" Relationship="ModelLibInventario.productos_ibfk_10" FromRole="productos" ToRole="productos_medida" />
-          <NavigationProperty Name="productos_medida1" Relationship="ModelLibInventario.productos_ibfk_11" FromRole="productos" ToRole="productos_medida" />
-          <NavigationProperty Name="productos_grupo" Relationship="ModelLibInventario.productos_ibfk_2" FromRole="productos" ToRole="productos_grupo" />
-          <NavigationProperty Name="productos_marca" Relationship="ModelLibInventario.productos_ibfk_4" FromRole="productos" ToRole="productos_marca" />
-          <NavigationProperty Name="productos_medida2" Relationship="ModelLibInventario.productos_ibfk_5" FromRole="productos" ToRole="productos_medida" />
-          <NavigationProperty Name="productos_medida3" Relationship="ModelLibInventario.productos_ibfk_7" FromRole="productos" ToRole="productos_medida" />
-          <NavigationProperty Name="productos_medida4" Relationship="ModelLibInventario.productos_ibfk_8" FromRole="productos" ToRole="productos_medida" />
-          <NavigationProperty Name="productos_medida5" Relationship="ModelLibInventario.productos_ibfk_9" FromRole="productos" ToRole="productos_medida" />
-          <NavigationProperty Name="productos_kardex" Relationship="ModelLibInventario.productos_kardex_ibfk_1" FromRole="productos" ToRole="productos_kardex" />
-          <NavigationProperty Name="productos_movimientos_detalle" Relationship="ModelLibInventario.productos_movimientos_detalle_ibfk_2" FromRole="productos" ToRole="productos_movimientos_detalle" />
-          <NavigationProperty Name="productos_precios" Relationship="ModelLibInventario.productos_precios_ibfk_1" FromRole="productos" ToRole="productos_precios" />
-          <NavigationProperty Name="productos_proveedor" Relationship="ModelLibInventario.productos_proveedor_ibfk_1" FromRole="productos" ToRole="productos_proveedor" />
-          <NavigationProperty Name="productos_ext" Relationship="ModelLibInventario.productos_ext_ibfk_1" FromRole="productos" ToRole="productos_ext" />
-        </EntityType>
         <EntityContainer Name="invEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="productos" EntityType="Self.productos" />
           <EntitySet Name="empresa" EntityType="ModelLibInventario.empresa" />
           <EntitySet Name="empresa_departamentos" EntityType="ModelLibInventario.empresa_departamentos" />
           <EntitySet Name="empresa_depositos" EntityType="ModelLibInventario.empresa_depositos" />
@@ -1721,10 +1644,6 @@ FROM `productos_movimientos_detalle` AS `productos_movimientos_detalle`</Definin
           <EntitySet Name="pos_arqueo" EntityType="ModelLibInventario.pos_arqueo" />
           <EntitySet Name="productos_kardex" EntityType="ModelLibInventario.productos_kardex" />
           <EntitySet Name="productos_movimientos_detalle" EntityType="ModelLibInventario.productos_movimientos_detalle" />
-          <AssociationSet Name="productos_ibfk_1" Association="ModelLibInventario.productos_ibfk_1">
-            <End Role="empresa_departamentos" EntitySet="empresa_departamentos" />
-            <End Role="productos" EntitySet="productos" />
-          </AssociationSet>
           <AssociationSet Name="productos_deposito_ibfk_2" Association="ModelLibInventario.productos_deposito_ibfk_2">
             <End Role="empresa_depositos" EntitySet="empresa_depositos" />
             <End Role="productos_deposito" EntitySet="productos_deposito" />
@@ -1745,6 +1664,73 @@ FROM `productos_movimientos_detalle` AS `productos_movimientos_detalle`</Definin
             <End Role="empresa_grupo" EntitySet="empresa_grupo" />
             <End Role="empresa_sucursal" EntitySet="empresa_sucursal" />
           </AssociationSet>
+          <AssociationSet Name="productos_movimientos_detalle_ibfk_1" Association="ModelLibInventario.productos_movimientos_detalle_ibfk_1">
+            <End Role="productos_movimientos" EntitySet="productos_movimientos" />
+            <End Role="productos_movimientos_detalle" EntitySet="productos_movimientos_detalle" />
+          </AssociationSet>
+          <AssociationSet Name="productos_movimientos_ibfk_2" Association="ModelLibInventario.productos_movimientos_ibfk_2">
+            <End Role="usuarios" EntitySet="usuarios" />
+            <End Role="productos_movimientos" EntitySet="productos_movimientos" />
+          </AssociationSet>
+          <AssociationSet Name="productos_movimientos_transito_detalle_ibfk_1" Association="ModelLibInventario.productos_movimientos_transito_detalle_ibfk_1">
+            <End Role="productos_movimientos_transito" EntitySet="productos_movimientos_transito" />
+            <End Role="productos_movimientos_transito_detalle" EntitySet="productos_movimientos_transito_detalle" />
+          </AssociationSet>
+          <AssociationSet Name="productos_proveedor_ibfk_2" Association="ModelLibInventario.productos_proveedor_ibfk_2">
+            <End Role="proveedores" EntitySet="proveedores" />
+            <End Role="productos_proveedor" EntitySet="productos_proveedor" />
+          </AssociationSet>
+          <EntitySet Name="productos_conceptos" EntityType="ModelLibInventario.productos_conceptos" />
+          <AssociationSet Name="productos_kardex_ibfk_3" Association="ModelLibInventario.productos_kardex_ibfk_3">
+            <End Role="productos_conceptos" EntitySet="productos_conceptos" />
+            <End Role="productos_kardex" EntitySet="productos_kardex" />
+          </AssociationSet>
+          <AssociationSet Name="productos_movimientos_ibfk_1" Association="ModelLibInventario.productos_movimientos_ibfk_1">
+            <End Role="productos_conceptos" EntitySet="productos_conceptos" />
+            <End Role="productos_movimientos" EntitySet="productos_movimientos" />
+          </AssociationSet>
+          <EntitySet Name="productos_ext" EntityType="ModelLibInventario.productos_ext" />
+          <AssociationSet Name="productos_ext_ibfk_10" Association="ModelLibInventario.productos_ext_ibfk_10">
+            <End Role="productos_medida" EntitySet="productos_medida" />
+            <End Role="productos_ext" EntitySet="productos_ext" />
+          </AssociationSet>
+          <AssociationSet Name="productos_ext_ibfk_2" Association="ModelLibInventario.productos_ext_ibfk_2">
+            <End Role="productos_medida" EntitySet="productos_medida" />
+            <End Role="productos_ext" EntitySet="productos_ext" />
+          </AssociationSet>
+          <AssociationSet Name="productos_ext_ibfk_3" Association="ModelLibInventario.productos_ext_ibfk_3">
+            <End Role="productos_medida" EntitySet="productos_medida" />
+            <End Role="productos_ext" EntitySet="productos_ext" />
+          </AssociationSet>
+          <AssociationSet Name="productos_ext_ibfk_4" Association="ModelLibInventario.productos_ext_ibfk_4">
+            <End Role="productos_medida" EntitySet="productos_medida" />
+            <End Role="productos_ext" EntitySet="productos_ext" />
+          </AssociationSet>
+          <AssociationSet Name="productos_ext_ibfk_5" Association="ModelLibInventario.productos_ext_ibfk_5">
+            <End Role="productos_medida" EntitySet="productos_medida" />
+            <End Role="productos_ext" EntitySet="productos_ext" />
+          </AssociationSet>
+          <AssociationSet Name="productos_ext_ibfk_6" Association="ModelLibInventario.productos_ext_ibfk_6">
+            <End Role="productos_medida" EntitySet="productos_medida" />
+            <End Role="productos_ext" EntitySet="productos_ext" />
+          </AssociationSet>
+          <AssociationSet Name="productos_ext_ibfk_7" Association="ModelLibInventario.productos_ext_ibfk_7">
+            <End Role="productos_medida" EntitySet="productos_medida" />
+            <End Role="productos_ext" EntitySet="productos_ext" />
+          </AssociationSet>
+          <AssociationSet Name="productos_ext_ibfk_8" Association="ModelLibInventario.productos_ext_ibfk_8">
+            <End Role="productos_medida" EntitySet="productos_medida" />
+            <End Role="productos_ext" EntitySet="productos_ext" />
+          </AssociationSet>
+          <AssociationSet Name="productos_ext_ibfk_9" Association="ModelLibInventario.productos_ext_ibfk_9">
+            <End Role="productos_medida" EntitySet="productos_medida" />
+            <End Role="productos_ext" EntitySet="productos_ext" />
+          </AssociationSet>
+          <EntitySet Name="productos" EntityType="ModelLibInventario.productos" />
+          <AssociationSet Name="productos_ibfk_1" Association="ModelLibInventario.productos_ibfk_1">
+            <End Role="empresa_departamentos" EntitySet="empresa_departamentos" />
+            <End Role="productos" EntitySet="productos" />
+          </AssociationSet>
           <AssociationSet Name="productos_ibfk_12" Association="ModelLibInventario.productos_ibfk_12">
             <End Role="empresa_tasas" EntitySet="empresa_tasas" />
             <End Role="productos" EntitySet="productos" />
@@ -1760,6 +1746,10 @@ FROM `productos_movimientos_detalle` AS `productos_movimientos_detalle`</Definin
           <AssociationSet Name="productos_deposito_ibfk_1" Association="ModelLibInventario.productos_deposito_ibfk_1">
             <End Role="productos" EntitySet="productos" />
             <End Role="productos_deposito" EntitySet="productos_deposito" />
+          </AssociationSet>
+          <AssociationSet Name="productos_ext_ibfk_1" Association="ModelLibInventario.productos_ext_ibfk_1">
+            <End Role="productos" EntitySet="productos" />
+            <End Role="productos_ext" EntitySet="productos_ext" />
           </AssociationSet>
           <AssociationSet Name="productos_extra_ibfk_1" Association="ModelLibInventario.productos_extra_ibfk_1">
             <End Role="productos" EntitySet="productos" />
@@ -1812,72 +1802,6 @@ FROM `productos_movimientos_detalle` AS `productos_movimientos_detalle`</Definin
           <AssociationSet Name="productos_proveedor_ibfk_1" Association="ModelLibInventario.productos_proveedor_ibfk_1">
             <End Role="productos" EntitySet="productos" />
             <End Role="productos_proveedor" EntitySet="productos_proveedor" />
-          </AssociationSet>
-          <AssociationSet Name="productos_movimientos_detalle_ibfk_1" Association="ModelLibInventario.productos_movimientos_detalle_ibfk_1">
-            <End Role="productos_movimientos" EntitySet="productos_movimientos" />
-            <End Role="productos_movimientos_detalle" EntitySet="productos_movimientos_detalle" />
-          </AssociationSet>
-          <AssociationSet Name="productos_movimientos_ibfk_2" Association="ModelLibInventario.productos_movimientos_ibfk_2">
-            <End Role="usuarios" EntitySet="usuarios" />
-            <End Role="productos_movimientos" EntitySet="productos_movimientos" />
-          </AssociationSet>
-          <AssociationSet Name="productos_movimientos_transito_detalle_ibfk_1" Association="ModelLibInventario.productos_movimientos_transito_detalle_ibfk_1">
-            <End Role="productos_movimientos_transito" EntitySet="productos_movimientos_transito" />
-            <End Role="productos_movimientos_transito_detalle" EntitySet="productos_movimientos_transito_detalle" />
-          </AssociationSet>
-          <AssociationSet Name="productos_proveedor_ibfk_2" Association="ModelLibInventario.productos_proveedor_ibfk_2">
-            <End Role="proveedores" EntitySet="proveedores" />
-            <End Role="productos_proveedor" EntitySet="productos_proveedor" />
-          </AssociationSet>
-          <EntitySet Name="productos_conceptos" EntityType="ModelLibInventario.productos_conceptos" />
-          <AssociationSet Name="productos_kardex_ibfk_3" Association="ModelLibInventario.productos_kardex_ibfk_3">
-            <End Role="productos_conceptos" EntitySet="productos_conceptos" />
-            <End Role="productos_kardex" EntitySet="productos_kardex" />
-          </AssociationSet>
-          <AssociationSet Name="productos_movimientos_ibfk_1" Association="ModelLibInventario.productos_movimientos_ibfk_1">
-            <End Role="productos_conceptos" EntitySet="productos_conceptos" />
-            <End Role="productos_movimientos" EntitySet="productos_movimientos" />
-          </AssociationSet>
-          <EntitySet Name="productos_ext" EntityType="ModelLibInventario.productos_ext" />
-          <AssociationSet Name="productos_ext_ibfk_1" Association="ModelLibInventario.productos_ext_ibfk_1">
-            <End Role="productos" EntitySet="productos" />
-            <End Role="productos_ext" EntitySet="productos_ext" />
-          </AssociationSet>
-          <AssociationSet Name="productos_ext_ibfk_10" Association="ModelLibInventario.productos_ext_ibfk_10">
-            <End Role="productos_medida" EntitySet="productos_medida" />
-            <End Role="productos_ext" EntitySet="productos_ext" />
-          </AssociationSet>
-          <AssociationSet Name="productos_ext_ibfk_2" Association="ModelLibInventario.productos_ext_ibfk_2">
-            <End Role="productos_medida" EntitySet="productos_medida" />
-            <End Role="productos_ext" EntitySet="productos_ext" />
-          </AssociationSet>
-          <AssociationSet Name="productos_ext_ibfk_3" Association="ModelLibInventario.productos_ext_ibfk_3">
-            <End Role="productos_medida" EntitySet="productos_medida" />
-            <End Role="productos_ext" EntitySet="productos_ext" />
-          </AssociationSet>
-          <AssociationSet Name="productos_ext_ibfk_4" Association="ModelLibInventario.productos_ext_ibfk_4">
-            <End Role="productos_medida" EntitySet="productos_medida" />
-            <End Role="productos_ext" EntitySet="productos_ext" />
-          </AssociationSet>
-          <AssociationSet Name="productos_ext_ibfk_5" Association="ModelLibInventario.productos_ext_ibfk_5">
-            <End Role="productos_medida" EntitySet="productos_medida" />
-            <End Role="productos_ext" EntitySet="productos_ext" />
-          </AssociationSet>
-          <AssociationSet Name="productos_ext_ibfk_6" Association="ModelLibInventario.productos_ext_ibfk_6">
-            <End Role="productos_medida" EntitySet="productos_medida" />
-            <End Role="productos_ext" EntitySet="productos_ext" />
-          </AssociationSet>
-          <AssociationSet Name="productos_ext_ibfk_7" Association="ModelLibInventario.productos_ext_ibfk_7">
-            <End Role="productos_medida" EntitySet="productos_medida" />
-            <End Role="productos_ext" EntitySet="productos_ext" />
-          </AssociationSet>
-          <AssociationSet Name="productos_ext_ibfk_8" Association="ModelLibInventario.productos_ext_ibfk_8">
-            <End Role="productos_medida" EntitySet="productos_medida" />
-            <End Role="productos_ext" EntitySet="productos_ext" />
-          </AssociationSet>
-          <AssociationSet Name="productos_ext_ibfk_9" Association="ModelLibInventario.productos_ext_ibfk_9">
-            <End Role="productos_medida" EntitySet="productos_medida" />
-            <End Role="productos_ext" EntitySet="productos_ext" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="empresa">
@@ -2058,12 +1982,6 @@ FROM `productos_movimientos_detalle` AS `productos_movimientos_detalle`</Definin
           <Property Name="auto" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="nombre" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="decimales" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="productos" Relationship="ModelLibInventario.productos_ibfk_10" FromRole="productos_medida" ToRole="productos" />
-          <NavigationProperty Name="productos1" Relationship="ModelLibInventario.productos_ibfk_11" FromRole="productos_medida" ToRole="productos" />
-          <NavigationProperty Name="productos2" Relationship="ModelLibInventario.productos_ibfk_5" FromRole="productos_medida" ToRole="productos" />
-          <NavigationProperty Name="productos3" Relationship="ModelLibInventario.productos_ibfk_7" FromRole="productos_medida" ToRole="productos" />
-          <NavigationProperty Name="productos4" Relationship="ModelLibInventario.productos_ibfk_8" FromRole="productos_medida" ToRole="productos" />
-          <NavigationProperty Name="productos5" Relationship="ModelLibInventario.productos_ibfk_9" FromRole="productos_medida" ToRole="productos" />
           <NavigationProperty Name="productos_ext" Relationship="ModelLibInventario.productos_ext_ibfk_10" FromRole="productos_medida" ToRole="productos_ext" />
           <NavigationProperty Name="productos_ext1" Relationship="ModelLibInventario.productos_ext_ibfk_2" FromRole="productos_medida" ToRole="productos_ext" />
           <NavigationProperty Name="productos_ext2" Relationship="ModelLibInventario.productos_ext_ibfk_3" FromRole="productos_medida" ToRole="productos_ext" />
@@ -2073,6 +1991,12 @@ FROM `productos_movimientos_detalle` AS `productos_movimientos_detalle`</Definin
           <NavigationProperty Name="productos_ext6" Relationship="ModelLibInventario.productos_ext_ibfk_7" FromRole="productos_medida" ToRole="productos_ext" />
           <NavigationProperty Name="productos_ext7" Relationship="ModelLibInventario.productos_ext_ibfk_8" FromRole="productos_medida" ToRole="productos_ext" />
           <NavigationProperty Name="productos_ext8" Relationship="ModelLibInventario.productos_ext_ibfk_9" FromRole="productos_medida" ToRole="productos_ext" />
+          <NavigationProperty Name="productos" Relationship="ModelLibInventario.productos_ibfk_10" FromRole="productos_medida" ToRole="productos" />
+          <NavigationProperty Name="productos1" Relationship="ModelLibInventario.productos_ibfk_11" FromRole="productos_medida" ToRole="productos" />
+          <NavigationProperty Name="productos2" Relationship="ModelLibInventario.productos_ibfk_5" FromRole="productos_medida" ToRole="productos" />
+          <NavigationProperty Name="productos3" Relationship="ModelLibInventario.productos_ibfk_7" FromRole="productos_medida" ToRole="productos" />
+          <NavigationProperty Name="productos4" Relationship="ModelLibInventario.productos_ibfk_8" FromRole="productos_medida" ToRole="productos" />
+          <NavigationProperty Name="productos5" Relationship="ModelLibInventario.productos_ibfk_9" FromRole="productos_medida" ToRole="productos" />
           </EntityType>
         <EntityType Name="productos_movimientos">
           <Key>
@@ -2218,8 +2142,8 @@ FROM `productos_movimientos_detalle` AS `productos_movimientos_detalle`</Definin
           <Property Name="auto_producto" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="auto_proveedor" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="codigo_producto" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="productos" Relationship="ModelLibInventario.productos_proveedor_ibfk_1" FromRole="productos_proveedor" ToRole="productos" />
           <NavigationProperty Name="proveedores" Relationship="ModelLibInventario.productos_proveedor_ibfk_2" FromRole="productos_proveedor" ToRole="proveedores" />
+          <NavigationProperty Name="productos" Relationship="ModelLibInventario.productos_proveedor_ibfk_1" FromRole="productos_proveedor" ToRole="productos" />
         </EntityType>
         <EntityType Name="productos_subgrupo">
           <Key>
@@ -2320,6 +2244,15 @@ FROM `productos_movimientos_detalle` AS `productos_movimientos_detalle`</Definin
             <PropertyRef Name="cierre" />
             <PropertyRef Name="fecha_agencia" />
             <PropertyRef Name="cierre_ftp" />
+            <PropertyRef Name="opBanco" />
+            <PropertyRef Name="opNroCta" />
+            <PropertyRef Name="opNroRef" />
+            <PropertyRef Name="opDetalle" />
+            <PropertyRef Name="opMonto" />
+            <PropertyRef Name="opTasa" />
+            <PropertyRef Name="opAplicaConversion" />
+            <PropertyRef Name="estatus_doc_cxc" />
+            <PropertyRef Name="codigo_sucursal" />
           </Key>
           <Property Name="auto_recibo" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="auto_medio_pago" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
@@ -2338,6 +2271,16 @@ FROM `productos_movimientos_detalle` AS `productos_movimientos_detalle`</Definin
           <Property Name="cierre" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="fecha_agencia" Type="DateTime" Nullable="false" />
           <Property Name="cierre_ftp" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="opBanco" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Name="opNroCta" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="opNroRef" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="opFecha" Type="DateTime" />
+          <Property Name="opDetalle" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="opMonto" Type="Decimal" Nullable="false" />
+          <Property Name="opTasa" Type="Decimal" Nullable="false" />
+          <Property Name="opAplicaConversion" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="estatus_doc_cxc" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="codigo_sucursal" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="pos_arqueo">
           <Key>
@@ -2384,6 +2327,9 @@ FROM `productos_movimientos_detalle` AS `productos_movimientos_detalle`</Definin
             <PropertyRef Name="cntDocNcr" />
             <PropertyRef Name="montoFac" />
             <PropertyRef Name="montoNcr" />
+            <PropertyRef Name="codigo_sucursal" />
+            <PropertyRef Name="id_equipo" />
+            <PropertyRef Name="cierre_numero" />
           </Key>
           <Property Name="auto_cierre" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="auto_usuario" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
@@ -2428,6 +2374,9 @@ FROM `productos_movimientos_detalle` AS `productos_movimientos_detalle`</Definin
           <Property Name="cntDocNcr" Type="Int32" Nullable="false" />
           <Property Name="montoFac" Type="Decimal" Nullable="false" />
           <Property Name="montoNcr" Type="Decimal" Nullable="false" />
+          <Property Name="codigo_sucursal" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="id_equipo" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="cierre_numero" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="productos_kardex">
           <Key>
@@ -2485,8 +2434,8 @@ FROM `productos_movimientos_detalle` AS `productos_movimientos_detalle`</Definin
           <Property Name="codigo_concepto" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
           <Property Name="nombre_concepto" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="empresa_depositos" Relationship="ModelLibInventario.productos_kardex_ibfk_2" FromRole="productos_kardex" ToRole="empresa_depositos" />
-          <NavigationProperty Name="productos" Relationship="ModelLibInventario.productos_kardex_ibfk_1" FromRole="productos_kardex" ToRole="productos" />
           <NavigationProperty Name="productos_conceptos" Relationship="ModelLibInventario.productos_kardex_ibfk_3" FromRole="productos_kardex" ToRole="productos_conceptos" />
+          <NavigationProperty Name="productos" Relationship="ModelLibInventario.productos_kardex_ibfk_1" FromRole="productos_kardex" ToRole="productos" />
         </EntityType>
         <EntityType Name="productos_movimientos_detalle">
           <Key>
@@ -2541,21 +2490,9 @@ FROM `productos_movimientos_detalle` AS `productos_movimientos_detalle`</Definin
           <Property Name="auto_departamento" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="auto_grupo" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="cierre_ftp" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="productos" Relationship="ModelLibInventario.productos_movimientos_detalle_ibfk_2" FromRole="productos_movimientos_detalle" ToRole="productos" />
           <NavigationProperty Name="productos_movimientos" Relationship="ModelLibInventario.productos_movimientos_detalle_ibfk_1" FromRole="productos_movimientos_detalle" ToRole="productos_movimientos" />
+          <NavigationProperty Name="productos" Relationship="ModelLibInventario.productos_movimientos_detalle_ibfk_2" FromRole="productos_movimientos_detalle" ToRole="productos" />
         </EntityType>
-        <Association Name="productos_ibfk_1">
-          <End Type="ModelLibInventario.empresa_departamentos" Role="empresa_departamentos" Multiplicity="1" />
-          <End Type="ModelLibInventario.productos" Role="productos" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="empresa_departamentos">
-              <PropertyRef Name="auto" />
-            </Principal>
-            <Dependent Role="productos">
-              <PropertyRef Name="auto_departamento" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="productos_deposito_ibfk_2">
           <End Type="ModelLibInventario.empresa_depositos" Role="empresa_depositos" Multiplicity="1" />
           <End Type="ModelLibInventario.productos_deposito" Role="productos_deposito" Multiplicity="*" />
@@ -2616,6 +2553,384 @@ FROM `productos_movimientos_detalle` AS `productos_movimientos_detalle`</Definin
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="productos_movimientos_detalle_ibfk_1">
+          <End Type="ModelLibInventario.productos_movimientos" Role="productos_movimientos" Multiplicity="1" />
+          <End Type="ModelLibInventario.productos_movimientos_detalle" Role="productos_movimientos_detalle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="productos_movimientos">
+              <PropertyRef Name="auto" />
+            </Principal>
+            <Dependent Role="productos_movimientos_detalle">
+              <PropertyRef Name="auto_documento" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="productos_movimientos_ibfk_2">
+          <End Type="ModelLibInventario.usuarios" Role="usuarios" Multiplicity="1" />
+          <End Type="ModelLibInventario.productos_movimientos" Role="productos_movimientos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="usuarios">
+              <PropertyRef Name="auto" />
+            </Principal>
+            <Dependent Role="productos_movimientos">
+              <PropertyRef Name="auto_usuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="productos_movimientos_transito_detalle_ibfk_1">
+          <End Type="ModelLibInventario.productos_movimientos_transito" Role="productos_movimientos_transito" Multiplicity="1" />
+          <End Type="ModelLibInventario.productos_movimientos_transito_detalle" Role="productos_movimientos_transito_detalle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="productos_movimientos_transito">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="productos_movimientos_transito_detalle">
+              <PropertyRef Name="idTransito" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="productos_proveedor_ibfk_2">
+          <End Type="ModelLibInventario.proveedores" Role="proveedores" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="ModelLibInventario.productos_proveedor" Role="productos_proveedor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="proveedores">
+              <PropertyRef Name="auto" />
+            </Principal>
+            <Dependent Role="productos_proveedor">
+              <PropertyRef Name="auto_proveedor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="productos_conceptos">
+          <Key>
+            <PropertyRef Name="auto" />
+          </Key>
+          <Property Name="auto" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="codigo" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="nombre" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="productos_kardex" Relationship="ModelLibInventario.productos_kardex_ibfk_3" FromRole="productos_conceptos" ToRole="productos_kardex" />
+          <NavigationProperty Name="productos_movimientos" Relationship="ModelLibInventario.productos_movimientos_ibfk_1" FromRole="productos_conceptos" ToRole="productos_movimientos" />
+        </EntityType>
+        <Association Name="productos_kardex_ibfk_3">
+          <End Type="ModelLibInventario.productos_conceptos" Role="productos_conceptos" Multiplicity="1" />
+          <End Type="ModelLibInventario.productos_kardex" Role="productos_kardex" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="productos_conceptos">
+              <PropertyRef Name="auto" />
+            </Principal>
+            <Dependent Role="productos_kardex">
+              <PropertyRef Name="auto_concepto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="productos_movimientos_ibfk_1">
+          <End Type="ModelLibInventario.productos_conceptos" Role="productos_conceptos" Multiplicity="1" />
+          <End Type="ModelLibInventario.productos_movimientos" Role="productos_movimientos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="productos_conceptos">
+              <PropertyRef Name="auto" />
+            </Principal>
+            <Dependent Role="productos_movimientos">
+              <PropertyRef Name="auto_concepto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="productos_ext">
+          <Key>
+            <PropertyRef Name="auto_producto" />
+          </Key>
+          <Property Name="auto_producto" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="auto_precio_may_1" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="auto_precio_may_2" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="auto_precio_may_3" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="contenido_may_1" Type="Int32" Nullable="false" />
+          <Property Name="contenido_may_2" Type="Int32" Nullable="false" />
+          <Property Name="contenido_may_3" Type="Int32" Nullable="false" />
+          <Property Name="utilidad_may_1" Type="Decimal" Nullable="false" />
+          <Property Name="utilidad_may_2" Type="Decimal" Nullable="false" />
+          <Property Name="utilidad_may_3" Type="Decimal" Nullable="false" />
+          <Property Name="precio_may_1" Type="Decimal" Nullable="false" />
+          <Property Name="precio_may_2" Type="Decimal" Nullable="false" />
+          <Property Name="precio_may_3" Type="Decimal" Nullable="false" />
+          <Property Name="pdmf_1" Type="Decimal" Nullable="false" />
+          <Property Name="pdmf_2" Type="Decimal" Nullable="false" />
+          <Property Name="pdmf_3" Type="Decimal" Nullable="false" />
+          <Property Name="auto_precio_may_4" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="cont_may_4" Type="Int32" />
+          <Property Name="utilidad_may_4" Type="Decimal" />
+          <Property Name="precio_may_4" Type="Decimal" />
+          <Property Name="pdmf_4" Type="Decimal" />
+          <Property Name="auto_emp_inv_1" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="cont_emp_inv_1" Type="Int32" Nullable="false" />
+          <Property Name="auto_precio_dsp_1" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="cont_dsp_1" Type="Int32" Nullable="false" />
+          <Property Name="utilidad_dsp_1" Type="Decimal" Nullable="false" />
+          <Property Name="precio_dsp_1" Type="Decimal" Nullable="false" />
+          <Property Name="pdivisafull_dsp_1" Type="Decimal" Nullable="false" />
+          <Property Name="auto_precio_dsp_2" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="cont_dsp_2" Type="Int32" Nullable="false" />
+          <Property Name="utilidad_dsp_2" Type="Decimal" Nullable="false" />
+          <Property Name="precio_dsp_2" Type="Decimal" Nullable="false" />
+          <Property Name="pdivisafull_dsp_2" Type="Decimal" Nullable="false" />
+          <Property Name="auto_precio_dsp_3" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="cont_dsp_3" Type="Int32" Nullable="false" />
+          <Property Name="utilidad_dsp_3" Type="Decimal" Nullable="false" />
+          <Property Name="precio_dsp_3" Type="Decimal" Nullable="false" />
+          <Property Name="pdivisafull_dsp_3" Type="Decimal" Nullable="false" />
+          <Property Name="auto_precio_dsp_4" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="cont_dsp_4" Type="Int32" Nullable="false" />
+          <Property Name="utilidad_dsp_4" Type="Decimal" Nullable="false" />
+          <Property Name="precio_dsp_4" Type="Decimal" Nullable="false" />
+          <Property Name="pdivisafull_dsp_4" Type="Decimal" Nullable="false" />
+          <NavigationProperty Name="productos_medida" Relationship="ModelLibInventario.productos_ext_ibfk_10" FromRole="productos_ext" ToRole="productos_medida" />
+          <NavigationProperty Name="productos_medida1" Relationship="ModelLibInventario.productos_ext_ibfk_2" FromRole="productos_ext" ToRole="productos_medida" />
+          <NavigationProperty Name="productos_medida2" Relationship="ModelLibInventario.productos_ext_ibfk_3" FromRole="productos_ext" ToRole="productos_medida" />
+          <NavigationProperty Name="productos_medida3" Relationship="ModelLibInventario.productos_ext_ibfk_4" FromRole="productos_ext" ToRole="productos_medida" />
+          <NavigationProperty Name="productos_medida4" Relationship="ModelLibInventario.productos_ext_ibfk_5" FromRole="productos_ext" ToRole="productos_medida" />
+          <NavigationProperty Name="productos_medida5" Relationship="ModelLibInventario.productos_ext_ibfk_6" FromRole="productos_ext" ToRole="productos_medida" />
+          <NavigationProperty Name="productos_medida6" Relationship="ModelLibInventario.productos_ext_ibfk_7" FromRole="productos_ext" ToRole="productos_medida" />
+          <NavigationProperty Name="productos_medida7" Relationship="ModelLibInventario.productos_ext_ibfk_8" FromRole="productos_ext" ToRole="productos_medida" />
+          <NavigationProperty Name="productos_medida8" Relationship="ModelLibInventario.productos_ext_ibfk_9" FromRole="productos_ext" ToRole="productos_medida" />
+          <NavigationProperty Name="productos" Relationship="ModelLibInventario.productos_ext_ibfk_1" FromRole="productos_ext" ToRole="productos" />
+        </EntityType>
+        <Association Name="productos_ext_ibfk_10">
+          <End Type="ModelLibInventario.productos_medida" Role="productos_medida" Multiplicity="1" />
+          <End Type="ModelLibInventario.productos_ext" Role="productos_ext" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="productos_medida">
+              <PropertyRef Name="auto" />
+            </Principal>
+            <Dependent Role="productos_ext">
+              <PropertyRef Name="auto_precio_dsp_4" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="productos_ext_ibfk_2">
+          <End Type="ModelLibInventario.productos_medida" Role="productos_medida" Multiplicity="1" />
+          <End Type="ModelLibInventario.productos_ext" Role="productos_ext" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="productos_medida">
+              <PropertyRef Name="auto" />
+            </Principal>
+            <Dependent Role="productos_ext">
+              <PropertyRef Name="auto_precio_may_1" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="productos_ext_ibfk_3">
+          <End Type="ModelLibInventario.productos_medida" Role="productos_medida" Multiplicity="1" />
+          <End Type="ModelLibInventario.productos_ext" Role="productos_ext" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="productos_medida">
+              <PropertyRef Name="auto" />
+            </Principal>
+            <Dependent Role="productos_ext">
+              <PropertyRef Name="auto_precio_may_2" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="productos_ext_ibfk_4">
+          <End Type="ModelLibInventario.productos_medida" Role="productos_medida" Multiplicity="1" />
+          <End Type="ModelLibInventario.productos_ext" Role="productos_ext" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="productos_medida">
+              <PropertyRef Name="auto" />
+            </Principal>
+            <Dependent Role="productos_ext">
+              <PropertyRef Name="auto_precio_may_3" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="productos_ext_ibfk_5">
+          <End Type="ModelLibInventario.productos_medida" Role="productos_medida" Multiplicity="0..1" />
+          <End Type="ModelLibInventario.productos_ext" Role="productos_ext" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="productos_medida">
+              <PropertyRef Name="auto" />
+            </Principal>
+            <Dependent Role="productos_ext">
+              <PropertyRef Name="auto_precio_may_4" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="productos_ext_ibfk_6">
+          <End Type="ModelLibInventario.productos_medida" Role="productos_medida" Multiplicity="1" />
+          <End Type="ModelLibInventario.productos_ext" Role="productos_ext" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="productos_medida">
+              <PropertyRef Name="auto" />
+            </Principal>
+            <Dependent Role="productos_ext">
+              <PropertyRef Name="auto_emp_inv_1" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="productos_ext_ibfk_7">
+          <End Type="ModelLibInventario.productos_medida" Role="productos_medida" Multiplicity="1" />
+          <End Type="ModelLibInventario.productos_ext" Role="productos_ext" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="productos_medida">
+              <PropertyRef Name="auto" />
+            </Principal>
+            <Dependent Role="productos_ext">
+              <PropertyRef Name="auto_precio_dsp_1" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="productos_ext_ibfk_8">
+          <End Type="ModelLibInventario.productos_medida" Role="productos_medida" Multiplicity="1" />
+          <End Type="ModelLibInventario.productos_ext" Role="productos_ext" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="productos_medida">
+              <PropertyRef Name="auto" />
+            </Principal>
+            <Dependent Role="productos_ext">
+              <PropertyRef Name="auto_precio_dsp_2" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="productos_ext_ibfk_9">
+          <End Type="ModelLibInventario.productos_medida" Role="productos_medida" Multiplicity="1" />
+          <End Type="ModelLibInventario.productos_ext" Role="productos_ext" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="productos_medida">
+              <PropertyRef Name="auto" />
+            </Principal>
+            <Dependent Role="productos_ext">
+              <PropertyRef Name="auto_precio_dsp_3" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="productos">
+          <Key>
+            <PropertyRef Name="auto" />
+          </Key>
+          <Property Name="auto" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="codigo" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Name="nombre" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="nombre_corto" Type="String" Nullable="false" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="auto_departamento" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="auto_grupo" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="auto_subgrupo" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="auto_tasa" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="auto_empaque_compra" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="costo_proveedor" Type="Decimal" Nullable="false" />
+          <Property Name="costo_proveedor_und" Type="Decimal" Nullable="false" />
+          <Property Name="costo_importacion" Type="Decimal" Nullable="false" />
+          <Property Name="costo_importacion_und" Type="Decimal" Nullable="false" />
+          <Property Name="costo_varios" Type="Decimal" Nullable="false" />
+          <Property Name="costo_varios_und" Type="Decimal" Nullable="false" />
+          <Property Name="costo" Type="Decimal" Nullable="false" />
+          <Property Name="costo_und" Type="Decimal" Nullable="false" />
+          <Property Name="costo_promedio" Type="Decimal" Nullable="false" />
+          <Property Name="costo_promedio_und" Type="Decimal" Nullable="false" />
+          <Property Name="utilidad_1" Type="Decimal" Nullable="false" />
+          <Property Name="utilidad_2" Type="Decimal" Nullable="false" />
+          <Property Name="utilidad_3" Type="Decimal" Nullable="false" />
+          <Property Name="utilidad_4" Type="Decimal" Nullable="false" />
+          <Property Name="utilidad_pto" Type="Decimal" Nullable="false" />
+          <Property Name="precio_1" Type="Decimal" Nullable="false" />
+          <Property Name="precio_2" Type="Decimal" Nullable="false" />
+          <Property Name="precio_3" Type="Decimal" Nullable="false" />
+          <Property Name="precio_4" Type="Decimal" Nullable="false" />
+          <Property Name="precio_pto" Type="Decimal" Nullable="false" />
+          <Property Name="estatus_garantia" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="dias_garantia" Type="Int32" Nullable="false" />
+          <Property Name="modelo" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Name="precio_sugerido" Type="Decimal" Nullable="false" />
+          <Property Name="comentarios" Type="String" Nullable="false" MaxLength="120" FixedLength="false" Unicode="false" />
+          <Property Name="referencia" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Name="contenido_compras" Type="Int32" Nullable="false" />
+          <Property Name="estatus" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="advertencia" Type="String" Nullable="false" MaxLength="120" FixedLength="false" Unicode="false" />
+          <Property Name="fecha_alta" Type="DateTime" Nullable="false" />
+          <Property Name="fecha_baja" Type="DateTime" Nullable="false" />
+          <Property Name="auto_codigo_plan" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="categoria" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="origen" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="alto" Type="Decimal" Nullable="false" />
+          <Property Name="largo" Type="Decimal" Nullable="false" />
+          <Property Name="ancho" Type="Decimal" Nullable="false" />
+          <Property Name="peso" Type="Decimal" Nullable="false" />
+          <Property Name="codigo_arancel" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="tasa_arancel" Type="Decimal" Nullable="false" />
+          <Property Name="auto_marca" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="estatus_serial" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="estatus_oferta" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="inicio" Type="DateTime" Nullable="false" />
+          <Property Name="fin" Type="DateTime" Nullable="false" />
+          <Property Name="precio_oferta" Type="Decimal" Nullable="false" />
+          <Property Name="estatus_web" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="estatus_corte" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="tasa" Type="Decimal" Nullable="false" />
+          <Property Name="auto_precio_1" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="auto_precio_2" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="auto_precio_3" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="auto_precio_4" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="auto_precio_pto" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="memo" Type="String" Nullable="false" MaxLength="65535" FixedLength="false" Unicode="false" />
+          <Property Name="contenido_1" Type="Int32" Nullable="false" />
+          <Property Name="contenido_2" Type="Int32" Nullable="false" />
+          <Property Name="contenido_3" Type="Int32" Nullable="false" />
+          <Property Name="contenido_4" Type="Int32" Nullable="false" />
+          <Property Name="contenido_pto" Type="Int32" Nullable="false" />
+          <Property Name="corte" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="estatus_pesado" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="plu" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="estatus_compuesto" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="estatus_catalogo" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="estatus_cambio" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="fecha_movimiento" Type="DateTime" Nullable="false" />
+          <Property Name="fecha_cambio" Type="DateTime" Nullable="false" />
+          <Property Name="fecha_ult_venta" Type="DateTime" Nullable="false" />
+          <Property Name="presentacion" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="lugar" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="fecha_ult_costo" Type="DateTime" Nullable="false" />
+          <Property Name="estatus_lote" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="fecha_lote" Type="DateTime" Nullable="false" />
+          <Property Name="abc" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="divisa" Type="Decimal" Nullable="false" />
+          <Property Name="estatus_divisa" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="pdf_1" Type="Decimal" Nullable="false" />
+          <Property Name="pdf_2" Type="Decimal" Nullable="false" />
+          <Property Name="pdf_3" Type="Decimal" Nullable="false" />
+          <Property Name="pdf_4" Type="Decimal" Nullable="false" />
+          <Property Name="pdf_pto" Type="Decimal" Nullable="false" />
+          <Property Name="volumen" Type="Decimal" Nullable="false" />
+          <NavigationProperty Name="empresa_departamentos" Relationship="ModelLibInventario.productos_ibfk_1" FromRole="productos" ToRole="empresa_departamentos" />
+          <NavigationProperty Name="empresa_tasas" Relationship="ModelLibInventario.productos_ibfk_12" FromRole="productos" ToRole="empresa_tasas" />
+          <NavigationProperty Name="productos_alterno" Relationship="ModelLibInventario.productos_alterno_ibfk_1" FromRole="productos" ToRole="productos_alterno" />
+          <NavigationProperty Name="productos_costos" Relationship="ModelLibInventario.productos_costos_ibfk_1" FromRole="productos" ToRole="productos_costos" />
+          <NavigationProperty Name="productos_deposito" Relationship="ModelLibInventario.productos_deposito_ibfk_1" FromRole="productos" ToRole="productos_deposito" />
+          <NavigationProperty Name="productos_ext" Relationship="ModelLibInventario.productos_ext_ibfk_1" FromRole="productos" ToRole="productos_ext" />
+          <NavigationProperty Name="productos_extra" Relationship="ModelLibInventario.productos_extra_ibfk_1" FromRole="productos" ToRole="productos_extra" />
+          <NavigationProperty Name="productos_medida" Relationship="ModelLibInventario.productos_ibfk_10" FromRole="productos" ToRole="productos_medida" />
+          <NavigationProperty Name="productos_medida1" Relationship="ModelLibInventario.productos_ibfk_11" FromRole="productos" ToRole="productos_medida" />
+          <NavigationProperty Name="productos_grupo" Relationship="ModelLibInventario.productos_ibfk_2" FromRole="productos" ToRole="productos_grupo" />
+          <NavigationProperty Name="productos_marca" Relationship="ModelLibInventario.productos_ibfk_4" FromRole="productos" ToRole="productos_marca" />
+          <NavigationProperty Name="productos_medida2" Relationship="ModelLibInventario.productos_ibfk_5" FromRole="productos" ToRole="productos_medida" />
+          <NavigationProperty Name="productos_medida3" Relationship="ModelLibInventario.productos_ibfk_7" FromRole="productos" ToRole="productos_medida" />
+          <NavigationProperty Name="productos_medida4" Relationship="ModelLibInventario.productos_ibfk_8" FromRole="productos" ToRole="productos_medida" />
+          <NavigationProperty Name="productos_medida5" Relationship="ModelLibInventario.productos_ibfk_9" FromRole="productos" ToRole="productos_medida" />
+          <NavigationProperty Name="productos_kardex" Relationship="ModelLibInventario.productos_kardex_ibfk_1" FromRole="productos" ToRole="productos_kardex" />
+          <NavigationProperty Name="productos_movimientos_detalle" Relationship="ModelLibInventario.productos_movimientos_detalle_ibfk_2" FromRole="productos" ToRole="productos_movimientos_detalle" />
+          <NavigationProperty Name="productos_precios" Relationship="ModelLibInventario.productos_precios_ibfk_1" FromRole="productos" ToRole="productos_precios" />
+          <NavigationProperty Name="productos_proveedor" Relationship="ModelLibInventario.productos_proveedor_ibfk_1" FromRole="productos" ToRole="productos_proveedor" />
+        </EntityType>
+        <Association Name="productos_ibfk_1">
+          <End Type="ModelLibInventario.empresa_departamentos" Role="empresa_departamentos" Multiplicity="1" />
+          <End Type="ModelLibInventario.productos" Role="productos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="empresa_departamentos">
+              <PropertyRef Name="auto" />
+            </Principal>
+            <Dependent Role="productos">
+              <PropertyRef Name="auto_departamento" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="productos_ibfk_12">
           <End Type="ModelLibInventario.empresa_tasas" Role="empresa_tasas" Multiplicity="1" />
           <End Type="ModelLibInventario.productos" Role="productos" Multiplicity="*" />
@@ -2664,6 +2979,18 @@ FROM `productos_movimientos_detalle` AS `productos_movimientos_detalle`</Definin
               <PropertyRef Name="auto" />
             </Principal>
             <Dependent Role="productos_deposito">
+              <PropertyRef Name="auto_producto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="productos_ext_ibfk_1">
+          <End Type="ModelLibInventario.productos" Role="productos" Multiplicity="1" />
+          <End Type="ModelLibInventario.productos_ext" Role="productos_ext" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="productos">
+              <PropertyRef Name="auto" />
+            </Principal>
+            <Dependent Role="productos_ext">
               <PropertyRef Name="auto_producto" />
             </Dependent>
           </ReferentialConstraint>
@@ -2828,371 +3155,12 @@ FROM `productos_movimientos_detalle` AS `productos_movimientos_detalle`</Definin
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="productos_movimientos_detalle_ibfk_1">
-          <End Type="ModelLibInventario.productos_movimientos" Role="productos_movimientos" Multiplicity="1" />
-          <End Type="ModelLibInventario.productos_movimientos_detalle" Role="productos_movimientos_detalle" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="productos_movimientos">
-              <PropertyRef Name="auto" />
-            </Principal>
-            <Dependent Role="productos_movimientos_detalle">
-              <PropertyRef Name="auto_documento" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="productos_movimientos_ibfk_2">
-          <End Type="ModelLibInventario.usuarios" Role="usuarios" Multiplicity="1" />
-          <End Type="ModelLibInventario.productos_movimientos" Role="productos_movimientos" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="usuarios">
-              <PropertyRef Name="auto" />
-            </Principal>
-            <Dependent Role="productos_movimientos">
-              <PropertyRef Name="auto_usuario" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="productos_movimientos_transito_detalle_ibfk_1">
-          <End Type="ModelLibInventario.productos_movimientos_transito" Role="productos_movimientos_transito" Multiplicity="1" />
-          <End Type="ModelLibInventario.productos_movimientos_transito_detalle" Role="productos_movimientos_transito_detalle" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="productos_movimientos_transito">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="productos_movimientos_transito_detalle">
-              <PropertyRef Name="idTransito" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="productos_proveedor_ibfk_2">
-          <End Type="ModelLibInventario.proveedores" Role="proveedores" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="ModelLibInventario.productos_proveedor" Role="productos_proveedor" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="proveedores">
-              <PropertyRef Name="auto" />
-            </Principal>
-            <Dependent Role="productos_proveedor">
-              <PropertyRef Name="auto_proveedor" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="productos_conceptos">
-          <Key>
-            <PropertyRef Name="auto" />
-          </Key>
-          <Property Name="auto" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="codigo" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
-          <Property Name="nombre" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="productos_kardex" Relationship="ModelLibInventario.productos_kardex_ibfk_3" FromRole="productos_conceptos" ToRole="productos_kardex" />
-          <NavigationProperty Name="productos_movimientos" Relationship="ModelLibInventario.productos_movimientos_ibfk_1" FromRole="productos_conceptos" ToRole="productos_movimientos" />
-        </EntityType>
-        <Association Name="productos_kardex_ibfk_3">
-          <End Type="ModelLibInventario.productos_conceptos" Role="productos_conceptos" Multiplicity="1" />
-          <End Type="ModelLibInventario.productos_kardex" Role="productos_kardex" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="productos_conceptos">
-              <PropertyRef Name="auto" />
-            </Principal>
-            <Dependent Role="productos_kardex">
-              <PropertyRef Name="auto_concepto" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="productos_movimientos_ibfk_1">
-          <End Type="ModelLibInventario.productos_conceptos" Role="productos_conceptos" Multiplicity="1" />
-          <End Type="ModelLibInventario.productos_movimientos" Role="productos_movimientos" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="productos_conceptos">
-              <PropertyRef Name="auto" />
-            </Principal>
-            <Dependent Role="productos_movimientos">
-              <PropertyRef Name="auto_concepto" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="productos_ext">
-          <Key>
-            <PropertyRef Name="auto_producto" />
-          </Key>
-          <Property Name="auto_producto" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="auto_precio_may_1" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="auto_precio_may_2" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="auto_precio_may_3" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="contenido_may_1" Type="Int32" Nullable="false" />
-          <Property Name="contenido_may_2" Type="Int32" Nullable="false" />
-          <Property Name="contenido_may_3" Type="Int32" Nullable="false" />
-          <Property Name="utilidad_may_1" Type="Decimal" Nullable="false" />
-          <Property Name="utilidad_may_2" Type="Decimal" Nullable="false" />
-          <Property Name="utilidad_may_3" Type="Decimal" Nullable="false" />
-          <Property Name="precio_may_1" Type="Decimal" Nullable="false" />
-          <Property Name="precio_may_2" Type="Decimal" Nullable="false" />
-          <Property Name="precio_may_3" Type="Decimal" Nullable="false" />
-          <Property Name="pdmf_1" Type="Decimal" Nullable="false" />
-          <Property Name="pdmf_2" Type="Decimal" Nullable="false" />
-          <Property Name="pdmf_3" Type="Decimal" Nullable="false" />
-          <Property Name="auto_precio_may_4" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="cont_may_4" Type="Int32" />
-          <Property Name="utilidad_may_4" Type="Decimal" />
-          <Property Name="precio_may_4" Type="Decimal" />
-          <Property Name="pdmf_4" Type="Decimal" />
-          <Property Name="auto_emp_inv_1" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="cont_emp_inv_1" Type="Int32" Nullable="false" />
-          <Property Name="auto_precio_dsp_1" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="cont_dsp_1" Type="Int32" Nullable="false" />
-          <Property Name="utilidad_dsp_1" Type="Decimal" Nullable="false" />
-          <Property Name="precio_dsp_1" Type="Decimal" Nullable="false" />
-          <Property Name="pdivisafull_dsp_1" Type="Decimal" Nullable="false" />
-          <Property Name="auto_precio_dsp_2" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="cont_dsp_2" Type="Int32" Nullable="false" />
-          <Property Name="utilidad_dsp_2" Type="Decimal" Nullable="false" />
-          <Property Name="precio_dsp_2" Type="Decimal" Nullable="false" />
-          <Property Name="pdivisafull_dsp_2" Type="Decimal" Nullable="false" />
-          <Property Name="auto_precio_dsp_3" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="cont_dsp_3" Type="Int32" Nullable="false" />
-          <Property Name="utilidad_dsp_3" Type="Decimal" Nullable="false" />
-          <Property Name="precio_dsp_3" Type="Decimal" Nullable="false" />
-          <Property Name="pdivisafull_dsp_3" Type="Decimal" Nullable="false" />
-          <Property Name="auto_precio_dsp_4" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="cont_dsp_4" Type="Int32" Nullable="false" />
-          <Property Name="utilidad_dsp_4" Type="Decimal" Nullable="false" />
-          <Property Name="precio_dsp_4" Type="Decimal" Nullable="false" />
-          <Property Name="pdivisafull_dsp_4" Type="Decimal" Nullable="false" />
-          <NavigationProperty Name="productos" Relationship="ModelLibInventario.productos_ext_ibfk_1" FromRole="productos_ext" ToRole="productos" />
-          <NavigationProperty Name="productos_medida" Relationship="ModelLibInventario.productos_ext_ibfk_10" FromRole="productos_ext" ToRole="productos_medida" />
-          <NavigationProperty Name="productos_medida1" Relationship="ModelLibInventario.productos_ext_ibfk_2" FromRole="productos_ext" ToRole="productos_medida" />
-          <NavigationProperty Name="productos_medida2" Relationship="ModelLibInventario.productos_ext_ibfk_3" FromRole="productos_ext" ToRole="productos_medida" />
-          <NavigationProperty Name="productos_medida3" Relationship="ModelLibInventario.productos_ext_ibfk_4" FromRole="productos_ext" ToRole="productos_medida" />
-          <NavigationProperty Name="productos_medida4" Relationship="ModelLibInventario.productos_ext_ibfk_5" FromRole="productos_ext" ToRole="productos_medida" />
-          <NavigationProperty Name="productos_medida5" Relationship="ModelLibInventario.productos_ext_ibfk_6" FromRole="productos_ext" ToRole="productos_medida" />
-          <NavigationProperty Name="productos_medida6" Relationship="ModelLibInventario.productos_ext_ibfk_7" FromRole="productos_ext" ToRole="productos_medida" />
-          <NavigationProperty Name="productos_medida7" Relationship="ModelLibInventario.productos_ext_ibfk_8" FromRole="productos_ext" ToRole="productos_medida" />
-          <NavigationProperty Name="productos_medida8" Relationship="ModelLibInventario.productos_ext_ibfk_9" FromRole="productos_ext" ToRole="productos_medida" />
-        </EntityType>
-        <Association Name="productos_ext_ibfk_1">
-          <End Type="ModelLibInventario.productos" Role="productos" Multiplicity="1" />
-          <End Type="ModelLibInventario.productos_ext" Role="productos_ext" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="productos">
-              <PropertyRef Name="auto" />
-            </Principal>
-            <Dependent Role="productos_ext">
-              <PropertyRef Name="auto_producto" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="productos_ext_ibfk_10">
-          <End Type="ModelLibInventario.productos_medida" Role="productos_medida" Multiplicity="1" />
-          <End Type="ModelLibInventario.productos_ext" Role="productos_ext" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="productos_medida">
-              <PropertyRef Name="auto" />
-            </Principal>
-            <Dependent Role="productos_ext">
-              <PropertyRef Name="auto_precio_dsp_4" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="productos_ext_ibfk_2">
-          <End Type="ModelLibInventario.productos_medida" Role="productos_medida" Multiplicity="1" />
-          <End Type="ModelLibInventario.productos_ext" Role="productos_ext" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="productos_medida">
-              <PropertyRef Name="auto" />
-            </Principal>
-            <Dependent Role="productos_ext">
-              <PropertyRef Name="auto_precio_may_1" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="productos_ext_ibfk_3">
-          <End Type="ModelLibInventario.productos_medida" Role="productos_medida" Multiplicity="1" />
-          <End Type="ModelLibInventario.productos_ext" Role="productos_ext" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="productos_medida">
-              <PropertyRef Name="auto" />
-            </Principal>
-            <Dependent Role="productos_ext">
-              <PropertyRef Name="auto_precio_may_2" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="productos_ext_ibfk_4">
-          <End Type="ModelLibInventario.productos_medida" Role="productos_medida" Multiplicity="1" />
-          <End Type="ModelLibInventario.productos_ext" Role="productos_ext" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="productos_medida">
-              <PropertyRef Name="auto" />
-            </Principal>
-            <Dependent Role="productos_ext">
-              <PropertyRef Name="auto_precio_may_3" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="productos_ext_ibfk_5">
-          <End Type="ModelLibInventario.productos_medida" Role="productos_medida" Multiplicity="0..1" />
-          <End Type="ModelLibInventario.productos_ext" Role="productos_ext" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="productos_medida">
-              <PropertyRef Name="auto" />
-            </Principal>
-            <Dependent Role="productos_ext">
-              <PropertyRef Name="auto_precio_may_4" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="productos_ext_ibfk_6">
-          <End Type="ModelLibInventario.productos_medida" Role="productos_medida" Multiplicity="1" />
-          <End Type="ModelLibInventario.productos_ext" Role="productos_ext" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="productos_medida">
-              <PropertyRef Name="auto" />
-            </Principal>
-            <Dependent Role="productos_ext">
-              <PropertyRef Name="auto_emp_inv_1" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="productos_ext_ibfk_7">
-          <End Type="ModelLibInventario.productos_medida" Role="productos_medida" Multiplicity="1" />
-          <End Type="ModelLibInventario.productos_ext" Role="productos_ext" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="productos_medida">
-              <PropertyRef Name="auto" />
-            </Principal>
-            <Dependent Role="productos_ext">
-              <PropertyRef Name="auto_precio_dsp_1" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="productos_ext_ibfk_8">
-          <End Type="ModelLibInventario.productos_medida" Role="productos_medida" Multiplicity="1" />
-          <End Type="ModelLibInventario.productos_ext" Role="productos_ext" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="productos_medida">
-              <PropertyRef Name="auto" />
-            </Principal>
-            <Dependent Role="productos_ext">
-              <PropertyRef Name="auto_precio_dsp_2" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="productos_ext_ibfk_9">
-          <End Type="ModelLibInventario.productos_medida" Role="productos_medida" Multiplicity="1" />
-          <End Type="ModelLibInventario.productos_ext" Role="productos_ext" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="productos_medida">
-              <PropertyRef Name="auto" />
-            </Principal>
-            <Dependent Role="productos_ext">
-              <PropertyRef Name="auto_precio_dsp_3" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="ModelLibInventarioStoreContainer" CdmEntityContainer="invEntities">
-          <EntitySetMapping Name="productos">
-            <EntityTypeMapping TypeName="ModelLibInventario.productos">
-              <MappingFragment StoreEntitySet="productos">
-                <ScalarProperty Name="auto" ColumnName="auto" />
-                <ScalarProperty Name="codigo" ColumnName="codigo" />
-                <ScalarProperty Name="nombre" ColumnName="nombre" />
-                <ScalarProperty Name="nombre_corto" ColumnName="nombre_corto" />
-                <ScalarProperty Name="auto_departamento" ColumnName="auto_departamento" />
-                <ScalarProperty Name="auto_grupo" ColumnName="auto_grupo" />
-                <ScalarProperty Name="auto_subgrupo" ColumnName="auto_subgrupo" />
-                <ScalarProperty Name="auto_tasa" ColumnName="auto_tasa" />
-                <ScalarProperty Name="auto_empaque_compra" ColumnName="auto_empaque_compra" />
-                <ScalarProperty Name="costo_proveedor" ColumnName="costo_proveedor" />
-                <ScalarProperty Name="costo_proveedor_und" ColumnName="costo_proveedor_und" />
-                <ScalarProperty Name="costo_importacion" ColumnName="costo_importacion" />
-                <ScalarProperty Name="costo_importacion_und" ColumnName="costo_importacion_und" />
-                <ScalarProperty Name="costo_varios" ColumnName="costo_varios" />
-                <ScalarProperty Name="costo_varios_und" ColumnName="costo_varios_und" />
-                <ScalarProperty Name="costo" ColumnName="costo" />
-                <ScalarProperty Name="costo_und" ColumnName="costo_und" />
-                <ScalarProperty Name="costo_promedio" ColumnName="costo_promedio" />
-                <ScalarProperty Name="costo_promedio_und" ColumnName="costo_promedio_und" />
-                <ScalarProperty Name="utilidad_1" ColumnName="utilidad_1" />
-                <ScalarProperty Name="utilidad_2" ColumnName="utilidad_2" />
-                <ScalarProperty Name="utilidad_3" ColumnName="utilidad_3" />
-                <ScalarProperty Name="utilidad_4" ColumnName="utilidad_4" />
-                <ScalarProperty Name="utilidad_pto" ColumnName="utilidad_pto" />
-                <ScalarProperty Name="precio_1" ColumnName="precio_1" />
-                <ScalarProperty Name="precio_2" ColumnName="precio_2" />
-                <ScalarProperty Name="precio_3" ColumnName="precio_3" />
-                <ScalarProperty Name="precio_4" ColumnName="precio_4" />
-                <ScalarProperty Name="precio_pto" ColumnName="precio_pto" />
-                <ScalarProperty Name="estatus_garantia" ColumnName="estatus_garantia" />
-                <ScalarProperty Name="dias_garantia" ColumnName="dias_garantia" />
-                <ScalarProperty Name="modelo" ColumnName="modelo" />
-                <ScalarProperty Name="precio_sugerido" ColumnName="precio_sugerido" />
-                <ScalarProperty Name="comentarios" ColumnName="comentarios" />
-                <ScalarProperty Name="referencia" ColumnName="referencia" />
-                <ScalarProperty Name="contenido_compras" ColumnName="contenido_compras" />
-                <ScalarProperty Name="estatus" ColumnName="estatus" />
-                <ScalarProperty Name="advertencia" ColumnName="advertencia" />
-                <ScalarProperty Name="fecha_alta" ColumnName="fecha_alta" />
-                <ScalarProperty Name="fecha_baja" ColumnName="fecha_baja" />
-                <ScalarProperty Name="auto_codigo_plan" ColumnName="auto_codigo_plan" />
-                <ScalarProperty Name="categoria" ColumnName="categoria" />
-                <ScalarProperty Name="origen" ColumnName="origen" />
-                <ScalarProperty Name="alto" ColumnName="alto" />
-                <ScalarProperty Name="largo" ColumnName="largo" />
-                <ScalarProperty Name="ancho" ColumnName="ancho" />
-                <ScalarProperty Name="peso" ColumnName="peso" />
-                <ScalarProperty Name="codigo_arancel" ColumnName="codigo_arancel" />
-                <ScalarProperty Name="tasa_arancel" ColumnName="tasa_arancel" />
-                <ScalarProperty Name="auto_marca" ColumnName="auto_marca" />
-                <ScalarProperty Name="estatus_serial" ColumnName="estatus_serial" />
-                <ScalarProperty Name="estatus_oferta" ColumnName="estatus_oferta" />
-                <ScalarProperty Name="inicio" ColumnName="inicio" />
-                <ScalarProperty Name="fin" ColumnName="fin" />
-                <ScalarProperty Name="precio_oferta" ColumnName="precio_oferta" />
-                <ScalarProperty Name="estatus_web" ColumnName="estatus_web" />
-                <ScalarProperty Name="estatus_corte" ColumnName="estatus_corte" />
-                <ScalarProperty Name="tasa" ColumnName="tasa" />
-                <ScalarProperty Name="auto_precio_1" ColumnName="auto_precio_1" />
-                <ScalarProperty Name="auto_precio_2" ColumnName="auto_precio_2" />
-                <ScalarProperty Name="auto_precio_3" ColumnName="auto_precio_3" />
-                <ScalarProperty Name="auto_precio_4" ColumnName="auto_precio_4" />
-                <ScalarProperty Name="auto_precio_pto" ColumnName="auto_precio_pto" />
-                <ScalarProperty Name="memo" ColumnName="memo" />
-                <ScalarProperty Name="contenido_1" ColumnName="contenido_1" />
-                <ScalarProperty Name="contenido_2" ColumnName="contenido_2" />
-                <ScalarProperty Name="contenido_3" ColumnName="contenido_3" />
-                <ScalarProperty Name="contenido_4" ColumnName="contenido_4" />
-                <ScalarProperty Name="contenido_pto" ColumnName="contenido_pto" />
-                <ScalarProperty Name="corte" ColumnName="corte" />
-                <ScalarProperty Name="estatus_pesado" ColumnName="estatus_pesado" />
-                <ScalarProperty Name="plu" ColumnName="plu" />
-                <ScalarProperty Name="estatus_compuesto" ColumnName="estatus_compuesto" />
-                <ScalarProperty Name="estatus_catalogo" ColumnName="estatus_catalogo" />
-                <ScalarProperty Name="estatus_cambio" ColumnName="estatus_cambio" />
-                <ScalarProperty Name="fecha_movimiento" ColumnName="fecha_movimiento" />
-                <ScalarProperty Name="fecha_cambio" ColumnName="fecha_cambio" />
-                <ScalarProperty Name="fecha_ult_venta" ColumnName="fecha_ult_venta" />
-                <ScalarProperty Name="presentacion" ColumnName="presentacion" />
-                <ScalarProperty Name="lugar" ColumnName="lugar" />
-                <ScalarProperty Name="fecha_ult_costo" ColumnName="fecha_ult_costo" />
-                <ScalarProperty Name="estatus_lote" ColumnName="estatus_lote" />
-                <ScalarProperty Name="fecha_lote" ColumnName="fecha_lote" />
-                <ScalarProperty Name="abc" ColumnName="abc" />
-                <ScalarProperty Name="divisa" ColumnName="divisa" />
-                <ScalarProperty Name="estatus_divisa" ColumnName="estatus_divisa" />
-                <ScalarProperty Name="pdf_1" ColumnName="pdf_1" />
-                <ScalarProperty Name="pdf_2" ColumnName="pdf_2" />
-                <ScalarProperty Name="pdf_3" ColumnName="pdf_3" />
-                <ScalarProperty Name="pdf_4" ColumnName="pdf_4" />
-                <ScalarProperty Name="pdf_pto" ColumnName="pdf_pto" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="empresa">
             <EntityTypeMapping TypeName="ModelLibInventario.empresa">
               <MappingFragment StoreEntitySet="empresa">
@@ -3596,6 +3564,16 @@ FROM `productos_movimientos_detalle` AS `productos_movimientos_detalle`</Definin
           <EntitySetMapping Name="cxc_medio_pago">
             <EntityTypeMapping TypeName="ModelLibInventario.cxc_medio_pago">
               <MappingFragment StoreEntitySet="cxc_medio_pago">
+                <ScalarProperty Name="codigo_sucursal" ColumnName="codigo_sucursal" />
+                <ScalarProperty Name="estatus_doc_cxc" ColumnName="estatus_doc_cxc" />
+                <ScalarProperty Name="opAplicaConversion" ColumnName="opAplicaConversion" />
+                <ScalarProperty Name="opTasa" ColumnName="opTasa" />
+                <ScalarProperty Name="opMonto" ColumnName="opMonto" />
+                <ScalarProperty Name="opDetalle" ColumnName="opDetalle" />
+                <ScalarProperty Name="opFecha" ColumnName="opFecha" />
+                <ScalarProperty Name="opNroRef" ColumnName="opNroRef" />
+                <ScalarProperty Name="opNroCta" ColumnName="opNroCta" />
+                <ScalarProperty Name="opBanco" ColumnName="opBanco" />
                 <ScalarProperty Name="cierre_ftp" ColumnName="cierre_ftp" />
                 <ScalarProperty Name="fecha_agencia" ColumnName="fecha_agencia" />
                 <ScalarProperty Name="cierre" ColumnName="cierre" />
@@ -3619,6 +3597,9 @@ FROM `productos_movimientos_detalle` AS `productos_movimientos_detalle`</Definin
           <EntitySetMapping Name="pos_arqueo">
             <EntityTypeMapping TypeName="ModelLibInventario.pos_arqueo">
               <MappingFragment StoreEntitySet="pos_arqueo">
+                <ScalarProperty Name="cierre_numero" ColumnName="cierre_numero" />
+                <ScalarProperty Name="id_equipo" ColumnName="id_equipo" />
+                <ScalarProperty Name="codigo_sucursal" ColumnName="codigo_sucursal" />
                 <ScalarProperty Name="montoNcr" ColumnName="montoNcr" />
                 <ScalarProperty Name="montoFac" ColumnName="montoFac" />
                 <ScalarProperty Name="cntDocNcr" ColumnName="cntDocNcr" />
@@ -3783,6 +3764,104 @@ FROM `productos_movimientos_detalle` AS `productos_movimientos_detalle`</Definin
                 <ScalarProperty Name="auto_precio_may_2" ColumnName="auto_precio_may_2" />
                 <ScalarProperty Name="auto_precio_may_1" ColumnName="auto_precio_may_1" />
                 <ScalarProperty Name="auto_producto" ColumnName="auto_producto" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="productos">
+            <EntityTypeMapping TypeName="ModelLibInventario.productos">
+              <MappingFragment StoreEntitySet="productos">
+                <ScalarProperty Name="volumen" ColumnName="volumen" />
+                <ScalarProperty Name="pdf_pto" ColumnName="pdf_pto" />
+                <ScalarProperty Name="pdf_4" ColumnName="pdf_4" />
+                <ScalarProperty Name="pdf_3" ColumnName="pdf_3" />
+                <ScalarProperty Name="pdf_2" ColumnName="pdf_2" />
+                <ScalarProperty Name="pdf_1" ColumnName="pdf_1" />
+                <ScalarProperty Name="estatus_divisa" ColumnName="estatus_divisa" />
+                <ScalarProperty Name="divisa" ColumnName="divisa" />
+                <ScalarProperty Name="abc" ColumnName="abc" />
+                <ScalarProperty Name="fecha_lote" ColumnName="fecha_lote" />
+                <ScalarProperty Name="estatus_lote" ColumnName="estatus_lote" />
+                <ScalarProperty Name="fecha_ult_costo" ColumnName="fecha_ult_costo" />
+                <ScalarProperty Name="lugar" ColumnName="lugar" />
+                <ScalarProperty Name="presentacion" ColumnName="presentacion" />
+                <ScalarProperty Name="fecha_ult_venta" ColumnName="fecha_ult_venta" />
+                <ScalarProperty Name="fecha_cambio" ColumnName="fecha_cambio" />
+                <ScalarProperty Name="fecha_movimiento" ColumnName="fecha_movimiento" />
+                <ScalarProperty Name="estatus_cambio" ColumnName="estatus_cambio" />
+                <ScalarProperty Name="estatus_catalogo" ColumnName="estatus_catalogo" />
+                <ScalarProperty Name="estatus_compuesto" ColumnName="estatus_compuesto" />
+                <ScalarProperty Name="plu" ColumnName="plu" />
+                <ScalarProperty Name="estatus_pesado" ColumnName="estatus_pesado" />
+                <ScalarProperty Name="corte" ColumnName="corte" />
+                <ScalarProperty Name="contenido_pto" ColumnName="contenido_pto" />
+                <ScalarProperty Name="contenido_4" ColumnName="contenido_4" />
+                <ScalarProperty Name="contenido_3" ColumnName="contenido_3" />
+                <ScalarProperty Name="contenido_2" ColumnName="contenido_2" />
+                <ScalarProperty Name="contenido_1" ColumnName="contenido_1" />
+                <ScalarProperty Name="memo" ColumnName="memo" />
+                <ScalarProperty Name="auto_precio_pto" ColumnName="auto_precio_pto" />
+                <ScalarProperty Name="auto_precio_4" ColumnName="auto_precio_4" />
+                <ScalarProperty Name="auto_precio_3" ColumnName="auto_precio_3" />
+                <ScalarProperty Name="auto_precio_2" ColumnName="auto_precio_2" />
+                <ScalarProperty Name="auto_precio_1" ColumnName="auto_precio_1" />
+                <ScalarProperty Name="tasa" ColumnName="tasa" />
+                <ScalarProperty Name="estatus_corte" ColumnName="estatus_corte" />
+                <ScalarProperty Name="estatus_web" ColumnName="estatus_web" />
+                <ScalarProperty Name="precio_oferta" ColumnName="precio_oferta" />
+                <ScalarProperty Name="fin" ColumnName="fin" />
+                <ScalarProperty Name="inicio" ColumnName="inicio" />
+                <ScalarProperty Name="estatus_oferta" ColumnName="estatus_oferta" />
+                <ScalarProperty Name="estatus_serial" ColumnName="estatus_serial" />
+                <ScalarProperty Name="auto_marca" ColumnName="auto_marca" />
+                <ScalarProperty Name="tasa_arancel" ColumnName="tasa_arancel" />
+                <ScalarProperty Name="codigo_arancel" ColumnName="codigo_arancel" />
+                <ScalarProperty Name="peso" ColumnName="peso" />
+                <ScalarProperty Name="ancho" ColumnName="ancho" />
+                <ScalarProperty Name="largo" ColumnName="largo" />
+                <ScalarProperty Name="alto" ColumnName="alto" />
+                <ScalarProperty Name="origen" ColumnName="origen" />
+                <ScalarProperty Name="categoria" ColumnName="categoria" />
+                <ScalarProperty Name="auto_codigo_plan" ColumnName="auto_codigo_plan" />
+                <ScalarProperty Name="fecha_baja" ColumnName="fecha_baja" />
+                <ScalarProperty Name="fecha_alta" ColumnName="fecha_alta" />
+                <ScalarProperty Name="advertencia" ColumnName="advertencia" />
+                <ScalarProperty Name="estatus" ColumnName="estatus" />
+                <ScalarProperty Name="contenido_compras" ColumnName="contenido_compras" />
+                <ScalarProperty Name="referencia" ColumnName="referencia" />
+                <ScalarProperty Name="comentarios" ColumnName="comentarios" />
+                <ScalarProperty Name="precio_sugerido" ColumnName="precio_sugerido" />
+                <ScalarProperty Name="modelo" ColumnName="modelo" />
+                <ScalarProperty Name="dias_garantia" ColumnName="dias_garantia" />
+                <ScalarProperty Name="estatus_garantia" ColumnName="estatus_garantia" />
+                <ScalarProperty Name="precio_pto" ColumnName="precio_pto" />
+                <ScalarProperty Name="precio_4" ColumnName="precio_4" />
+                <ScalarProperty Name="precio_3" ColumnName="precio_3" />
+                <ScalarProperty Name="precio_2" ColumnName="precio_2" />
+                <ScalarProperty Name="precio_1" ColumnName="precio_1" />
+                <ScalarProperty Name="utilidad_pto" ColumnName="utilidad_pto" />
+                <ScalarProperty Name="utilidad_4" ColumnName="utilidad_4" />
+                <ScalarProperty Name="utilidad_3" ColumnName="utilidad_3" />
+                <ScalarProperty Name="utilidad_2" ColumnName="utilidad_2" />
+                <ScalarProperty Name="utilidad_1" ColumnName="utilidad_1" />
+                <ScalarProperty Name="costo_promedio_und" ColumnName="costo_promedio_und" />
+                <ScalarProperty Name="costo_promedio" ColumnName="costo_promedio" />
+                <ScalarProperty Name="costo_und" ColumnName="costo_und" />
+                <ScalarProperty Name="costo" ColumnName="costo" />
+                <ScalarProperty Name="costo_varios_und" ColumnName="costo_varios_und" />
+                <ScalarProperty Name="costo_varios" ColumnName="costo_varios" />
+                <ScalarProperty Name="costo_importacion_und" ColumnName="costo_importacion_und" />
+                <ScalarProperty Name="costo_importacion" ColumnName="costo_importacion" />
+                <ScalarProperty Name="costo_proveedor_und" ColumnName="costo_proveedor_und" />
+                <ScalarProperty Name="costo_proveedor" ColumnName="costo_proveedor" />
+                <ScalarProperty Name="auto_empaque_compra" ColumnName="auto_empaque_compra" />
+                <ScalarProperty Name="auto_tasa" ColumnName="auto_tasa" />
+                <ScalarProperty Name="auto_subgrupo" ColumnName="auto_subgrupo" />
+                <ScalarProperty Name="auto_grupo" ColumnName="auto_grupo" />
+                <ScalarProperty Name="auto_departamento" ColumnName="auto_departamento" />
+                <ScalarProperty Name="nombre_corto" ColumnName="nombre_corto" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="codigo" ColumnName="codigo" />
+                <ScalarProperty Name="auto" ColumnName="auto" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

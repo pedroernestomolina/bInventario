@@ -1116,6 +1116,8 @@ namespace ProvLibInventario
                         activarCatalogo = _catalogo,
                         autoEmpInv= entPrdExt.auto_emp_inv_1,
                         contEmpInv = entPrdExt.cont_emp_inv_1,
+                        peso=entPrd.peso,
+                        volumen=entPrd.volumen,
                     };
                     var listPrdAlt = new List<DtoLibInventario.Producto.Editar.Obtener.FichaAlterno>();
                     foreach (var rg in entPrdAlterno)
@@ -1179,6 +1181,8 @@ namespace ProvLibInventario
                         entPrd.plu = ficha.plu;
                         entPrd.dias_garantia = ficha.diasEmpaque;
                         entPrd.estatus_catalogo = ficha.estatusCatalogo;
+                        entPrd.peso = ficha.peso;
+                        entPrd.volumen = ficha.volumen;
                         //if (ficha.precio_1 != null)
                         //{
                         //    entPrd.precio_1 = ficha.precio_1.neto;
@@ -1441,6 +1445,9 @@ namespace ProvLibInventario
                         entPrd.pdf_3 = 0.0m;
                         entPrd.pdf_4 = 0.0m;
                         entPrd.pdf_pto = 0.0m;
+                        //
+                        entPrd.peso= ficha.peso;
+                        entPrd.volumen = ficha.volumen;
                         cnn.productos.Add(entPrd);
                         cnn.SaveChanges();
 
@@ -2458,8 +2465,12 @@ namespace ProvLibInventario
                         {
                             listDep += ", ";
                         }
-                        listDep += "'"+rg.auto+"'";
+                        listDep += "'" + rg.auto + "'";
                     }
+                }
+                else 
+                {
+                    listDep = "''";
                 }
                 using (var cnn = new invEntities(_cnInv.ConnectionString))
                 {

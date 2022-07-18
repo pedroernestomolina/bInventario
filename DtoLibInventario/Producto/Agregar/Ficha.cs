@@ -36,6 +36,9 @@ namespace DtoLibInventario.Producto.Agregar
         public int diasEmpaque { get; set; }
         public string estatusCatalogo { get; set; }
         public List<FichaCodAlterno> codigosAlterno { get; set; }
+        //
+        public decimal peso { get; set; }
+        public decimal volumen { get; set; }
 
     }
 

@@ -13,7 +13,8 @@ namespace ProvLibInventario
     public partial class Provider : ILibInventario.IProvider
     {
 
-        public DtoLib.ResultadoEntidad<DtoLibInventario.Kardex.Movimiento.Resumen.Ficha> Producto_Kardex_Movimiento_Lista_Resumen(DtoLibInventario.Kardex.Movimiento.Resumen.Filtro filtro)
+        public DtoLib.ResultadoEntidad<DtoLibInventario.Kardex.Movimiento.Resumen.Ficha> 
+            Producto_Kardex_Movimiento_Lista_Resumen(DtoLibInventario.Kardex.Movimiento.Resumen.Filtro filtro)
         {
             var result = new DtoLib.ResultadoEntidad<DtoLibInventario.Kardex.Movimiento.Resumen.Ficha>();
 
@@ -21,12 +22,26 @@ namespace ProvLibInventario
             {
                 using (var cnn = new invEntities(_cnInv.ConnectionString))
                 {
-                    var cmd = "SELECT count(*) as cntMovimiento, modulo, auto_deposito as autoDeposito, auto_concepto as autoConcepto, " +
-                        "SUM(cantidad_und*signo) as cntInventario, nombre_deposito as nombreDeposito, codigo_deposito as codigoDeposito, " +
-                        "codigo_concepto as codigoConcepto, nombre_concepto as nombreConcepto, siglas " +
-                        "FROM `productos_kardex` as kardex " +
-                        "WHERE auto_producto=@autoPrd and estatus_anulado='0' and fecha>@desde " +
-                        "group by modulo,auto_deposito,auto_concepto,codigo_deposito,nombre_deposito,codigo_concepto,nombre_concepto,siglas";
+                    var cmd = @"SELECT count(*) as cntMovimiento, modulo, auto_deposito as autoDeposito, auto_concepto as autoConcepto, 
+                        SUM(cantidad_und*signo) as cntInventario, nombre_deposito as nombreDeposito, codigo_deposito as codigoDeposito, 
+                        codigo_concepto as codigoConcepto, nombre_concepto as nombreConcepto, siglas 
+                        FROM `productos_kardex` as kardex 
+                        WHERE auto_producto=@autoPrd and estatus_anulado='0' and fecha>@desde 
+                        group by modulo,auto_deposito,auto_concepto,codigo_deposito,nombre_deposito,codigo_concepto,nombre_concepto,siglas";
+
+                    var autoDeposito = new MySql.Data.MySqlClient.MySqlParameter();
+                    var cmd_1 = @"SELECT count(*) as cntMovimiento, modulo, auto_deposito as autoDeposito, auto_concepto as autoConcepto, 
+                        SUM(cantidad_und*signo) as cntInventario, nombre_deposito as nombreDeposito, codigo_deposito as codigoDeposito, 
+                        codigo_concepto as codigoConcepto, nombre_concepto as nombreConcepto, siglas 
+                        FROM `productos_kardex` as kardex ";
+                    var cmd_2=" WHERE auto_producto=@autoPrd and estatus_anulado='0' and fecha>@desde ";
+                    var cmd_3= " group by modulo,auto_deposito,auto_concepto,codigo_deposito,nombre_deposito,codigo_concepto,nombre_concepto,siglas ";
+                    if (filtro.autoDeposito != "")
+                    {
+                        autoDeposito.ParameterName= "@autoDeposito";
+                        autoDeposito.Value= filtro.autoDeposito;
+                        cmd_2 += " and auto_deposito=@autoDeposito ";
+                    }
 
                     var fechaServidor = cnn.Database.SqlQuery<DateTime>("select now()").FirstOrDefault();
                     DateTime? desde = fechaServidor.Date;
@@ -76,21 +91,53 @@ namespace ProvLibInventario
                     }
                     
                     var _empaqueCompra="";
-                    var _existencia=0.0m;
-                    var entPrdEx= cnn.productos_deposito.Where(w=>w.auto_producto==filtro.autoProducto).ToList();
+                    //var _existencia=0.0m;
+                    //var entPrdEx= cnn.productos_deposito.Where(w=>w.auto_producto==filtro.autoProducto).ToList();
                     var entPrdEmp=cnn.productos_medida.Find(entPrd.auto_empaque_compra);
-                    if (entPrdEx.Count>0){_existencia=entPrdEx.Sum(s=>s.fisica);}
+                    //if (entPrdEx.Count>0){_existencia=entPrdEx.Sum(s=>s.fisica);}
                     if (entPrdEmp!=null){_empaqueCompra=entPrdEmp.nombre;}
+
 
                     var p1 = new MySql.Data.MySqlClient.MySqlParameter("@autoPrd", filtro.autoProducto);
                     var p2 = new MySql.Data.MySqlClient.MySqlParameter("@desde", desde);
-                    var lst= cnn.Database.SqlQuery<DtoLibInventario.Kardex.Movimiento.Resumen.Data>(cmd, p1, p2).ToList();
+                    cmd = cmd_1 + cmd_2 + cmd_3;
+                    var lst= cnn.Database.SqlQuery<DtoLibInventario.Kardex.Movimiento.Resumen.Data>(cmd, p1, p2, autoDeposito).ToList();
+
+
+                    var _existencia = 0m;
+                    cmd_1 = "SELECT sum(fisica) as cnt from productos_deposito ";
+                    cmd_2 = " where auto_producto=@autoPrd ";
+                    if (filtro.autoDeposito != "")
+                    {
+                        autoDeposito.ParameterName = "@autoDeposito";
+                        autoDeposito.Value = filtro.autoDeposito;
+                        cmd_2 += " and auto_deposito=@autoDeposito ";
+                    }
+                    cmd = cmd_1 + cmd_2;
+                    var objEx = cnn.Database.SqlQuery<decimal?>(cmd, p1, autoDeposito).FirstOrDefault();
+                    if (objEx !=null)
+                    {
+                        _existencia = objEx.Value;
+                    }
+
 
                     var ex = 0.0m;
-                    cmd = "select sum(cantidad_und*signo) as cnt from productos_kardex where auto_producto=@autoPrd " +
-                        "and estatus_anulado='0' and fecha<=@desde";
-                    var objEx = cnn.Database.SqlQuery<decimal?>(cmd, p1, p2).FirstOrDefault();
-                    if (objEx != null) { ex = objEx.Value; }
+                    cmd_1 = @"select sum(cantidad_und*signo) as cnt from productos_kardex";
+                    cmd_2 = @" where auto_producto=@autoPrd 
+                                    and estatus_anulado='0' and fecha<=@desde";
+                    if (filtro.autoDeposito != "")
+                    {
+                        autoDeposito.ParameterName = "@autoDeposito";
+                        autoDeposito.Value = filtro.autoDeposito;
+                        cmd_2 += " and auto_deposito=@autoDeposito ";
+                    }
+                    cmd = cmd_1 + cmd_2;
+                    objEx = cnn.Database.SqlQuery<decimal?>(cmd, p1, p2, autoDeposito).FirstOrDefault();
+                    if (objEx != null) 
+                    {
+                        ex = objEx.Value;
+                    }
+
 
                     var rt = new DtoLibInventario.Kardex.Movimiento.Resumen.Ficha()
                     {
@@ -118,7 +165,8 @@ namespace ProvLibInventario
             return result;
         }
 
-        public DtoLib.ResultadoEntidad<DtoLibInventario.Kardex.Movimiento.Detalle.Ficha> Producto_Kardex_Movimiento_Lista_Detalle(DtoLibInventario.Kardex.Movimiento.Detalle.Filtro filtro)
+        public DtoLib.ResultadoEntidad<DtoLibInventario.Kardex.Movimiento.Detalle.Ficha> 
+            Producto_Kardex_Movimiento_Lista_Detalle(DtoLibInventario.Kardex.Movimiento.Detalle.Filtro filtro)
         {
             var result = new DtoLib.ResultadoEntidad<DtoLibInventario.Kardex.Movimiento.Detalle.Ficha>();
 

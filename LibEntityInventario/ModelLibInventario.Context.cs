@@ -25,7 +25,6 @@ namespace LibEntityInventario
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<productos> productos { get; set; }
         public virtual DbSet<empresa> empresa { get; set; }
         public virtual DbSet<empresa_departamentos> empresa_departamentos { get; set; }
         public virtual DbSet<empresa_depositos> empresa_depositos { get; set; }
@@ -56,5 +55,6 @@ namespace LibEntityInventario
         public virtual DbSet<productos_movimientos_detalle> productos_movimientos_detalle { get; set; }
         public virtual DbSet<productos_conceptos> productos_conceptos { get; set; }
         public virtual DbSet<productos_ext> productos_ext { get; set; }
+        public virtual DbSet<productos> productos { get; set; }
     }
 }

@@ -18,7 +18,7 @@ namespace LibEntityInventario
         public string auto_proveedor { get; set; }
         public string codigo_producto { get; set; }
     
-        public virtual productos productos { get; set; }
         public virtual proveedores proveedores { get; set; }
+        public virtual productos productos { get; set; }
     }
 }

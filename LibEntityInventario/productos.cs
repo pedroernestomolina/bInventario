@@ -117,6 +117,7 @@ namespace LibEntityInventario
         public decimal pdf_3 { get; set; }
         public decimal pdf_4 { get; set; }
         public decimal pdf_pto { get; set; }
+        public decimal volumen { get; set; }
     
         public virtual empresa_departamentos empresa_departamentos { get; set; }
         public virtual empresa_tasas empresa_tasas { get; set; }
@@ -126,6 +127,7 @@ namespace LibEntityInventario
         public virtual ICollection<productos_costos> productos_costos { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<productos_deposito> productos_deposito { get; set; }
+        public virtual productos_ext productos_ext { get; set; }
         public virtual productos_extra productos_extra { get; set; }
         public virtual productos_medida productos_medida { get; set; }
         public virtual productos_medida productos_medida1 { get; set; }
@@ -143,6 +145,5 @@ namespace LibEntityInventario
         public virtual ICollection<productos_precios> productos_precios { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<productos_proveedor> productos_proveedor { get; set; }
-        public virtual productos_ext productos_ext { get; set; }
     }
 }

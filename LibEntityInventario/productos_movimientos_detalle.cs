@@ -40,7 +40,7 @@ namespace LibEntityInventario
         public string auto_grupo { get; set; }
         public string cierre_ftp { get; set; }
     
-        public virtual productos productos { get; set; }
         public virtual productos_movimientos productos_movimientos { get; set; }
+        public virtual productos productos { get; set; }
     }
 }

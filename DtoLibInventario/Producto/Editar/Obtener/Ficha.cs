@@ -35,6 +35,8 @@ namespace DtoLibInventario.Producto.Editar.Obtener
         public List<FichaAlterno> CodigosAlterno { get; set; }
         public string autoEmpInv { get; set; }
         public int contEmpInv { get; set; }
+        public decimal peso { get; set; }
+        public decimal volumen { get; set; }
 
     }
 

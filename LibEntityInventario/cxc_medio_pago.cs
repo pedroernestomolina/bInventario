@@ -31,5 +31,15 @@ namespace LibEntityInventario
         public string cierre { get; set; }
         public System.DateTime fecha_agencia { get; set; }
         public string cierre_ftp { get; set; }
+        public string opBanco { get; set; }
+        public string opNroCta { get; set; }
+        public string opNroRef { get; set; }
+        public Nullable<System.DateTime> opFecha { get; set; }
+        public string opDetalle { get; set; }
+        public decimal opMonto { get; set; }
+        public decimal opTasa { get; set; }
+        public string opAplicaConversion { get; set; }
+        public string estatus_doc_cxc { get; set; }
+        public string codigo_sucursal { get; set; }
     }
 }

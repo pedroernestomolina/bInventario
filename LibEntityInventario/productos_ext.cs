@@ -58,7 +58,6 @@ namespace LibEntityInventario
         public decimal precio_dsp_4 { get; set; }
         public decimal pdivisafull_dsp_4 { get; set; }
     
-        public virtual productos productos { get; set; }
         public virtual productos_medida productos_medida { get; set; }
         public virtual productos_medida productos_medida1 { get; set; }
         public virtual productos_medida productos_medida2 { get; set; }
@@ -68,5 +67,6 @@ namespace LibEntityInventario
         public virtual productos_medida productos_medida6 { get; set; }
         public virtual productos_medida productos_medida7 { get; set; }
         public virtual productos_medida productos_medida8 { get; set; }
+        public virtual productos productos { get; set; }
     }
 }

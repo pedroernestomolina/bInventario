@@ -44,6 +44,11 @@ namespace DtoLibInventario.Producto.Editar.Actualizar
         public FichaPrecio precio_4 { get; set; }
         public FichaPrecio precio_5 { get; set; }
 
+
+        //
+        public decimal peso { get; set; }
+        public decimal volumen { get; set; }
+
     }
 
 }

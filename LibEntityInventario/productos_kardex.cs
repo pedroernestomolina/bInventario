@@ -42,7 +42,7 @@ namespace LibEntityInventario
         public string nombre_concepto { get; set; }
     
         public virtual empresa_depositos empresa_depositos { get; set; }
-        public virtual productos productos { get; set; }
         public virtual productos_conceptos productos_conceptos { get; set; }
+        public virtual productos productos { get; set; }
     }
 }
