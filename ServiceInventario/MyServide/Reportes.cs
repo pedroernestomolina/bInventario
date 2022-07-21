@@ -72,6 +72,11 @@ namespace ServiceInventario.MyService
         {
             return ServiceProv.Reportes_MaestroExistenciaInventario(filtro);
         }
+        public DtoLib.ResultadoEntidad<DtoLibInventario.Reportes.ResumenCostoInv.Ficha> 
+            Reportes_ResumenCostoInventario(DtoLibInventario.Reportes.ResumenCostoInv.Filtro filtro)
+        {
+            return ServiceProv.Reportes_ResumenCostoInventario(filtro);
+        }
 
     }
 

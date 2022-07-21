@@ -1078,6 +1078,167 @@ namespace ProvLibInventario
             return rt;
         }
 
+        public DtoLib.ResultadoEntidad<DtoLibInventario.Reportes.ResumenCostoInv.Ficha>
+            Reportes_ResumenCostoInventario(DtoLibInventario.Reportes.ResumenCostoInv.Filtro filtro)
+        {
+            var rt = new DtoLib.ResultadoEntidad<DtoLibInventario.Reportes.ResumenCostoInv.Ficha>();
+
+            try
+            {
+                using (var cnn = new invEntities(_cnInv.ConnectionString))
+                {
+                    var desde = new MySql.Data.MySqlClient.MySqlParameter("@desde", filtro.desde.Date);
+                    var hasta = new MySql.Data.MySqlClient.MySqlParameter("@hasta", filtro.hasta.Date);
+                    var idDeposito = new MySql.Data.MySqlClient.MySqlParameter("@idDeposito", filtro.autoDeposito);
+                    var idDepartamento = new MySql.Data.MySqlClient.MySqlParameter();
+                    var idGrupo = new MySql.Data.MySqlClient.MySqlParameter();
+                    var sql_inv_1 = @"select 
+                                    auto as autoPrd, 
+                                    codigo as codigoPrd, 
+                                    nombre as nombrePrd, 
+                                    contenido_compras as contEmpPrd, 
+                                    (
+                                        select sum(cantidad_und*signo) 
+                                        from productos_kardex
+                                        where auto_producto=prd.auto
+                                        and fecha<@desde
+                                        and auto_deposito=@idDeposito
+                                        and estatus_anulado='0'
+                                    ) as exIniUnd,
+                                    (
+                                        select costo_divisa 
+                                        from productos_costos
+                                        where id=
+                                        (
+                                            SELECT max(id) as id
+                                            FROM productos_costos 
+                                            WHERE fecha<@desde and auto_producto=prd.auto 
+                                              group by auto_producto
+                                        ) 
+                                    ) as costoIniEmpDivisa
+                                from productos as prd ";
+                    var sql_inv_2= " where 1=1 ";
+                    if (filtro.autoDepartamento != "")
+                    {
+                        sql_inv_2 += " and prd.auto_departamento=@idDepartamento ";
+                        idDepartamento.ParameterName = "@idDepartamento";
+                        idDepartamento.Value = filtro.autoDepartamento;
+                    }
+                    if (filtro.autoGrupo != "")
+                    {
+                        sql_inv_2 += " and prd.auto_grupo=@idGrupo";
+                        idGrupo.ParameterName = "@@idGrupo";
+                        idGrupo.Value = filtro.autoGrupo;
+                    }
+                    var sql_inv = sql_inv_1 + sql_inv_2;
+                    var lst_inv = cnn.Database.SqlQuery<DtoLibInventario.Reportes.ResumenCostoInv.PorInventario>(sql_inv, idDepartamento, idGrupo, idDeposito, desde).ToList();
+
+
+                    //POR MOV INVENTARIO
+                    var sql_movInv_1 = @"SELECT 
+                                            krd.auto_producto as auto, 
+                                            (krd.cantidad_und*krd.signo) as cntUnd,
+                                            (krd.cantidad_und*krd.costo_und*krd.signo) as costoTotal,
+                                            mov.factor_cambio as factor,
+                                            krd.documento,
+                                            krd.siglas
+                                        FROM productos_kardex as krd
+                                        join productos_movimientos_extra as mov on mov.auto_movimiento=krd.auto_documento 
+                                        join productos as p on p.auto=krd.auto_producto ";
+                    var sql_movInv_2 = @" where 1=1 and
+                                        krd.fecha>@desde and 
+                                        krd.fecha<=@hasta and 
+                                        krd.auto_deposito=@idDeposito and
+                                        krd.estatus_anulado='0' and
+                                        krd.modulo='Inventario' ";
+                    if (filtro.autoDepartamento != "")
+                    {
+                        sql_movInv_2 += " and p.auto_departamento=@idDepartamento ";
+                    }
+                    if (filtro.autoGrupo != "")
+                    {
+                        sql_movInv_2 += " and p.auto_grupo=@idGrupo ";
+                    }
+                    var sql_movInv = sql_movInv_1 + sql_movInv_2;
+                    var lst_movInv = cnn.Database.SqlQuery<DtoLibInventario.Reportes.ResumenCostoInv.PorMovInventario>(sql_movInv, idDepartamento, idGrupo, idDeposito, desde, hasta).ToList();
+
+
+                    //POR COMPRAS
+                    var sql_compra_1 = @"SELECT 
+                                            krd.auto_producto as auto,
+                                            krd.cantidad_und*krd.signo as cntUnd,
+                                            krd.cantidad_und*krd.signo*krd.costo_und as costoTotal, 
+                                            krd.documento, 
+                                            krd.siglas,
+                                            c.factor_cambio as factor
+                                        FROM productos_kardex as krd
+                                        join compras as c on c.auto=krd.auto_documento 
+                                        join productos as p on p.auto=krd.auto_producto ";
+                    var sql_compra_2 = @" WHERE 1=1 and 
+                                            krd.fecha>=@desde and
+                                            krd.fecha<=@hasta and
+                                            krd.modulo='Compras' and 
+                                            krd.estatus_anulado='0' and 
+                                            krd.auto_deposito=@idDeposito ";
+                    if (filtro.autoDepartamento != "")
+                    {
+                        sql_compra_2 += " and p.auto_departamento=@idDepartamento ";
+                    }
+                    if (filtro.autoGrupo != "")
+                    {
+                        sql_compra_2 += " and p.auto_grupo=@idGrupo ";
+                    }
+                    var sql_compra= sql_compra_1 + sql_compra_2;
+                    var lst_compra = cnn.Database.SqlQuery<DtoLibInventario.Reportes.ResumenCostoInv.PorCompras>(sql_compra, idDepartamento, idGrupo, idDeposito, desde, hasta).ToList();
+
+
+                    //POR VENTAS
+                    var sql_venta_1 = @"SELECT 
+                                            krd.auto_producto as auto,
+                                            sum(krd.cantidad_und*krd.signo) as cntUnd,
+                                            sum(krd.cantidad_und*krd.signo*vd.costo_und/v.factor_cambio) as costoDivisa, 
+                                            krd.siglas,
+                                            sum(vd.cantidad_und*v.signo*vd.precio_und/v.factor_cambio) as ventaDivisa
+                                        FROM productos_kardex as krd
+                                        join ventas as v on v.auto=krd.auto_documento
+                                        join productos as p on p.auto=krd.auto_producto 
+                                        join ventas_detalle as vd on vd.auto_documento=v.auto and vd.auto_producto=krd.auto_producto ";
+                    var sql_venta_2=@" WHERE 1=1 and
+                                            krd.fecha>=@desde and
+                                            krd.fecha<=@hasta and
+                                            krd.modulo='Ventas' and 
+                                            krd.estatus_anulado='0' and 
+                                            krd.auto_deposito=@idDeposito ";
+                    var sql_venta_3=@" group by krd.auto_producto, krd.siglas ";
+                    if (filtro.autoDepartamento != "")
+                    {
+                        sql_venta_2 += " and p.auto_departamento=@idDepartamento ";
+                    }
+                    if (filtro.autoGrupo != "")
+                    {
+                        sql_venta_2 += " and p.auto_grupo=@idGrupo ";
+                    }
+                    var sql_venta = sql_venta_1 + sql_venta_2 + sql_venta_3;
+                    var lst_venta= cnn.Database.SqlQuery<DtoLibInventario.Reportes.ResumenCostoInv.PorVentas>(sql_venta, idDepartamento, idGrupo, idDeposito, desde, hasta).ToList();
+
+
+                    rt.Entidad = new DtoLibInventario.Reportes.ResumenCostoInv.Ficha()
+                    {
+                        enInventario = lst_inv,
+                        enMovInv=lst_movInv,
+                        enCompras = lst_compra,
+                        enVentas = lst_venta,
+                    };
+                }
+            }
+            catch (Exception e)
+            {
+                rt.Mensaje = e.Message;
+                rt.Result = DtoLib.Enumerados.EnumResult.isError;
+            }
+
+            return rt;
+        }
 
     }
 

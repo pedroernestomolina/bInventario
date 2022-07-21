@@ -249,6 +249,12 @@
     <Compile Include="Reportes\MaestroPrecio\Filtro.cs" />
     <Compile Include="Reportes\MaestroProducto\Ficha.cs" />
     <Compile Include="Reportes\MaestroProducto\Filtro.cs" />
+    <Compile Include="Reportes\ResumenCostoInv\Ficha.cs" />
+    <Compile Include="Reportes\ResumenCostoInv\Filtro.cs" />
+    <Compile Include="Reportes\ResumenCostoInv\PorCompras.cs" />
+    <Compile Include="Reportes\ResumenCostoInv\PorInventario.cs" />
+    <Compile Include="Reportes\ResumenCostoInv\PorMovInventario.cs" />
+    <Compile Include="Reportes\ResumenCostoInv\PorVentas.cs" />
     <Compile Include="Reportes\Top20\Ficha.cs" />
     <Compile Include="Reportes\Top20\Filtro.cs" />
     <Compile Include="Reportes\TopDepartUtilidad\Ficha.cs" />

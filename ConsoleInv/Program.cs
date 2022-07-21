@@ -45,6 +45,14 @@ namespace ConsoleInv
             //};
             //var r01 = invPrv.Producto_Deposito_AsignacionMasiva(ficha);
 
+            var filtroDto = new DtoLibInventario.Reportes.ResumenCostoInv.Filtro()
+            {
+                autoDeposito = "0000000023",
+                desde = new DateTime(2022, 06, 30),
+                hasta = new DateTime(2022, 07, 10),
+            };
+            var r01 = invPrv.Reportes_ResumenCostoInventario(filtroDto);
+
         }
 
     }

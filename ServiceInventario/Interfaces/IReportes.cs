@@ -38,6 +38,8 @@ namespace ServiceInventario.Interfaces
             Reportes_Valorizacion(DtoLibInventario.Reportes.Valorizacion.Filtro filtro);
         DtoLib.ResultadoLista<DtoLibInventario.Reportes.MaestroExistenciaInventario.Ficha>
             Reportes_MaestroExistenciaInventario(DtoLibInventario.Reportes.MaestroExistenciaInventario.Filtro filtro);
+        DtoLib.ResultadoEntidad<DtoLibInventario.Reportes.ResumenCostoInv.Ficha>
+            Reportes_ResumenCostoInventario(DtoLibInventario.Reportes.ResumenCostoInv.Filtro filtro);
 
     }
 
