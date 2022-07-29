@@ -32,6 +32,7 @@ namespace DtoLibInventario.Movimiento.Insertar
         public string nombreConcepto { get; set; }
         public string codigoDeposito { get; set; }
         public string nombreDeposito { get; set; }
+        public decimal factorCambio { get; set; }
 
     }
 

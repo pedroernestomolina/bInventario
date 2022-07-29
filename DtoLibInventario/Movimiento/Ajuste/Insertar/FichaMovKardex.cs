@@ -35,6 +35,7 @@ namespace DtoLibInventario.Movimiento.Ajuste.Insertar
             nombreConcepto = "";
             codigoDeposito = "";
             nombreDeposito = "";
+            factorCambio = 0m;
         }
 
     }
