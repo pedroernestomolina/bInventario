@@ -12,7 +12,8 @@ namespace ProvLibInventario
     public partial class Provider : ILibInventario.IProvider
     {
 
-        public DtoLib.ResultadoLista<DtoLibInventario.Sucursal.Resumen> Sucursal_GetLista()
+        public DtoLib.ResultadoLista<DtoLibInventario.Sucursal.Resumen> 
+            Sucursal_GetLista(DtoLibInventario.Sucursal.Filtro filtro)
         {
             var result = new DtoLib.ResultadoLista<DtoLibInventario.Sucursal.Resumen>();
 
@@ -20,26 +21,37 @@ namespace ProvLibInventario
             {
                 using (var cnn = new invEntities(_cnInv.ConnectionString))
                 {
-                    var q = cnn.empresa_sucursal.ToList();
-
-                    var list = new List<DtoLibInventario.Sucursal.Resumen>();
-                    if (q != null)
+                    var p1 = new MySql.Data.MySqlClient.MySqlParameter();
+                    var _sql_1 = @"select auto, codigo, nombre 
+                                        from empresa_sucursal ";
+                    var _sql_2 = " where 1=1 ";
+                    if (filtro.idEmpresaGrupo != "") 
                     {
-                        if (q.Count() > 0)
-                        {
-                            list = q.Select(s =>
-                            {
-                                var r = new DtoLibInventario.Sucursal.Resumen()
-                                {
-                                    auto = s.auto,
-                                    codigo = s.codigo,
-                                    nombre = s.nombre,
-                                };
-                                return r;
-                            }).ToList();
-                        }
+                        _sql_2 += " and autoEmpresaGrupo=@IdEmpresaGrupo ";
+                        p1.ParameterName = "@IdEmpresaGrupo";
+                        p1.Value = filtro.idEmpresaGrupo;
                     }
-                    result.Lista = list;
+                    var sql= _sql_1+_sql_2;
+                    var _lst = cnn.Database.SqlQuery<DtoLibInventario.Sucursal.Resumen>(sql, p1).ToList();
+                    result.Lista = _lst;
+                    //var q = cnn.empresa_sucursal.ToList();
+                    //var list = new List<DtoLibInventario.Sucursal.Resumen>();
+                    //if (q != null)
+                    //{
+                    //    if (q.Count() > 0)
+                    //    {
+                    //        list = q.Select(s =>
+                    //        {
+                    //            var r = new DtoLibInventario.Sucursal.Resumen()
+                    //            {
+                    //                auto = s.auto,
+                    //                codigo = s.codigo,
+                    //                nombre = s.nombre,
+                    //            };
+                    //            return r;
+                    //        }).ToList();
+                    //    }
+                    //}
                 }
             }
             catch (Exception e)
@@ -50,7 +62,8 @@ namespace ProvLibInventario
 
             return result;
         }
-        public DtoLib.ResultadoEntidad<DtoLibInventario.Sucursal.Ficha> Sucursal_GetFicha(string auto)
+        public DtoLib.ResultadoEntidad<DtoLibInventario.Sucursal.Ficha> 
+            Sucursal_GetFicha(string auto)
         {
             var result = new DtoLib.ResultadoEntidad<DtoLibInventario.Sucursal.Ficha>();
 

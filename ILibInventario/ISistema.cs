@@ -11,7 +11,8 @@ namespace ILibInventario
     public interface ISistema
     {
 
-        DtoLib.ResultadoEntidad<DtoLibInventario.Sistema.TipoDocumento.Entidad.Ficha> Sistema_TipoDocumento_GetFichaById(string id);
+        DtoLib.ResultadoEntidad<DtoLibInventario.Sistema.TipoDocumento.Entidad.Ficha> 
+            Sistema_TipoDocumento_GetFichaById(string id);
 
     }
 

@@ -11,8 +11,10 @@ namespace ILibInventario
     public interface ISucursal
     {
 
-        DtoLib.ResultadoLista<DtoLibInventario.Sucursal.Resumen> Sucursal_GetLista();
-        DtoLib.ResultadoEntidad<DtoLibInventario.Sucursal.Ficha> Sucursal_GetFicha(string auto);
+        DtoLib.ResultadoLista<DtoLibInventario.Sucursal.Resumen> 
+            Sucursal_GetLista(DtoLibInventario.Sucursal.Filtro filtro);
+        DtoLib.ResultadoEntidad<DtoLibInventario.Sucursal.Ficha> 
+            Sucursal_GetFicha(string auto);
 
     }
 

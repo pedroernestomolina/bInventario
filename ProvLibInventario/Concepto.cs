@@ -15,7 +15,8 @@ namespace ProvLibInventario
     public partial class Provider : ILibInventario.IProvider
     {
 
-        public DtoLib.ResultadoLista<DtoLibInventario.Concepto.Resumen> Concepto_GetLista()
+        public DtoLib.ResultadoLista<DtoLibInventario.Concepto.Resumen> 
+            Concepto_GetLista()
         {
             var result = new DtoLib.ResultadoLista<DtoLibInventario.Concepto.Resumen>();
 
@@ -53,8 +54,8 @@ namespace ProvLibInventario
 
             return result;
         }
-
-        public DtoLib.ResultadoEntidad<DtoLibInventario.Concepto.Ficha> Concepto_GetFicha(string auto)
+        public DtoLib.ResultadoEntidad<DtoLibInventario.Concepto.Ficha> 
+            Concepto_GetFicha(string auto)
         {
             var result = new DtoLib.ResultadoEntidad<DtoLibInventario.Concepto.Ficha>();
 
@@ -88,8 +89,8 @@ namespace ProvLibInventario
 
             return result;
         }
-
-        public DtoLib.ResultadoEntidad<DtoLibInventario.Concepto.Ficha> Concepto_PorTraslado()
+        public DtoLib.ResultadoEntidad<DtoLibInventario.Concepto.Ficha> 
+            Concepto_PorTraslado()
         {
             var result = new DtoLib.ResultadoEntidad<DtoLibInventario.Concepto.Ficha>();
 
@@ -123,8 +124,8 @@ namespace ProvLibInventario
 
             return result;
         }
-
-        public DtoLib.ResultadoAuto Concepto_Agregar(DtoLibInventario.Concepto.Agregar ficha)
+        public DtoLib.ResultadoAuto 
+            Concepto_Agregar(DtoLibInventario.Concepto.Agregar ficha)
         {
             var result = new DtoLib.ResultadoAuto();
 
@@ -193,8 +194,8 @@ namespace ProvLibInventario
 
             return result;
         }
-
-        public DtoLib.Resultado Concepto_Editar(DtoLibInventario.Concepto.Editar ficha)
+        public DtoLib.Resultado 
+            Concepto_Editar(DtoLibInventario.Concepto.Editar ficha)
         {
             var result = new DtoLib.Resultado();
 
@@ -254,8 +255,8 @@ namespace ProvLibInventario
 
             return result;
         }
-
-        public DtoLib.Resultado Concepto_Eliminar(string auto)
+        public DtoLib.Resultado 
+            Concepto_Eliminar(string auto)
         {
             var result = new DtoLib.Resultado();
 

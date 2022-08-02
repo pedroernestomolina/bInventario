@@ -12,12 +12,13 @@ namespace ServiceInventario.MyService
     public partial class Service: IService
     {
 
-        public DtoLib.ResultadoLista<DtoLibInventario.Sucursal.Resumen> Sucursal_GetLista()
+        public DtoLib.ResultadoLista<DtoLibInventario.Sucursal.Resumen> 
+            Sucursal_GetLista(DtoLibInventario.Sucursal.Filtro filtro)
         {
-            return ServiceProv.Sucursal_GetLista();
+            return ServiceProv.Sucursal_GetLista(filtro);
         }
-
-        public DtoLib.ResultadoEntidad<DtoLibInventario.Sucursal.Ficha> Sucursal_GetFicha(string auto)
+        public DtoLib.ResultadoEntidad<DtoLibInventario.Sucursal.Ficha> 
+            Sucursal_GetFicha(string auto)
         {
             return  ServiceProv.Sucursal_GetFicha(auto);
         }

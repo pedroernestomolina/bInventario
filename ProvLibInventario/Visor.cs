@@ -12,7 +12,8 @@ namespace ProvLibInventario
     public partial class Provider : ILibInventario.IProvider
     {
 
-        public DtoLib.ResultadoLista<DtoLibInventario.Visor.Existencia.Ficha> Visor_Existencia(DtoLibInventario.Visor.Existencia.Filtro filtro)
+        public DtoLib.ResultadoLista<DtoLibInventario.Visor.Existencia.Ficha> 
+            Visor_Existencia(DtoLibInventario.Visor.Existencia.Filtro filtro)
         {
             var rt = new DtoLib.ResultadoLista<DtoLibInventario.Visor.Existencia.Ficha>();
 
@@ -83,8 +84,8 @@ namespace ProvLibInventario
 
             return rt;
         }
-
-        public DtoLib.ResultadoEntidad<DtoLibInventario.Visor.CostoEddad.Ficha> Visor_CostoEdad(DtoLibInventario.Visor.CostoEddad.Filtro filtro)
+        public DtoLib.ResultadoEntidad<DtoLibInventario.Visor.CostoEddad.Ficha> 
+            Visor_CostoEdad(DtoLibInventario.Visor.CostoEddad.Filtro filtro)
         {
             var rt = new DtoLib.ResultadoEntidad<DtoLibInventario.Visor.CostoEddad.Ficha>();
 
@@ -140,8 +141,8 @@ namespace ProvLibInventario
 
             return rt;
         }
-
-        public DtoLib.ResultadoLista<DtoLibInventario.Visor.Traslado.Ficha> Visor_Traslado(DtoLibInventario.Visor.Traslado.Filtro filtro)
+        public DtoLib.ResultadoLista<DtoLibInventario.Visor.Traslado.Ficha> 
+            Visor_Traslado(DtoLibInventario.Visor.Traslado.Filtro filtro)
         {
             var rt = new DtoLib.ResultadoLista<DtoLibInventario.Visor.Traslado.Ficha>();
 
@@ -203,8 +204,8 @@ namespace ProvLibInventario
 
             return rt;
         }
-
-        public DtoLib.ResultadoEntidad<DtoLibInventario.Visor.Ajuste.Ficha> Visor_Ajuste(DtoLibInventario.Visor.Ajuste.Filtro filtro)
+        public DtoLib.ResultadoEntidad<DtoLibInventario.Visor.Ajuste.Ficha> 
+            Visor_Ajuste(DtoLibInventario.Visor.Ajuste.Filtro filtro)
         {
             var rt = new DtoLib.ResultadoEntidad<DtoLibInventario.Visor.Ajuste.Ficha>();
 
@@ -279,8 +280,8 @@ namespace ProvLibInventario
 
             return rt;
         }
-
-        public DtoLib.ResultadoLista<DtoLibInventario.Visor.CostoExistencia.Ficha> Visor_CostoExistencia(DtoLibInventario.Visor.CostoExistencia.Filtro filtro)
+        public DtoLib.ResultadoLista<DtoLibInventario.Visor.CostoExistencia.Ficha> 
+            Visor_CostoExistencia(DtoLibInventario.Visor.CostoExistencia.Filtro filtro)
         {
             var rt = new DtoLib.ResultadoLista<DtoLibInventario.Visor.CostoExistencia.Ficha>();
 
@@ -333,8 +334,8 @@ namespace ProvLibInventario
 
             return rt;
         }
-
-        public DtoLib.ResultadoLista<DtoLibInventario.Visor.Precio.Ficha> Visor_Precio(DtoLibInventario.Visor.Precio.Filtro filtro)
+        public DtoLib.ResultadoLista<DtoLibInventario.Visor.Precio.Ficha> 
+            Visor_Precio(DtoLibInventario.Visor.Precio.Filtro filtro)
         {
             var rt = new DtoLib.ResultadoLista<DtoLibInventario.Visor.Precio.Ficha>();
 
@@ -347,7 +348,10 @@ namespace ProvLibInventario
 
                     var sql_1 = @"SELECT p.auto as autoPrd,p.codigo as codigoPrd,p.nombre as nombrePrd, 
                                   ed.nombre as nombreDep, ed.codigo as codigoDep,pg.codigo as codigoGrupo, 
-                                  pg.nombre as nombreGrupo,p.costo_und as costoUnd, p.divisa as costoDivisa,                                   p.contenido_compras as contEmpCompra, p.precio_1, p.precio_2, p.precio_3, p.precio_4,                                   p.precio_pto as precio_5, p.estatus, p.estatus_divisa as estatusDivisa,                                   p.fecha_ult_costo as fechaUltCosto
+                                  pg.nombre as nombreGrupo,p.costo_und as costoUnd, p.divisa as costoDivisa, 
+                                  p.contenido_compras as contEmpCompra, p.precio_1, p.precio_2, p.precio_3, p.precio_4, 
+                                  p.precio_pto as precio_5, p.estatus, p.estatus_divisa as estatusDivisa, 
+                                  p.fecha_ult_costo as fechaUltCosto
                                   FROM productos as p ";
                     var sql_2 = @" join empresa_departamentos as ed on ed.auto=p.auto_departamento
                                   join productos_grupo as pg on pg.auto=p.auto_grupo ";
@@ -367,6 +371,90 @@ namespace ProvLibInventario
                     }
                     var sql = sql_1 + sql_2 + sql_3;
                     var lst = cnn.Database.SqlQuery<DtoLibInventario.Visor.Precio.Ficha>(sql, p1, p2).ToList();
+                    rt.Lista = lst;
+                }
+            }
+            catch (Exception e)
+            {
+                rt.Mensaje = e.Message;
+                rt.Result = DtoLib.Enumerados.EnumResult.isError;
+            }
+
+            return rt;
+        }
+        public DtoLib.ResultadoLista<DtoLibInventario.Visor.PrecioAjuste.Ficha> 
+            Visor_PrecioAjuste(DtoLibInventario.Visor.PrecioAjuste.Filtro filtro)
+        {
+            var rt = new DtoLib.ResultadoLista<DtoLibInventario.Visor.PrecioAjuste.Ficha>();
+
+            try
+            {
+                using (var cnn = new invEntities(_cnInv.ConnectionString))
+                {
+                    var p1 = new MySql.Data.MySqlClient.MySqlParameter("@idEmpresaGrupo", filtro.idEmpresaGrrupo);
+                    var p2 = new MySql.Data.MySqlClient.MySqlParameter();
+                    var p3 = new MySql.Data.MySqlClient.MySqlParameter();
+                    var sql_1 = @"select 
+                                    distinct 
+                                    p.auto, p.nombre, 
+
+                                    p.pdf_1 as pFDivEmp1_1, 
+                                    p.pdf_2 as pFDivEmp1_2, 
+                                    p.pdf_3 as pFDivEmp1_3, 
+                                    p.pdf_4 as pFDivEmp1_4, 
+                                    p.pdf_pto as pFDivEmp1_5, 
+                                    p.contenido_1 as contEmp1_1, 
+                                    p.contenido_2 as contEmp1_2, 
+                                    p.contenido_3 as contEmp1_3, 
+                                    p.contenido_4 as contEmp1_4, 
+                                    p.contenido_pto as contEmp1_5, 
+
+                                    pExt.pdmf_1 as pFDivEmp2_1, 
+                                    pExt.pdmf_2 as pFDivEmp2_2, 
+                                    pExt.pdmf_3 as pFDivEmp2_3, 
+                                    pExt.pdmf_4 as pFDivEmp2_4, 
+                                    pExt.contenido_may_1 as contEmp2_1,
+                                    pExt.contenido_may_2 as contEmp2_2,
+                                    pExt.contenido_may_3 as contEmp2_3,
+                                    pExt.cont_may_4 as contEmp2_4,
+
+                                    pExt.pdivisafull_dsp_1 as pFDivEmp3_1, 
+                                    pExt.pdivisafull_dsp_2 as pFDivEmp3_2, 
+                                    pExt.pdivisafull_dsp_3 as pFDivEmp3_3, 
+                                    pExt.pdivisafull_dsp_4 as pFDivEmp3_4, 
+                                    pExt.cont_dsp_1 as contEmp3_1,
+                                    pExt.cont_dsp_2 as contEmp3_2,
+                                    pExt.cont_dsp_3 as contEmp3_3,
+                                    pExt.cont_dsp_4 as contEmp3_4
+
+                                    from productos as p
+                                    join productos_ext as pExt on pExt.auto_producto=p.auto
+                                    join productos_deposito as pDep on pDep.auto_producto=p.auto ";
+
+                    var sql_2 = @" where 
+                                        p.estatus='Activo' and
+                                        pDep.fisica>0 and
+                                        pDep.auto_deposito in 
+                                        (
+                                            SELECT autoDepositoPrincipal as idDeposito
+                                            FROM empresa_sucursal
+                                            where autoEmpresaGrupo=@idEmpresaGrupo
+                                        )" ;
+                    var sql_3 = @"";
+                    if (filtro.autoDepart != "")
+                    {
+                        sql_2 += " and p.auto_departamento=@autoDepartamento ";
+                        p2.ParameterName = "@autoDepartamento";
+                        p2.Value = filtro.autoDepart;
+                    }
+                    if (filtro.autoGrupo != "")
+                    {
+                        sql_2 += " and p.auto_grupo=@autoGrupo ";
+                        p3.ParameterName = "@autoGrupo";
+                        p3.Value = filtro.autoGrupo;
+                    }
+                    var sql = sql_1 + sql_2 + sql_3;
+                    var lst = cnn.Database.SqlQuery<DtoLibInventario.Visor.PrecioAjuste.Ficha>(sql, p1, p2, p3).ToList();
                     rt.Lista = lst;
                 }
             }

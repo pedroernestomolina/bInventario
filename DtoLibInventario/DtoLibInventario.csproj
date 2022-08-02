@@ -85,6 +85,7 @@
     <Compile Include="EmpaqueMedida\Ficha.cs" />
     <Compile Include="EmpaqueMedida\Resumen.cs" />
     <Compile Include="Empresa\Data\Ficha.cs" />
+    <Compile Include="Empresa\Grupo\Lista\Ficha.cs" />
     <Compile Include="Grupo\Agregar.cs" />
     <Compile Include="Grupo\Editar.cs" />
     <Compile Include="Grupo\Ficha.cs" />
@@ -263,6 +264,7 @@
     <Compile Include="Reportes\Valorizacion\Filtro.cs" />
     <Compile Include="Sistema\TipoDocumento\Entidad\Ficha.cs" />
     <Compile Include="Sucursal\Ficha.cs" />
+    <Compile Include="Sucursal\Filtro.cs" />
     <Compile Include="Sucursal\Resumen.cs" />
     <Compile Include="TasaImpuesto\Resumen.cs" />
     <Compile Include="Tool\AjusteNivelMinimoMaximo\Ajustar\Ficha.cs" />
@@ -282,6 +284,7 @@
     <Compile Include="Visor\Ajuste\Ficha.cs" />
     <Compile Include="Visor\Ajuste\FichaDetalle.cs" />
     <Compile Include="Visor\Ajuste\Filtro.cs" />
+    <Compile Include="Visor\BaseFiltro.cs" />
     <Compile Include="Visor\CostoEddad\Ficha.cs" />
     <Compile Include="Visor\CostoEddad\FichaDetalle.cs" />
     <Compile Include="Visor\CostoEddad\Filtro.cs" />
@@ -290,6 +293,8 @@
     <Compile Include="Visor\Existencia\Enumerados.cs" />
     <Compile Include="Visor\Existencia\Ficha.cs" />
     <Compile Include="Visor\Existencia\Filtro.cs" />
+    <Compile Include="Visor\PrecioAjuste\Ficha.cs" />
+    <Compile Include="Visor\PrecioAjuste\Filtro.cs" />
     <Compile Include="Visor\Precio\Ficha.cs" />
     <Compile Include="Visor\Precio\Filtro.cs" />
     <Compile Include="Visor\Traslado\Ficha.cs" />

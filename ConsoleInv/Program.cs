@@ -45,13 +45,23 @@ namespace ConsoleInv
             //};
             //var r01 = invPrv.Producto_Deposito_AsignacionMasiva(ficha);
 
-            var filtroDto = new DtoLibInventario.Reportes.ResumenCostoInv.Filtro()
-            {
-                autoDeposito = "0000000023",
-                desde = new DateTime(2022, 06, 30),
-                hasta = new DateTime(2022, 07, 10),
-            };
-            var r01 = invPrv.Reportes_ResumenCostoInventario(filtroDto);
+            //var filtroDto = new DtoLibInventario.Reportes.ResumenCostoInv.Filtro()
+            //{
+            //    autoDeposito = "0000000023",
+            //    desde = new DateTime(2022, 06, 30),
+            //    hasta = new DateTime(2022, 07, 10),
+            //};
+            //var r01 = invPrv.Reportes_ResumenCostoInventario(filtroDto);
+
+            //var filtroDto = new DtoLibInventario.Visor.PrecioAjuste.Filtro() { autoDepart = "0000000002", autoGrupo = "", idEmpresaGrrupo = "0000000004" };
+            //var r01 = invPrv.Visor_PrecioAjuste(filtroDto);
+
+            //var r02 = invPrv.EmpresaGrupo_GetLista();
+
+            //var r02 = invPrv.EmpresaGrupo_PrecioManejar_GetById("0000000004");
+
+            //var filtro = new DtoLibInventario.Sucursal.Filtro() { idEmpresaGrupo = "0000000004" };
+            //var r03 = invPrv.Sucursal_GetLista(filtro);
 
         }
 

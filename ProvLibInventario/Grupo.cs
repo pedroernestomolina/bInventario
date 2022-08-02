@@ -15,7 +15,8 @@ namespace ProvLibInventario
     public partial class Provider : ILibInventario.IProvider
     {
 
-        public DtoLib.ResultadoLista<DtoLibInventario.Grupo.Resumen> Grupo_GetLista()
+        public DtoLib.ResultadoLista<DtoLibInventario.Grupo.Resumen>
+            Grupo_GetLista()
         {
             var result = new DtoLib.ResultadoLista<DtoLibInventario.Grupo.Resumen>();
 
@@ -53,7 +54,8 @@ namespace ProvLibInventario
 
             return result;
         }
-        public DtoLib.ResultadoEntidad<DtoLibInventario.Grupo.Ficha> Grupo_GetFicha(string auto)
+        public DtoLib.ResultadoEntidad<DtoLibInventario.Grupo.Ficha>
+            Grupo_GetFicha(string auto)
         {
             var result = new DtoLib.ResultadoEntidad<DtoLibInventario.Grupo.Ficha>();
 
@@ -85,7 +87,8 @@ namespace ProvLibInventario
 
             return result;
         }
-        public DtoLib.ResultadoAuto Grupo_Agregar(DtoLibInventario.Grupo.Agregar ficha)
+        public DtoLib.ResultadoAuto 
+            Grupo_Agregar(DtoLibInventario.Grupo.Agregar ficha)
         {
             var result = new DtoLib.ResultadoAuto();
 
@@ -121,30 +124,14 @@ namespace ProvLibInventario
                     }
                 }
             }
+            catch (MySql.Data.MySqlClient.MySqlException ex)
+            {
+                result.Mensaje = Helpers.MYSQL_VerificaError(ex);
+                result.Result = DtoLib.Enumerados.EnumResult.isError;
+            }
             catch (DbUpdateException ex)
             {
-                var dbUpdateEx = ex as DbUpdateException;
-                var sqlEx = dbUpdateEx.InnerException;
-                if (sqlEx != null)
-                {
-                    var exx = (MySql.Data.MySqlClient.MySqlException)sqlEx.InnerException;
-                    if (exx != null)
-                    {
-                        if (exx.Number == 1451)
-                        {
-                            result.Mensaje = "REGISTRO CONTIENE DATA RELACIONADA";
-                            result.Result = DtoLib.Enumerados.EnumResult.isError;
-                            return result;
-                        }
-                        if (exx.Number == 1062)
-                        {
-                            result.Mensaje = exx.Message;
-                            result.Result = DtoLib.Enumerados.EnumResult.isError;
-                            return result;
-                        }
-                    }
-                }
-                result.Mensaje = ex.Message;
+                result.Mensaje = Helpers.ENTITY_VerificaError(ex);
                 result.Result = DtoLib.Enumerados.EnumResult.isError;
             }
             catch (Exception e)
@@ -155,7 +142,8 @@ namespace ProvLibInventario
 
             return result;
         }
-        public DtoLib.Resultado Grupo_Editar(DtoLibInventario.Grupo.Editar ficha)
+        public DtoLib.Resultado 
+            Grupo_Editar(DtoLibInventario.Grupo.Editar ficha)
         {
             var result = new DtoLib.Resultado();
 
@@ -181,30 +169,14 @@ namespace ProvLibInventario
                     }
                 }
             }
+            catch (MySql.Data.MySqlClient.MySqlException ex)
+            {
+                result.Mensaje = Helpers.MYSQL_VerificaError(ex);
+                result.Result = DtoLib.Enumerados.EnumResult.isError;
+            }
             catch (DbUpdateException ex)
             {
-                var dbUpdateEx = ex as DbUpdateException;
-                var sqlEx = dbUpdateEx.InnerException;
-                if (sqlEx != null)
-                {
-                    var exx = (MySql.Data.MySqlClient.MySqlException)sqlEx.InnerException;
-                    if (exx != null)
-                    {
-                        if (exx.Number == 1451)
-                        {
-                            result.Mensaje = "REGISTRO CONTIENE DATA RELACIONADA";
-                            result.Result = DtoLib.Enumerados.EnumResult.isError;
-                            return result;
-                        }
-                        if (exx.Number == 1062)
-                        {
-                            result.Mensaje = exx.Message;
-                            result.Result = DtoLib.Enumerados.EnumResult.isError;
-                            return result;
-                        }
-                    }
-                }
-                result.Mensaje = ex.Message;
+                result.Mensaje = Helpers.ENTITY_VerificaError(ex);
                 result.Result = DtoLib.Enumerados.EnumResult.isError;
             }
             catch (Exception e)
@@ -215,7 +187,8 @@ namespace ProvLibInventario
 
             return result;
         }
-        public DtoLib.ResultadoLista<DtoLibInventario.Grupo.Resumen> Grupo_GetListaByDepartamento(string id)
+        public DtoLib.ResultadoLista<DtoLibInventario.Grupo.Resumen>
+            Grupo_GetListaByDepartamento(string id)
         {
             var result = new DtoLib.ResultadoLista<DtoLibInventario.Grupo.Resumen>();
 
@@ -223,12 +196,12 @@ namespace ProvLibInventario
             {
                 using (var cnn = new invEntities(_cnInv.ConnectionString))
                 {
-                    var sql_1 = " SELECT pg.auto, pg.nombre, pg.codigo ";
-                    var sql_2 = " from productos_grupo as pg "+
-                        " join productos as p on pg.auto=p.auto_grupo "+
-                        " join empresa_departamentos as ed on ed.auto=p.auto_departamento ";
-                    var sql_3 = " where ed.auto= @p1 ";
-                    var sql_4 = " group by pg.auto, pg.nombre, pg.codigo ";
+                    var sql_1 = @"SELECT pg.auto, pg.nombre, pg.codigo ";
+                    var sql_2 = @" from productos_grupo as pg 
+                                        join productos as p on pg.auto=p.auto_grupo 
+                                        join empresa_departamentos as ed on ed.auto=p.auto_departamento ";
+                    var sql_3 = @" where ed.auto= @p1 ";
+                    var sql_4 = @" group by pg.auto, pg.nombre, pg.codigo ";
 
                     var p1 = new MySql.Data.MySqlClient.MySqlParameter();
                     p1.ParameterName = "p1";
@@ -247,7 +220,8 @@ namespace ProvLibInventario
 
             return result;
         }
-        public DtoLib.Resultado Grupo_Eliminar(string auto)
+        public DtoLib.Resultado 
+            Grupo_Eliminar(string auto)
         {
             var result = new DtoLib.Resultado();
 
@@ -266,24 +240,14 @@ namespace ProvLibInventario
                     cnn.SaveChanges();
                 }
             }
+            catch (MySql.Data.MySqlClient.MySqlException ex)
+            {
+                result.Mensaje = Helpers.MYSQL_VerificaError(ex);
+                result.Result = DtoLib.Enumerados.EnumResult.isError;
+            }
             catch (DbUpdateException ex)
             {
-                var dbUpdateEx = ex as DbUpdateException;
-                var sqlEx = dbUpdateEx.InnerException;
-                if (sqlEx != null)
-                {
-                    var exx = (MySql.Data.MySqlClient.MySqlException)sqlEx.InnerException;
-                    if (exx != null)
-                    {
-                        if (exx.Number == 1451)
-                        {
-                            result.Mensaje = "REGISTRO CONTIENE DATA RELACIONADA";
-                            result.Result = DtoLib.Enumerados.EnumResult.isError;
-                            return result;
-                        }
-                    }
-                }
-                result.Mensaje = ex.Message;
+                result.Mensaje = Helpers.ENTITY_VerificaError(ex);
                 result.Result = DtoLib.Enumerados.EnumResult.isError;
             }
             catch (Exception e)
