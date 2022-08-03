@@ -37,15 +37,22 @@ namespace ServiceInventario.Interfaces
         DtoLib.Resultado
             Producto_DepositoEditar(DtoLibInventario.Producto.Depositos.Editar.Ficha ficha);
 
-        DtoLib.ResultadoLista<DtoLibInventario.Producto.Plu.Lista.Resumen> Producto_Plu_Lista();
-        DtoLib.ResultadoLista<DtoLibInventario.Producto.Estatus.Lista.Resumen> Producto_Estatus_Lista();
-        DtoLib.ResultadoLista<DtoLibInventario.Producto.Origen.Resumen> Producto_Origen_Lista();
-        DtoLib.ResultadoLista<DtoLibInventario.Producto.Categoria.Resumen> Producto_Categoria_Lista();
-        DtoLib.ResultadoLista<DtoLibInventario.Producto.AdmDivisa.Resumen> Producto_AdmDivisa_Lista();
-        DtoLib.ResultadoLista<DtoLibInventario.Producto.Pesado.Resumen> Producto_Pesado_Lista();
-        DtoLib.ResultadoLista<DtoLibInventario.Producto.Oferta.Resumen> Producto_Oferta_Lista();
-        DtoLib.ResultadoLista<DtoLibInventario.Producto.Clasificacion.Resumen> Producto_Clasificacion_Lista();
-
+        DtoLib.ResultadoLista<DtoLibInventario.Producto.Plu.Lista.Resumen> 
+            Producto_Plu_Lista();
+        DtoLib.ResultadoLista<DtoLibInventario.Producto.Estatus.Lista.Resumen> 
+            Producto_Estatus_Lista();
+        DtoLib.ResultadoLista<DtoLibInventario.Producto.Origen.Resumen> 
+            Producto_Origen_Lista();
+        DtoLib.ResultadoLista<DtoLibInventario.Producto.Categoria.Resumen> 
+            Producto_Categoria_Lista();
+        DtoLib.ResultadoLista<DtoLibInventario.Producto.AdmDivisa.Resumen> 
+            Producto_AdmDivisa_Lista();
+        DtoLib.ResultadoLista<DtoLibInventario.Producto.Pesado.Resumen> 
+            Producto_Pesado_Lista();
+        DtoLib.ResultadoLista<DtoLibInventario.Producto.Oferta.Resumen> 
+            Producto_Oferta_Lista();
+        DtoLib.ResultadoLista<DtoLibInventario.Producto.Clasificacion.Resumen> 
+            Producto_Clasificacion_Lista();
 
         DtoLib.ResultadoEntidad<DtoLibInventario.Producto.Editar.Obtener.Ficha>
             Producto_Editar_GetFicha(string autoPrd);
@@ -56,7 +63,6 @@ namespace ServiceInventario.Interfaces
         DtoLib.ResultadoEntidad<DtoLibInventario.Producto.Estatus.Actual.Ficha> 
             Producto_Estatus_GetFicha(string autoPrd);
 
-
         DtoLib.Resultado 
             Producto_CambiarEstatusA_Activo(string auto);
         DtoLib.Resultado
@@ -64,11 +70,12 @@ namespace ServiceInventario.Interfaces
         DtoLib.Resultado 
             Producto_CambiarEstatusA_Suspendido(string auto);
 
-
         DtoLib.Resultado
             Producto_Deposito_AsignacionMasiva(DtoLibInventario.Producto.Depositos.AsignacionMasiva.Ficha ficha);
         DtoLib.ResultadoEntidad<string>
             Producto_GetId_ByCodigoBarra(string codBarra);
+        DtoLib.ResultadoEntidad<DtoLibInventario.Producto.Precio.Ficha>
+            Producto_Precio_GetById(string autoPrd);
 
     }
 

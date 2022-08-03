@@ -125,21 +125,21 @@ namespace ProvLibInventario
                         p2.Value = filtro.autoProducto;
                     }
 
-                    if (filtro.existencia != DtoLibInventario.Producto.Filtro.Existencia.SinDefinir)
-                    {
-                        switch (filtro.existencia)
-                        {
-                            case DtoLibInventario.Producto.Filtro.Existencia.MayorQueCero:
-                                xsql3 += " and (select sum(fisica) from productos_deposito where auto_producto=p.auto)>0 ";
-                                break;
-                            case DtoLibInventario.Producto.Filtro.Existencia.IgualCero:
-                                xsql3 += " and (select sum(fisica) from productos_deposito where auto_producto=p.auto)=0 ";
-                                break;
-                            case DtoLibInventario.Producto.Filtro.Existencia.MenorQueCero:
-                                xsql3 += " and (select sum(fisica) from productos_deposito where auto_producto=p.auto)<0 ";
-                                break;
-                        }
-                    }
+                    //if (filtro.existencia != DtoLibInventario.Producto.Filtro.Existencia.SinDefinir)
+                    //{
+                    //    switch (filtro.existencia)
+                    //    {
+                    //        case DtoLibInventario.Producto.Filtro.Existencia.MayorQueCero:
+                    //            xsql3 += " and (select sum(fisica) from productos_deposito where auto_producto=p.auto)>0 ";
+                    //            break;
+                    //        case DtoLibInventario.Producto.Filtro.Existencia.IgualCero:
+                    //            xsql3 += " and (select sum(fisica) from productos_deposito where auto_producto=p.auto)=0 ";
+                    //            break;
+                    //        case DtoLibInventario.Producto.Filtro.Existencia.MenorQueCero:
+                    //            xsql3 += " and (select sum(fisica) from productos_deposito where auto_producto=p.auto)<0 ";
+                    //            break;
+                    //    }
+                    //}
 
                     if (filtro.autoDepartamento != "")
                     {
@@ -283,15 +283,15 @@ namespace ProvLibInventario
                         pF.ParameterName = "@autoProveedor";
                         pF.Value = filtro.autoProveedor;
                     }
-                    if (filtro.precioMayorHabilitado != null)
-                    {
-                        if (filtro.precioMayorHabilitado.Value == true) 
-                        {
-                            //xsql2 += " join productos_ext as pext on p.auto=pext.auto_producto ";
-                            //xsql3 += " and (pext.utilidad_may_1<>0 or pext.utilidad_may_2<>0 or pext.contenido_may_1>1 or pext.contenido_may_2>1) ";
-                            xsql3 += " and ((pext.contenido_may_1>1 or pext.contenido_may_2>1) and (pext.precio_may_1>0 or pext.precio_may_2>0)) ";
-                        }
-                    }
+                    //if (filtro.precioMayorHabilitado != null)
+                    //{
+                    //    if (filtro.precioMayorHabilitado.Value == true) 
+                    //    {
+                    //        //xsql2 += " join productos_ext as pext on p.auto=pext.auto_producto ";
+                    //        //xsql3 += " and (pext.utilidad_may_1<>0 or pext.utilidad_may_2<>0 or pext.contenido_may_1>1 or pext.contenido_may_2>1) ";
+                    //        xsql3 += " and ((pext.contenido_may_1>1 or pext.contenido_may_2>1) and (pext.precio_may_1>0 or pext.precio_may_2>0)) ";
+                    //    }
+                    //}
 
                     var t1 = new MySql.Data.MySqlClient.MySqlParameter();
                     var t2 = new MySql.Data.MySqlClient.MySqlParameter();
@@ -2387,10 +2387,8 @@ namespace ProvLibInventario
 
             return rt;
         }
-
-
-        DtoLib.ResultadoEntidad<DtoLibInventario.Producto.VerData.Proveedor.Ficha> 
-            ILibInventario.IProducto.Producto_GetProveedores(string autoPrd)
+        public DtoLib.ResultadoEntidad<DtoLibInventario.Producto.VerData.Proveedor.Ficha> 
+            Producto_GetProveedores(string autoPrd)
         {
             var rt = new DtoLib.ResultadoEntidad<DtoLibInventario.Producto.VerData.Proveedor.Ficha>();
 
@@ -2447,8 +2445,6 @@ namespace ProvLibInventario
 
             return rt;
         }
-
-        
         public DtoLib.Resultado 
             Producto_Deposito_AsignacionMasiva(DtoLibInventario.Producto.Depositos.AsignacionMasiva.Ficha ficha)
         {
@@ -2555,6 +2551,143 @@ namespace ProvLibInventario
                     {
                         rt.Entidad = ent;
                     }
+                }
+            }
+            catch (Exception e)
+            {
+                rt.Mensaje = e.Message;
+                rt.Result = DtoLib.Enumerados.EnumResult.isError;
+            }
+
+            return rt;
+        }
+        public DtoLib.ResultadoEntidad<DtoLibInventario.Producto.Precio.Ficha> 
+            Producto_Precio_GetById(string idPrd)
+        {
+            var rt = new DtoLib.ResultadoEntidad<DtoLibInventario.Producto.Precio.Ficha>();
+
+            try
+            {
+                using (var cnn = new invEntities(_cnInv.ConnectionString))
+                {
+                    var sql_1 = @"SELECT 
+                                    p.auto as auto, 
+                                    p.codigo as codigo, 
+                                    p.nombre as descripcion, 
+                                    eTasa.tasa as tasaIva,
+                                    p.estatus_divisa as estatusDivisa,
+                                    p.auto_precio_1 as idEmp1_1, 
+                                    p.auto_precio_2 as idEmp1_2, 
+                                    p.auto_precio_3 as idEmp1_3,  
+                                    p.auto_precio_4 as idEmp1_4, 
+                                    p.auto_precio_pto as idEmp1_5,
+                                    p.contenido_1 as contEmp1_1, 
+                                    p.contenido_2 as contEmp1_2, 
+                                    p.contenido_3 as contEmp1_3, 
+                                    p.contenido_4 as contEmp1_4,  
+                                    p.contenido_pto as contEmp1_5,  
+                                    pMedEmp1_1.nombre as descEmp1_1,
+                                    pMedEmp1_2.nombre as descEmp1_2,
+                                    pMedEmp1_3.nombre as descEmp1_3,
+                                    pMedEmp1_4.nombre as descEmp1_4,
+                                    pMedEmp1_5.nombre as descEmp1_5,
+                                    p.utilidad_1 as utEmp1_1,
+                                    p.utilidad_2 as utEmp1_2,
+                                    p.utilidad_3 as utEmp1_3,
+                                    p.utilidad_4 as utEmp1_4,
+                                    p.utilidad_pto as utEmp1_5,
+                                    p.precio_1 as pnEmp1_1,
+                                    p.precio_2 as pnEmp1_2,
+                                    p.precio_3 as pnEmp1_3,
+                                    p.precio_4 as pnEmp1_4,
+                                    p.precio_pto as pnEmp1_5,
+                                    p.pdf_1 as pfdEmp1_1,
+                                    p.pdf_2 as pfdEmp1_2,
+                                    p.pdf_3 as pfdEmp1_3,
+                                    p.pdf_4 as pfdEmp1_4,
+                                    p.pdf_pto as pfdEmp1_5,
+
+                                    pExt.auto_precio_may_1 as idEmp2_1, 
+                                    pExt.auto_precio_may_2 as idEmp2_2, 
+                                    pExt.auto_precio_may_3 as idEmp2_3, 
+                                    pExt.auto_precio_may_4 as idEmp2_4, 
+                                    pExt.contenido_may_1 as contEmp2_1, 
+                                    pExt.contenido_may_2 as contEmp2_2, 
+                                    pExt.contenido_may_3 as contEmp2_3, 
+                                    pExt.cont_may_4 as contEmp2_4, 
+                                    pMedEmp2_1.nombre as descEmp2_1,
+                                    pMedEmp2_2.nombre as descEmp2_2,
+                                    pMedEmp2_3.nombre as descEmp2_3,
+                                    pMedEmp2_4.nombre as descEmp2_4,
+                                    pExt.utilidad_may_1 as utEmp2_1,
+                                    pExt.utilidad_may_2 as utEmp2_2,
+                                    pExt.utilidad_may_3 as utEmp2_3,
+                                    pExt.utilidad_may_4 as utEmp2_4,
+                                    pExt.precio_may_1 as pnEmp2_1,
+                                    pExt.precio_may_2 as pnEmp2_2,
+                                    pExt.precio_may_3 as pnEmp2_3,
+                                    pExt.precio_may_4 as pnEmp2_4,
+                                    pExt.pdmf_1 as pfdEmp2_1,
+                                    pExt.pdmf_2 as pfdEmp2_2,
+                                    pExt.pdmf_3 as pfdEmp2_3,
+                                    pExt.pdmf_4 as pfdEmp2_4,
+        
+                                    pExt.auto_precio_dsp_1 as idEmp3_1, 
+                                    pExt.auto_precio_dsp_2 as idEmp3_2, 
+                                    pExt.auto_precio_dsp_3 as idEmp3_3, 
+                                    pExt.auto_precio_dsp_4 as idEmp3_4, 
+                                    pExt.cont_dsp_1 as contEmp3_1, 
+                                    pExt.cont_dsp_2 as contEmp3_2, 
+                                    pExt.cont_dsp_3 as contEmp3_3, 
+                                    pExt.cont_dsp_4 as contEmp3_4, 
+                                    pMedEmp3_1.nombre as descEmp3_1,
+                                    pMedEmp3_2.nombre as descEmp3_2,
+                                    pMedEmp3_3.nombre as descEmp3_3,
+                                    pMedEmp3_4.nombre as descEmp3_4,
+                                    pExt.utilidad_dsp_1 as utEmp3_1,
+                                    pExt.utilidad_dsp_2 as utEmp3_2,
+                                    pExt.utilidad_dsp_3 as utEmp3_3,
+                                    pExt.utilidad_dsp_4 as utEmp3_4,
+                                    pExt.precio_dsp_1 as pnEmp3_1,
+                                    pExt.precio_dsp_2 as pnEmp3_2,
+                                    pExt.precio_dsp_3 as pnEmp3_3,
+                                    pExt.precio_dsp_4 as pnEmp3_4,
+                                    pExt.pdivisafull_dsp_1 as pfdEmp3_1,
+                                    pExt.pdivisafull_dsp_2 as pfdEmp3_2,
+                                    pExt.pdivisafull_dsp_3 as pfdEmp3_3,
+                                    pExt.pdivisafull_dsp_4 as pfdEmp3_4
+
+                                    FROM productos as p
+                                    join empresa_tasas as eTasa on eTasa.auto=p.auto_tasa
+                                    join productos_ext as pExt on pExt.auto_producto=p.auto
+
+                                    join productos_medida as pMedEmp1_1 on pMedEmp1_1.auto=p.auto_precio_1
+                                    join productos_medida as pMedEmp1_2 on pMedEmp1_2.auto=p.auto_precio_2
+                                    join productos_medida as pMedEmp1_3 on pMedEmp1_3.auto=p.auto_precio_3
+                                    join productos_medida as pMedEmp1_4 on pMedEmp1_4.auto=p.auto_precio_4
+                                    join productos_medida as pMedEmp1_5 on pMedEmp1_5.auto=p.auto_precio_pto
+
+                                    join productos_medida as pMedEmp2_1 on pMedEmp2_1.auto=pExt.auto_precio_may_1
+                                    join productos_medida as pMedEmp2_2 on pMedEmp2_2.auto=pExt.auto_precio_may_2
+                                    join productos_medida as pMedEmp2_3 on pMedEmp2_3.auto=pExt.auto_precio_may_3
+                                    join productos_medida as pMedEmp2_4 on pMedEmp2_4.auto=pExt.auto_precio_may_4
+
+                                    join productos_medida as pMedEmp3_1 on pMedEmp3_1.auto=pExt.auto_precio_dsp_1
+                                    join productos_medida as pMedEmp3_2 on pMedEmp3_2.auto=pExt.auto_precio_dsp_2
+                                    join productos_medida as pMedEmp3_3 on pMedEmp3_3.auto=pExt.auto_precio_dsp_3
+                                    join productos_medida as pMedEmp3_4 on pMedEmp3_4.auto=pExt.auto_precio_dsp_4
+
+                                    where p.auto=@id";
+                    var sql = sql_1;
+                    var p1 = new MySql.Data.MySqlClient.MySqlParameter("@id", idPrd);
+                    var _ent = cnn.Database.SqlQuery<DtoLibInventario.Producto.Precio.Ficha>(sql, p1).FirstOrDefault();
+                    if (_ent == null)
+                    {
+                        rt.Mensaje = "PRODUCTO [ ID ] NO ENCONTRADO";
+                        rt.Result = DtoLib.Enumerados.EnumResult.isError;
+                        return rt;
+                    }
+                    rt.Entidad = _ent;
                 }
             }
             catch (Exception e)

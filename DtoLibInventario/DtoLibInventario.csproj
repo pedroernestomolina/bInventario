@@ -210,6 +210,7 @@
     <Compile Include="Producto\Origen\Resumen.cs" />
     <Compile Include="Producto\Pesado\Resumen.cs" />
     <Compile Include="Producto\Plu\Lista\Resumen.cs" />
+    <Compile Include="Producto\Precio\Ficha.cs" />
     <Compile Include="Producto\Resumen.cs" />
     <Compile Include="Producto\VerData\CodAlterno.cs" />
     <Compile Include="Producto\VerData\Costo.cs" />
@@ -300,6 +301,7 @@
     <Compile Include="Visor\Traslado\Ficha.cs" />
     <Compile Include="Visor\Traslado\Filtro.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

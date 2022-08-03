@@ -15,10 +15,15 @@ namespace ILibInventario
         DtoLib.ResultadoEntidad<DtoLibInventario.Producto.VerData.Ficha> Producto_GetFicha(string autoPrd);
         DtoLib.ResultadoEntidad<DtoLibInventario.Producto.VerData.Identificacion> Producto_GetIdentificacion(string autoPrd);
         DtoLib.ResultadoEntidad<DtoLibInventario.Producto.VerData.Existencia> Producto_GetExistencia(string autoPrd);
-        DtoLib.ResultadoEntidad<DtoLibInventario.Producto.VerData.Precio> Producto_GetPrecio(string autoPrd);
-        DtoLib.ResultadoEntidad<DtoLibInventario.Producto.VerData.Costo> Producto_GetCosto(string autoPrd);
-        DtoLib.ResultadoEntidad<DtoLibInventario.Producto.VerData.Imagen> Producto_GetImagen (string autoPrd);
-        DtoLib.ResultadoEntidad<DtoLibInventario.Producto.VerData.Proveedor.Ficha> Producto_GetProveedores (string autoPrd);
+
+        DtoLib.ResultadoEntidad<DtoLibInventario.Producto.VerData.Precio> 
+            Producto_GetPrecio(string autoPrd);
+        DtoLib.ResultadoEntidad<DtoLibInventario.Producto.VerData.Costo> 
+            Producto_GetCosto(string autoPrd);
+        DtoLib.ResultadoEntidad<DtoLibInventario.Producto.VerData.Imagen> 
+            Producto_GetImagen (string autoPrd);
+        DtoLib.ResultadoEntidad<DtoLibInventario.Producto.VerData.Proveedor.Ficha> 
+            Producto_GetProveedores (string autoPrd);
 
         DtoLib.ResultadoEntidad<DtoLibInventario.Producto.Depositos.Lista.Ficha> Producto_GetDepositos(string autoPrd);
         DtoLib.Resultado Producto_AsignarRemoverDepositos(DtoLibInventario.Producto.Depositos.Asignar.Ficha ficha);
@@ -39,9 +44,12 @@ namespace ILibInventario
         DtoLib.ResultadoAuto Producto_Nuevo_Agregar(DtoLibInventario.Producto.Agregar.Ficha ficha);
         DtoLib.ResultadoEntidad<DtoLibInventario.Producto.Estatus.Actual.Ficha> Producto_Estatus_GetFicha(string autoPrd);
 
-        DtoLib.Resultado Producto_CambiarEstatusA_Activo (string auto);
-        DtoLib.Resultado Producto_CambiarEstatusA_Inactivo(string auto);
-        DtoLib.Resultado Producto_CambiarEstatusA_Suspendido(string auto);
+        DtoLib.Resultado 
+            Producto_CambiarEstatusA_Activo (string auto);
+        DtoLib.Resultado 
+            Producto_CambiarEstatusA_Inactivo(string auto);
+        DtoLib.Resultado 
+            Producto_CambiarEstatusA_Suspendido(string auto);
 
         DtoLib.ResultadoEntidad<bool> Producto_Verificar_EsBienServicio(string autoPrd);
         DtoLib.ResultadoEntidad<bool> Producto_Verificar_HayDepositosAsignado(string autoPrd);
@@ -51,11 +59,12 @@ namespace ILibInventario
         DtoLib.ResultadoEntidad<bool> Producto_Verificar_QueExista_EstatusActivo_NoSeaBienServicio(string autoPrd);
         DtoLib.Resultado Producto_Verificar_DepositoRemover(string autoPrd, string autoDeposito);
 
-
         DtoLib.Resultado
             Producto_Deposito_AsignacionMasiva(DtoLibInventario.Producto.Depositos.AsignacionMasiva.Ficha ficha);
         DtoLib.ResultadoEntidad<string> 
             Producto_GetId_ByCodigoBarra(string codBarra);
+        DtoLib.ResultadoEntidad<DtoLibInventario.Producto.Precio.Ficha>
+            Producto_Precio_GetById(string autoPrd);
 
     }
 

@@ -63,6 +63,7 @@ namespace ConsoleInv
             //var filtro = new DtoLibInventario.Sucursal.Filtro() { idEmpresaGrupo = "0000000004" };
             //var r03 = invPrv.Sucursal_GetLista(filtro);
 
+            //var r03 = invPrv.Producto_Precio_GetById("0000000728");
         }
 
     }

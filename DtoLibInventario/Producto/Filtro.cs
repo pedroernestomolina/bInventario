@@ -22,7 +22,6 @@ namespace DtoLibInventario.Producto
         public string autoTasa { get; set; }
         public string autoProveedor { get; set; }
         public string autoMarca { get; set; }
-
         public Enumerados.EnumOrigen origen { get; set; }
         public Enumerados.EnumEstatus estatus { get; set; }
         public Enumerados.EnumCategoria categoria { get; set; }
@@ -30,15 +29,12 @@ namespace DtoLibInventario.Producto
         public Enumerados.EnumPesado pesado { get; set; }
         public Enumerados.EnumCatalogo catalogo { get; set; }
         public Enumerados.EnumOferta oferta { get; set; }
-
         public Enumerados.EnumMetodoBusqueda MetodoBusqueda { get; set; }
-        public Existencia existencia { get; set; }
-
-        public bool? precioMayorHabilitado { get; set; }
-
         public bool activarBusquedaPorTrasalado { get; set; }
         public string autoDepOrigen { get; set; }
         public string autoDepDestino { get; set; }
+        //public Existencia existencia { get; set; }
+        //public bool? precioMayorHabilitado { get; set; }
 
 
         public Filtro()
@@ -57,13 +53,12 @@ namespace DtoLibInventario.Producto
             admPorDivisa = Enumerados.EnumAdministradorPorDivisa.SnDefinir;
             pesado = Enumerados.EnumPesado.SnDefinir;
             oferta = Enumerados.EnumOferta.SnDefinir;
-            existencia = Existencia.SinDefinir ;
             catalogo = Enumerados.EnumCatalogo.SnDefinir;
-            precioMayorHabilitado = null;
-
             activarBusquedaPorTrasalado = false;
             autoDepOrigen = "";
             autoDepDestino = "";
+            //existencia = Existencia.SinDefinir;
+            //precioMayorHabilitado = null;
         }
 
     }
