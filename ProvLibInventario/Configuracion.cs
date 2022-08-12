@@ -1,6 +1,7 @@
 ﻿using LibEntityInventario;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Infrastructure;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -307,7 +308,8 @@ namespace ProvLibInventario
             return result;
         }
         
-        public DtoLib.Resultado Configuracion_SetCostoEdadProducto(DtoLibInventario.Configuracion.CostoEdad.Editar.Ficha ficha)
+        public DtoLib.Resultado 
+            Configuracion_SetCostoEdadProducto(DtoLibInventario.Configuracion.CostoEdad.Editar.Ficha ficha)
         {
             var result = new DtoLib.Resultado();
 
@@ -334,7 +336,8 @@ namespace ProvLibInventario
 
             return result;
         }
-        public DtoLib.Resultado Configuracion_SetRedondeoPrecioVenta(DtoLibInventario.Configuracion.RedondeoPrecio.Editar.Ficha ficha)
+        public DtoLib.Resultado 
+            Configuracion_SetRedondeoPrecioVenta(DtoLibInventario.Configuracion.RedondeoPrecio.Editar.Ficha ficha)
         {
             var result = new DtoLib.Resultado();
 
@@ -361,7 +364,8 @@ namespace ProvLibInventario
 
             return result;
         }
-        public DtoLib.Resultado Configuracion_SetPreferenciaRegistroPrecio(DtoLibInventario.Configuracion.PreferenciaPrecio.Editar.Ficha ficha)
+        public DtoLib.Resultado 
+            Configuracion_SetPreferenciaRegistroPrecio(DtoLibInventario.Configuracion.PreferenciaPrecio.Editar.Ficha ficha)
         {
             var result = new DtoLib.Resultado();
 
@@ -388,7 +392,8 @@ namespace ProvLibInventario
 
             return result;
         }
-        public DtoLib.Resultado Configuracion_SetMetodoCalculoUtilidad(DtoLibInventario.Configuracion.MetodoCalculoUtilidad.Editar.Ficha ficha)
+        public DtoLib.Resultado 
+            Configuracion_SetMetodoCalculoUtilidad(DtoLibInventario.Configuracion.MetodoCalculoUtilidad.Editar.Ficha ficha)
         {
             var result = new DtoLib.Resultado();
 
@@ -486,7 +491,8 @@ namespace ProvLibInventario
 
             return result;
         }
-        public DtoLib.Resultado Configuracion_SetBusquedaPredeterminada(DtoLibInventario.Configuracion.BusquedaPredeterminada.Editar.Ficha ficha)
+        public DtoLib.Resultado 
+            Configuracion_SetBusquedaPredeterminada(DtoLibInventario.Configuracion.BusquedaPredeterminada.Editar.Ficha ficha)
         {
             var result = new DtoLib.Resultado();
 
@@ -513,7 +519,8 @@ namespace ProvLibInventario
 
             return result;
         }
-        public DtoLib.Resultado Configuracion_SetDepositosPreDeterminado(DtoLibInventario.Configuracion.DepositoPredeterminado.Ficha ficha)
+        public DtoLib.Resultado 
+            Configuracion_SetDepositosPreDeterminado(DtoLibInventario.Configuracion.DepositoPredeterminado.Ficha ficha)
         {
             var result = new DtoLib.Resultado();
 
@@ -554,7 +561,8 @@ namespace ProvLibInventario
             return result;
         }
 
-        public DtoLib.ResultadoLista<DtoLibInventario.Configuracion.MetodoCalculoUtilidad.CapturarData.Ficha> Configuracion_MetodoCalculoUtilidad_CapturarData()
+        public DtoLib.ResultadoLista<DtoLibInventario.Configuracion.MetodoCalculoUtilidad.CapturarData.Ficha> 
+            Configuracion_MetodoCalculoUtilidad_CapturarData()
         {
             var result = new DtoLib.ResultadoLista<DtoLibInventario.Configuracion.MetodoCalculoUtilidad.CapturarData.Ficha>();
 
@@ -581,7 +589,8 @@ namespace ProvLibInventario
 
             return result;
         }
-        public DtoLib.ResultadoEntidad<string> Configuracion_HabilitarPrecio_5_ParaVentaMayorPos()
+        public DtoLib.ResultadoEntidad<string> 
+            Configuracion_HabilitarPrecio_5_ParaVentaMayorPos()
         {
             var result = new DtoLib.ResultadoEntidad<string>();
 
@@ -650,7 +659,8 @@ namespace ProvLibInventario
 
             return result;
         }
-        public DtoLib.Resultado Configuracion_SetDepositoConceptoPreDeterminadoParaDevolucion(DtoLibInventario.Configuracion.DepositoConceptoDev.Editar.Ficha ficha)
+        public DtoLib.Resultado 
+            Configuracion_SetDepositoConceptoPreDeterminadoParaDevolucion(DtoLibInventario.Configuracion.DepositoConceptoDev.Editar.Ficha ficha)
         {
             var result = new DtoLib.Resultado();
 
@@ -685,6 +695,77 @@ namespace ProvLibInventario
                         ts.Commit();
                     }
                 }
+            }
+            catch (Exception e)
+            {
+                result.Mensaje = e.Message;
+                result.Result = DtoLib.Enumerados.EnumResult.isError;
+            }
+
+            return result;
+        }
+        //
+        public DtoLib.ResultadoEntidad<string> 
+            Configuracion_PermitirCambiarPrecioAlModificarCosto()
+        {
+            var result = new DtoLib.ResultadoEntidad<string>();
+
+            try
+            {
+                using (var cnn = new invEntities(_cnInv.ConnectionString))
+                {
+                    var ent = cnn.sistema_configuracion.FirstOrDefault(f => f.codigo == "GLOBAL56");
+                    if (ent == null)
+                    {
+                        result.Mensaje = "[ ID ] CONFIGURACION NO ENCONTRADO";
+                        result.Result = DtoLib.Enumerados.EnumResult.isError;
+                        return result;
+                    }
+                    result.Entidad = ent.usuario.Trim().ToString();
+                }
+            }
+            catch (Exception e)
+            {
+                result.Mensaje = e.Message;
+                result.Result = DtoLib.Enumerados.EnumResult.isError;
+            }
+
+            return result;
+        }
+        public DtoLib.Resultado 
+            Configuracion_SetPermitirCambiarPrecioAlModificarCosto(string conf)
+        {
+            var result = new DtoLib.Resultado();
+
+            try
+            {
+                using (var cnn = new invEntities(_cnInv.ConnectionString))
+                {
+                    using (var ts = cnn.Database.BeginTransaction())
+                    {
+                        var p1 = new MySql.Data.MySqlClient.MySqlParameter("@p1", conf);
+                        var sql = @"update sistema_configuracion set usuario=@p1 
+                                    where codigo='GLOBAL56'";
+                        var i = cnn.Database.ExecuteSqlCommand(sql, p1);
+                        if (i == 0)
+                        {
+                            result.Mensaje = "[ GLOBAL 56 ] NO ENCONTRADO";
+                            result.Result = DtoLib.Enumerados.EnumResult.isError;
+                            return result;
+                        }
+                        ts.Commit();
+                    }
+                }
+            }
+            catch (MySql.Data.MySqlClient.MySqlException ex)
+            {
+                result.Mensaje = Helpers.MYSQL_VerificaError(ex);
+                result.Result = DtoLib.Enumerados.EnumResult.isError;
+            }
+            catch (DbUpdateException ex)
+            {
+                result.Mensaje = Helpers.ENTITY_VerificaError(ex);
+                result.Result = DtoLib.Enumerados.EnumResult.isError;
             }
             catch (Exception e)
             {

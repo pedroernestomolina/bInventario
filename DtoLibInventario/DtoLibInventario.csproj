@@ -263,6 +263,7 @@
     <Compile Include="Reportes\TopDepartUtilidad\Filtro.cs" />
     <Compile Include="Reportes\Valorizacion\Ficha.cs" />
     <Compile Include="Reportes\Valorizacion\Filtro.cs" />
+    <Compile Include="Sistema\HndPrecios\Lista\Ficha.cs" />
     <Compile Include="Sistema\TipoDocumento\Entidad\Ficha.cs" />
     <Compile Include="Sucursal\Ficha.cs" />
     <Compile Include="Sucursal\Filtro.cs" />
@@ -271,6 +272,10 @@
     <Compile Include="Tool\AjusteNivelMinimoMaximo\Ajustar\Ficha.cs" />
     <Compile Include="Tool\AjusteNivelMinimoMaximo\Capturar\Ficha.cs" />
     <Compile Include="Tool\AjusteNivelMinimoMaximo\Capturar\Filtro.cs" />
+    <Compile Include="Tool\CambioMasivoPrecio\ActualizarData\Ficha.cs" />
+    <Compile Include="Tool\CambioMasivoPrecio\CapturarData\Ficha.cs" />
+    <Compile Include="Tool\CambioMasivoPrecio\CapturarData\Filtro.cs" />
+    <Compile Include="Tool\CambioMasivoPrecio\BaseData.cs" />
     <Compile Include="Transito\Movimiento\Agregar\Detalle.cs" />
     <Compile Include="Transito\Movimiento\Agregar\Ficha.cs" />
     <Compile Include="Transito\Movimiento\Agregar\Mov.cs" />

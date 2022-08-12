@@ -64,6 +64,18 @@ namespace ConsoleInv
             //var r03 = invPrv.Sucursal_GetLista(filtro);
 
             //var r03 = invPrv.Producto_Precio_GetById("0000000728");
+            //var r01 = invPrv.Configuracion_PermitirCambiarPrecioAlModificarCosto();
+            //var r02 = invPrv.Configuracion_SetPermitirCambiarPrecioAlModificarCosto("No");
+            //var r03 = invPrv.Permiso_CambioMovimientoMasivoPrecio("0000000001");
+            // var r04 = invPrv.Sistema_TipoPreciosDefinidos_Lista();
+            //var filtro = new DtoLibInventario.Tool.CambioMasivoPrecio.CapturarData.Filtro()
+            //{
+            //    codigoPrecioOrigen = "1",
+            //    idDepartamento = "0000000002",
+            //    idGrupo = "0000000014",
+            //};
+            //var r05 = invPrv.Tools_CambioMasivoPrecio_GetData(filtro);
+
         }
 
     }

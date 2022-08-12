@@ -15,7 +15,8 @@ namespace ProvLibInventario
     public partial class Provider : ILibInventario.IProvider
     {
 
-        public DtoLib.ResultadoLista<DtoLibInventario.EmpaqueMedida.Resumen> EmpaqueMedida_GetLista()
+        public DtoLib.ResultadoLista<DtoLibInventario.EmpaqueMedida.Resumen> 
+            EmpaqueMedida_GetLista()
         {
             var result = new DtoLib.ResultadoLista<DtoLibInventario.EmpaqueMedida.Resumen>();
 
@@ -53,8 +54,8 @@ namespace ProvLibInventario
 
             return result;
         }
-
-        public DtoLib.ResultadoEntidad<DtoLibInventario.EmpaqueMedida.Ficha> EmpaqueMedida_GetFicha(string auto)
+        public DtoLib.ResultadoEntidad<DtoLibInventario.EmpaqueMedida.Ficha> 
+            EmpaqueMedida_GetFicha(string auto)
         {
             var result = new DtoLib.ResultadoEntidad<DtoLibInventario.EmpaqueMedida.Ficha>();
 
@@ -86,8 +87,8 @@ namespace ProvLibInventario
 
             return result;
         }
-
-        public DtoLib.ResultadoAuto EmpaqueMedida_Agregar(DtoLibInventario.EmpaqueMedida.Agregar ficha)
+        public DtoLib.ResultadoAuto 
+            EmpaqueMedida_Agregar(DtoLibInventario.EmpaqueMedida.Agregar ficha)
         {
             var result = new DtoLib.ResultadoAuto();
 
@@ -122,30 +123,14 @@ namespace ProvLibInventario
                     }
                 }
             }
+            catch (MySql.Data.MySqlClient.MySqlException ex)
+            {
+                result.Mensaje = Helpers.MYSQL_VerificaError(ex);
+                result.Result = DtoLib.Enumerados.EnumResult.isError;
+            }
             catch (DbUpdateException ex)
             {
-                var dbUpdateEx = ex as DbUpdateException;
-                var sqlEx = dbUpdateEx.InnerException;
-                if (sqlEx != null)
-                {
-                    var exx = (MySql.Data.MySqlClient.MySqlException)sqlEx.InnerException;
-                    if (exx != null)
-                    {
-                        if (exx.Number == 1451)
-                        {
-                            result.Mensaje = "REGISTRO CONTIENE DATA RELACIONADA";
-                            result.Result = DtoLib.Enumerados.EnumResult.isError;
-                            return result;
-                        }
-                        if (exx.Number == 1062)
-                        {
-                            result.Mensaje = exx.Message;
-                            result.Result = DtoLib.Enumerados.EnumResult.isError;
-                            return result;
-                        }
-                    }
-                }
-                result.Mensaje = ex.Message;
+                result.Mensaje = Helpers.ENTITY_VerificaError(ex);
                 result.Result = DtoLib.Enumerados.EnumResult.isError;
             }
             catch (Exception e)
@@ -156,8 +141,8 @@ namespace ProvLibInventario
 
             return result;
         }
-
-        public DtoLib.Resultado EmpaqueMedida_Editar(DtoLibInventario.EmpaqueMedida.Editar ficha)
+        public DtoLib.Resultado 
+            EmpaqueMedida_Editar(DtoLibInventario.EmpaqueMedida.Editar ficha)
         {
             var result = new DtoLib.ResultadoAuto();
 
@@ -183,30 +168,14 @@ namespace ProvLibInventario
                     }
                 }
             }
+            catch (MySql.Data.MySqlClient.MySqlException ex)
+            {
+                result.Mensaje = Helpers.MYSQL_VerificaError(ex);
+                result.Result = DtoLib.Enumerados.EnumResult.isError;
+            }
             catch (DbUpdateException ex)
             {
-                var dbUpdateEx = ex as DbUpdateException;
-                var sqlEx = dbUpdateEx.InnerException;
-                if (sqlEx != null)
-                {
-                    var exx = (MySql.Data.MySqlClient.MySqlException)sqlEx.InnerException;
-                    if (exx != null)
-                    {
-                        if (exx.Number == 1451)
-                        {
-                            result.Mensaje = "REGISTRO CONTIENE DATA RELACIONADA";
-                            result.Result = DtoLib.Enumerados.EnumResult.isError;
-                            return result;
-                        }
-                        if (exx.Number == 1062)
-                        {
-                            result.Mensaje = exx.Message;
-                            result.Result = DtoLib.Enumerados.EnumResult.isError;
-                            return result;
-                        }
-                    }
-                }
-                result.Mensaje = ex.Message;
+                result.Mensaje = Helpers.ENTITY_VerificaError(ex);
                 result.Result = DtoLib.Enumerados.EnumResult.isError;
             }
             catch (Exception e)
@@ -217,8 +186,8 @@ namespace ProvLibInventario
 
             return result;
         }
-
-        public DtoLib.Resultado EmpaqueMedida_Eliminar(string auto)
+        public DtoLib.Resultado 
+            EmpaqueMedida_Eliminar(string auto)
         {
             var result = new DtoLib.Resultado();
 
@@ -237,24 +206,14 @@ namespace ProvLibInventario
                     cnn.SaveChanges();
                 }
             }
+            catch (MySql.Data.MySqlClient.MySqlException ex)
+            {
+                result.Mensaje = Helpers.MYSQL_VerificaError(ex);
+                result.Result = DtoLib.Enumerados.EnumResult.isError;
+            }
             catch (DbUpdateException ex)
             {
-                var dbUpdateEx = ex as DbUpdateException;
-                var sqlEx = dbUpdateEx.InnerException;
-                if (sqlEx != null)
-                {
-                    var exx = (MySql.Data.MySqlClient.MySqlException)sqlEx.InnerException;
-                    if (exx != null)
-                    {
-                        if (exx.Number == 1451)
-                        {
-                            result.Mensaje = "REGISTRO CONTIENE DATA RELACIONADA";
-                            result.Result = DtoLib.Enumerados.EnumResult.isError;
-                            return result;
-                        }
-                    }
-                }
-                result.Mensaje = ex.Message;
+                result.Mensaje = Helpers.ENTITY_VerificaError(ex);
                 result.Result = DtoLib.Enumerados.EnumResult.isError;
             }
             catch (Exception e)

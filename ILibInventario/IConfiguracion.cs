@@ -29,6 +29,8 @@ namespace ILibInventario
             Configuracion_CantDocVisualizar();
         DtoLib.ResultadoEntidad<DtoLibInventario.Configuracion.DepositoConceptoDev.Captura.Ficha> 
             Configuracion_DepositoConceptoPreDeterminadoParaDevolucion();
+        DtoLib.ResultadoEntidad<string>
+            Configuracion_PermitirCambiarPrecioAlModificarCosto();
 
 
         DtoLib.Resultado 
@@ -45,6 +47,8 @@ namespace ILibInventario
             Configuracion_SetDepositosPreDeterminado(DtoLibInventario.Configuracion.DepositoPredeterminado.Ficha ficha);
         DtoLib.Resultado 
             Configuracion_SetDepositoConceptoPreDeterminadoParaDevolucion(DtoLibInventario.Configuracion.DepositoConceptoDev.Editar.Ficha ficha);
+        DtoLib.Resultado 
+            Configuracion_SetPermitirCambiarPrecioAlModificarCosto(string conf);
 
 
         DtoLib.ResultadoLista<DtoLibInventario.Configuracion.MetodoCalculoUtilidad.CapturarData.Ficha> 

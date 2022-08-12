@@ -11,11 +11,16 @@ namespace ILibInventario
     public interface IEmpaqueMedida
     {
 
-        DtoLib.ResultadoLista<DtoLibInventario.EmpaqueMedida.Resumen> EmpaqueMedida_GetLista();
-        DtoLib.ResultadoEntidad<DtoLibInventario.EmpaqueMedida.Ficha> EmpaqueMedida_GetFicha(string auto);
-        DtoLib.ResultadoAuto EmpaqueMedida_Agregar(DtoLibInventario.EmpaqueMedida.Agregar ficha);
-        DtoLib.Resultado EmpaqueMedida_Editar(DtoLibInventario.EmpaqueMedida.Editar ficha);
-        DtoLib.Resultado EmpaqueMedida_Eliminar(string auto);
+        DtoLib.ResultadoLista<DtoLibInventario.EmpaqueMedida.Resumen> 
+            EmpaqueMedida_GetLista();
+        DtoLib.ResultadoEntidad<DtoLibInventario.EmpaqueMedida.Ficha> 
+            EmpaqueMedida_GetFicha(string auto);
+        DtoLib.ResultadoAuto 
+            EmpaqueMedida_Agregar(DtoLibInventario.EmpaqueMedida.Agregar ficha);
+        DtoLib.Resultado 
+            EmpaqueMedida_Editar(DtoLibInventario.EmpaqueMedida.Editar ficha);
+        DtoLib.Resultado 
+            EmpaqueMedida_Eliminar(string auto);
 
     }
 

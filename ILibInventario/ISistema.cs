@@ -13,6 +13,8 @@ namespace ILibInventario
 
         DtoLib.ResultadoEntidad<DtoLibInventario.Sistema.TipoDocumento.Entidad.Ficha> 
             Sistema_TipoDocumento_GetFichaById(string id);
+        DtoLib.ResultadoLista<DtoLibInventario.Sistema.HndPrecios.Lista.Ficha>
+            Sistema_TipoPreciosDefinidos_Lista();
 
     }
 

@@ -12,9 +12,15 @@ namespace ServiceInventario.MyService
     public partial class Service: IService
     {
 
-        public DtoLib.ResultadoEntidad<DtoLibInventario.Sistema.TipoDocumento.Entidad.Ficha> Sistema_TipoDocumento_GetFichaById(string id)
+        public DtoLib.ResultadoEntidad<DtoLibInventario.Sistema.TipoDocumento.Entidad.Ficha> 
+            Sistema_TipoDocumento_GetFichaById(string id)
         {
             return ServiceProv.Sistema_TipoDocumento_GetFichaById(id);
+        }
+        public DtoLib.ResultadoLista<DtoLibInventario.Sistema.HndPrecios.Lista.Ficha> 
+            Sistema_TipoPreciosDefinidos_Lista()
+        {
+            return ServiceProv.Sistema_TipoPreciosDefinidos_Lista();
         }
 
     }

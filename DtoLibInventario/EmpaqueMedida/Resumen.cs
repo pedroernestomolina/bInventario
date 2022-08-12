@@ -15,6 +15,14 @@ namespace DtoLibInventario.EmpaqueMedida
         public string nombre { get; set; }
         public string decimales { get; set; }
 
+
+        public Resumen() 
+        {
+            auto = "";
+            nombre = "";
+            decimales = "";
+        }
+
     }
 
 }

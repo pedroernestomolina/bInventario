@@ -12,7 +12,6 @@ namespace ProvLibInventario
     public partial class Provider : ILibInventario.IProvider
     {
 
-
         public DtoLib.ResultadoEntidad<string> 
             Permiso_PedirClaveAcceso_NivelMaximo()
         {
@@ -342,6 +341,11 @@ namespace ProvLibInventario
             Permiso_AsignacionMasivaProductosDeposito(string autoGrupoUsuario)
         {
             return Helpers.Permiso_Modulo(autoGrupoUsuario, "0330090000");
+        }
+        public DtoLib.ResultadoEntidad<DtoLibInventario.Permiso.Ficha> 
+            Permiso_CambioMovimientoMasivoPrecio(string autoGrupoUsuario)
+        {
+            return Helpers.Permiso_Modulo(autoGrupoUsuario, "0330100000");
         }
 
     }

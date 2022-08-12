@@ -1118,6 +1118,9 @@ namespace ProvLibInventario
                         contEmpInv = entPrdExt.cont_emp_inv_1,
                         peso=entPrd.peso,
                         volumen=entPrd.volumen,
+                        alto=entPrd.alto,
+                        largo= entPrd.largo,
+                        ancho= entPrd.ancho,
                     };
                     var listPrdAlt = new List<DtoLibInventario.Producto.Editar.Obtener.FichaAlterno>();
                     foreach (var rg in entPrdAlterno)
@@ -1183,6 +1186,10 @@ namespace ProvLibInventario
                         entPrd.estatus_catalogo = ficha.estatusCatalogo;
                         entPrd.peso = ficha.peso;
                         entPrd.volumen = ficha.volumen;
+                        entPrd.alto = ficha.alto;
+                        entPrd.ancho = ficha.ancho;
+                        entPrd.largo = ficha.largo;
+
                         //if (ficha.precio_1 != null)
                         //{
                         //    entPrd.precio_1 = ficha.precio_1.neto;
@@ -1407,9 +1414,9 @@ namespace ProvLibInventario
                         entPrd.comentarios = "";
                         entPrd.auto_subgrupo = "0000000001";
                         entPrd.auto_codigo_plan = "0000000001";
-                        entPrd.alto = 0.0m;
-                        entPrd.largo = 0.0m;
-                        entPrd.ancho = 0.0m;
+                        entPrd.alto = ficha.alto;
+                        entPrd.largo = ficha.largo;
+                        entPrd.ancho = ficha.ancho;
                         entPrd.peso = 0.0m;
                         entPrd.codigo_arancel = "";
                         entPrd.tasa_arancel = 0.0m;
