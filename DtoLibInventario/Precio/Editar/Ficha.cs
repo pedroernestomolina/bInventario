@@ -39,20 +39,20 @@ namespace DtoLibInventario.Precio.Editar
             autoUsuario = "";
             codigoUsuario = "";
             nombreUsuario = "";
-            precio_1 = new FichaPrecio();
-            precio_2 = new FichaPrecio();
-            precio_3 = new FichaPrecio();
-            precio_4 = new FichaPrecio();
-            precio_5 = new FichaPrecio();
-            may_1 = new FichaPrecio();
-            may_2 = new FichaPrecio();
-            may_3 = new FichaPrecio();
-            may_4 = new FichaPrecio();
-            dsp_1 = new FichaPrecio();
-            dsp_2 = new FichaPrecio();
-            dsp_3 = new FichaPrecio();
-            dsp_4 = new FichaPrecio();
-            historia = new List<FichaHistorica>();
+            precio_1 = null;
+            precio_2 = null;
+            precio_3 = null;
+            precio_4 = null;
+            precio_5 = null;
+            may_1 = null;
+            may_2 = null;
+            may_3 = null;
+            may_4 = null;
+            dsp_1 = null;
+            dsp_2 = null;
+            dsp_3 = null;
+            dsp_4 = null;
+            historia = null; 
         }
 
     }
