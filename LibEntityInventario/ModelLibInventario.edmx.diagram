@@ -45,23 +45,12 @@
         <EntityTypeShape EntityType="ModelLibInventario.productos_movimientos_transito_detalle" Width="1.5" PointX="32.5" PointY="25.875" />
         <AssociationConnector Association="ModelLibInventario.productos_movimientos_transito_detalle_ibfk_1" />
         <AssociationConnector Association="ModelLibInventario.empresa_sucursal_ibfk_1" />
-        <EntityTypeShape EntityType="ModelLibInventario.productos_ext" Width="1.5" PointX="45.5" PointY="13" />
-        <AssociationConnector Association="ModelLibInventario.productos_ext_ibfk_10" />
-        <AssociationConnector Association="ModelLibInventario.productos_ext_ibfk_2" />
-        <AssociationConnector Association="ModelLibInventario.productos_ext_ibfk_3" />
-        <AssociationConnector Association="ModelLibInventario.productos_ext_ibfk_4" />
-        <AssociationConnector Association="ModelLibInventario.productos_ext_ibfk_5" />
-        <AssociationConnector Association="ModelLibInventario.productos_ext_ibfk_6" />
-        <AssociationConnector Association="ModelLibInventario.productos_ext_ibfk_7" />
-        <AssociationConnector Association="ModelLibInventario.productos_ext_ibfk_8" />
-        <AssociationConnector Association="ModelLibInventario.productos_ext_ibfk_9" />
         <EntityTypeShape EntityType="ModelLibInventario.productos" Width="1.5" PointX="0.5" PointY="6" />
         <AssociationConnector Association="ModelLibInventario.productos_ibfk_1" />
         <AssociationConnector Association="ModelLibInventario.productos_ibfk_12" />
         <AssociationConnector Association="ModelLibInventario.productos_alterno_ibfk_1" />
         <AssociationConnector Association="ModelLibInventario.productos_costos_ibfk_1" />
         <AssociationConnector Association="ModelLibInventario.productos_deposito_ibfk_1" />
-        <AssociationConnector Association="ModelLibInventario.productos_ext_ibfk_1" />
         <AssociationConnector Association="ModelLibInventario.productos_extra_ibfk_1" />
         <AssociationConnector Association="ModelLibInventario.productos_ibfk_10" />
         <AssociationConnector Association="ModelLibInventario.productos_ibfk_11" />
@@ -75,6 +64,17 @@
         <AssociationConnector Association="ModelLibInventario.productos_movimientos_detalle_ibfk_2" />
         <AssociationConnector Association="ModelLibInventario.productos_precios_ibfk_1" />
         <AssociationConnector Association="ModelLibInventario.productos_proveedor_ibfk_1" />
+        <EntityTypeShape EntityType="ModelLibInventario.productos_ext" Width="1.5" PointX="44.75" PointY="13.875" />
+        <AssociationConnector Association="ModelLibInventario.productos_ext_ibfk_1" />
+        <AssociationConnector Association="ModelLibInventario.productos_ext_ibfk_10" />
+        <AssociationConnector Association="ModelLibInventario.productos_ext_ibfk_2" />
+        <AssociationConnector Association="ModelLibInventario.productos_ext_ibfk_3" />
+        <AssociationConnector Association="ModelLibInventario.productos_ext_ibfk_4" />
+        <AssociationConnector Association="ModelLibInventario.productos_ext_ibfk_5" />
+        <AssociationConnector Association="ModelLibInventario.productos_ext_ibfk_6" />
+        <AssociationConnector Association="ModelLibInventario.productos_ext_ibfk_7" />
+        <AssociationConnector Association="ModelLibInventario.productos_ext_ibfk_8" />
+        <AssociationConnector Association="ModelLibInventario.productos_ext_ibfk_9" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

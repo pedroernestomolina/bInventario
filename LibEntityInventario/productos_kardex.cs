@@ -40,6 +40,7 @@ namespace LibEntityInventario
         public string nombre_deposito { get; set; }
         public string codigo_concepto { get; set; }
         public string nombre_concepto { get; set; }
+        public decimal factor_cambio { get; set; }
     
         public virtual empresa_depositos empresa_depositos { get; set; }
         public virtual productos_conceptos productos_conceptos { get; set; }

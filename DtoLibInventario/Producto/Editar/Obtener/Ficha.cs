@@ -40,6 +40,13 @@ namespace DtoLibInventario.Producto.Editar.Obtener
         public decimal alto { get; set; }
         public decimal largo { get; set; }
         public decimal ancho { get; set; }
+        //
+        public string autoEmpVentaTipo_1 { get; set; }
+        public string autoEmpVentaTipo_2 { get; set; }
+        public string autoEmpVentaTipo_3 { get; set; }
+        public int contEmpVentaTipo_1 { get; set; }
+        public int contEmpVentaTipo_2 { get; set; }
+        public int contEmpVentaTipo_3 { get; set; }
 
     }
 

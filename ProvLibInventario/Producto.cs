@@ -512,7 +512,8 @@ namespace ProvLibInventario
             return rt;
         }
 
-        public DtoLib.ResultadoLista<DtoLibInventario.Producto.Estatus.Lista.Resumen> Producto_Estatus_Lista()
+        public DtoLib.ResultadoLista<DtoLibInventario.Producto.Estatus.Lista.Resumen> 
+            Producto_Estatus_Lista()
         {
             var result = new DtoLib.ResultadoLista<DtoLibInventario.Producto.Estatus.Lista.Resumen>();
             var list = new List<DtoLibInventario.Producto.Estatus.Lista.Resumen>();
@@ -528,7 +529,8 @@ namespace ProvLibInventario
             return result;
         }
 
-        public DtoLib.ResultadoLista<DtoLibInventario.Producto.Origen.Resumen> Producto_Origen_Lista()
+        public DtoLib.ResultadoLista<DtoLibInventario.Producto.Origen.Resumen> 
+            Producto_Origen_Lista()
         {
             var result = new DtoLib.ResultadoLista<DtoLibInventario.Producto.Origen.Resumen>();
             var list = new List<DtoLibInventario.Producto.Origen.Resumen>();
@@ -542,7 +544,8 @@ namespace ProvLibInventario
             return result;
         }
 
-        public DtoLib.ResultadoLista<DtoLibInventario.Producto.Categoria.Resumen> Producto_Categoria_Lista()
+        public DtoLib.ResultadoLista<DtoLibInventario.Producto.Categoria.Resumen> 
+            Producto_Categoria_Lista()
         {
             var result = new DtoLib.ResultadoLista<DtoLibInventario.Producto.Categoria.Resumen>();
             var list = new List<DtoLibInventario.Producto.Categoria.Resumen>();
@@ -562,7 +565,8 @@ namespace ProvLibInventario
             return result;
         }
 
-        public DtoLib.ResultadoLista<DtoLibInventario.Producto.AdmDivisa.Resumen> Producto_AdmDivisa_Lista()
+        public DtoLib.ResultadoLista<DtoLibInventario.Producto.AdmDivisa.Resumen> 
+            Producto_AdmDivisa_Lista()
         {
             var result = new DtoLib.ResultadoLista<DtoLibInventario.Producto.AdmDivisa.Resumen>();
             var list = new List<DtoLibInventario.Producto.AdmDivisa.Resumen>();
@@ -576,7 +580,8 @@ namespace ProvLibInventario
             return result;
         }
 
-        public DtoLib.ResultadoLista<DtoLibInventario.Producto.Pesado.Resumen> Producto_Pesado_Lista()
+        public DtoLib.ResultadoLista<DtoLibInventario.Producto.Pesado.Resumen> 
+            Producto_Pesado_Lista()
         {
             var result = new DtoLib.ResultadoLista<DtoLibInventario.Producto.Pesado.Resumen>();
             var list = new List<DtoLibInventario.Producto.Pesado.Resumen>();
@@ -590,7 +595,8 @@ namespace ProvLibInventario
             return result;
         }
 
-        public DtoLib.ResultadoLista<DtoLibInventario.Producto.Oferta.Resumen> Producto_Oferta_Lista()
+        public DtoLib.ResultadoLista<DtoLibInventario.Producto.Oferta.Resumen> 
+            Producto_Oferta_Lista()
         {
             var result = new DtoLib.ResultadoLista<DtoLibInventario.Producto.Oferta.Resumen>();
             var list = new List<DtoLibInventario.Producto.Oferta.Resumen>();
@@ -604,7 +610,8 @@ namespace ProvLibInventario
             return result;
         }
 
-        public DtoLib.ResultadoEntidad<DtoLibInventario.Producto.VerData.Existencia> Producto_GetExistencia(string autoPrd)
+        public DtoLib.ResultadoEntidad<DtoLibInventario.Producto.VerData.Existencia> 
+            Producto_GetExistencia(string autoPrd)
         {
             var rt = new DtoLib.ResultadoEntidad<DtoLibInventario.Producto.VerData.Existencia>();
 
@@ -663,7 +670,8 @@ namespace ProvLibInventario
             return rt;
         }
 
-        public DtoLib.ResultadoEntidad<DtoLibInventario.Producto.VerData.Precio> Producto_GetPrecio(string autoPrd)
+        public DtoLib.ResultadoEntidad<DtoLibInventario.Producto.VerData.Precio> 
+            Producto_GetPrecio(string autoPrd)
         {
             var rt = new DtoLib.ResultadoEntidad<DtoLibInventario.Producto.VerData.Precio>();
 
@@ -805,7 +813,8 @@ namespace ProvLibInventario
             return rt;
         }
 
-        public DtoLib.ResultadoEntidad<DtoLibInventario.Producto.VerData.Costo> Producto_GetCosto(string autoPrd)
+        public DtoLib.ResultadoEntidad<DtoLibInventario.Producto.VerData.Costo>
+            Producto_GetCosto(string autoPrd)
         {
             var rt = new DtoLib.ResultadoEntidad<DtoLibInventario.Producto.VerData.Costo>();
 
@@ -944,7 +953,8 @@ namespace ProvLibInventario
             return rt;
         }
 
-        public DtoLib.Resultado Producto_Verificar_DepositoRemover(string autoPrd, string autoDeposito)
+        public DtoLib.Resultado 
+            Producto_Verificar_DepositoRemover(string autoPrd, string autoDeposito)
         {
             var rt = new DtoLib.Resultado();
 
@@ -976,7 +986,8 @@ namespace ProvLibInventario
             return rt;
         }
 
-        public DtoLib.ResultadoLista<DtoLibInventario.Producto.Clasificacion.Resumen> Producto_Clasificacion_Lista()
+        public DtoLib.ResultadoLista<DtoLibInventario.Producto.Clasificacion.Resumen>
+            Producto_Clasificacion_Lista()
         {
             var result = new DtoLib.ResultadoLista<DtoLibInventario.Producto.Clasificacion.Resumen>();
             var list = new List<DtoLibInventario.Producto.Clasificacion.Resumen>();
@@ -1121,6 +1132,12 @@ namespace ProvLibInventario
                         alto=entPrd.alto,
                         largo= entPrd.largo,
                         ancho= entPrd.ancho,
+                        autoEmpVentaTipo_1 = entPrdExt.auto_emp_venta_tipo_1,
+                        autoEmpVentaTipo_2 = entPrdExt.auto_emp_venta_tipo_2,
+                        autoEmpVentaTipo_3 = entPrdExt.auto_emp_venta_tipo_3,
+                        contEmpVentaTipo_1 = entPrdExt.cont_emp_venta_tipo_1,
+                        contEmpVentaTipo_2 = entPrdExt.cont_emp_venta_tipo_2,
+                        contEmpVentaTipo_3 = entPrdExt.cont_emp_venta_tipo_3,
                     };
                     var listPrdAlt = new List<DtoLibInventario.Producto.Editar.Obtener.FichaAlterno>();
                     foreach (var rg in entPrdAlterno)
@@ -1189,32 +1206,17 @@ namespace ProvLibInventario
                         entPrd.alto = ficha.alto;
                         entPrd.ancho = ficha.ancho;
                         entPrd.largo = ficha.largo;
-
-                        //if (ficha.precio_1 != null)
-                        //{
-                        //    entPrd.precio_1 = ficha.precio_1.neto;
-                        //    entPrd.pdf_1 = ficha.precio_1.divisaFull;
-                        //}
-                        //if (ficha.precio_2 != null)
-                        //{
-                        //    entPrd.precio_2 = ficha.precio_2.neto;
-                        //    entPrd.pdf_2 = ficha.precio_2.divisaFull;
-                        //}
-                        //if (ficha.precio_3 != null)
-                        //{
-                        //    entPrd.precio_3 = ficha.precio_3.neto;
-                        //    entPrd.pdf_3 = ficha.precio_3.divisaFull;
-                        //}
-                        //if (ficha.precio_4 != null)
-                        //{
-                        //    entPrd.precio_4 = ficha.precio_4.neto;
-                        //    entPrd.pdf_4 = ficha.precio_4.divisaFull;
-                        //}
-                        //if (ficha.precio_5 != null)
-                        //{
-                        //    entPrd.precio_pto = ficha.precio_5.neto;
-                        //    entPrd.pdf_pto = ficha.precio_5.divisaFull;
-                        //}
+                        //
+                        entPrd.auto_precio_1= ficha.autoEmpVentaTipo_1;
+                        entPrd.auto_precio_2= ficha.autoEmpVentaTipo_1;
+                        entPrd.auto_precio_3 = ficha.autoEmpVentaTipo_1;
+                        entPrd.auto_precio_4 = ficha.autoEmpVentaTipo_1;
+                        entPrd.auto_precio_pto = ficha.autoEmpVentaTipo_1;
+                        entPrd.contenido_1 = ficha.contEmpVentaTipo_1;
+                        entPrd.contenido_2 = ficha.contEmpVentaTipo_1;
+                        entPrd.contenido_3 = ficha.contEmpVentaTipo_1;
+                        entPrd.contenido_4 = ficha.contEmpVentaTipo_1;
+                        entPrd.contenido_pto = ficha.contEmpVentaTipo_1;
                         cnn.SaveChanges();
 
                         if (entPrdExtra != null)
@@ -1240,9 +1242,45 @@ namespace ProvLibInventario
                         var p1 = new MySql.Data.MySqlClient.MySqlParameter("@autoEmpInv", ficha.autoEmpInv);
                         var p2 = new MySql.Data.MySqlClient.MySqlParameter("@contEmpInv", ficha.contenidoInv);
                         var p3 = new MySql.Data.MySqlClient.MySqlParameter("@auto", ficha.auto);
-                        var xsql = @"update productos_ext set auto_emp_inv_1=@autoEmpInv, cont_emp_inv_1=@contEmpInv
-                                    where auto_producto=@auto";
-                        var r1 = cnn.Database.ExecuteSqlCommand(xsql, p1, p2, p3);
+                        //
+                        var p4 = new MySql.Data.MySqlClient.MySqlParameter("@autoEmpVentaTipo1", ficha.autoEmpVentaTipo_1);
+                        var p5 = new MySql.Data.MySqlClient.MySqlParameter("@contEmpVentaTipo1", ficha.contEmpVentaTipo_1);
+                        var p6 = new MySql.Data.MySqlClient.MySqlParameter("@autoEmpVentaTipo2", ficha.autoEmpVentaTipo_2);
+                        var p7 = new MySql.Data.MySqlClient.MySqlParameter("@contEmpVentaTipo2", ficha.contEmpVentaTipo_2);
+                        var p8 = new MySql.Data.MySqlClient.MySqlParameter("@autoEmpVentaTipo3", ficha.autoEmpVentaTipo_3);
+                        var p9 = new MySql.Data.MySqlClient.MySqlParameter("@contEmpVentaTipo3", ficha.contEmpVentaTipo_3);
+                        var xsql = @"update productos_ext 
+                                        set 
+                                            auto_emp_inv_1=@autoEmpInv, 
+                                            cont_emp_inv_1=@contEmpInv,
+
+                                            auto_emp_venta_tipo_1=@autoEmpVentaTipo1,
+                                            auto_emp_venta_tipo_2=@autoEmpVentaTipo2,
+                                            auto_emp_venta_tipo_3=@autoEmpVentaTipo3,
+                                            cont_emp_venta_tipo_1=@contEmpVentaTipo1,
+                                            cont_emp_venta_tipo_2=@contEmpVentaTipo2,
+                                            cont_emp_venta_tipo_3=@contEmpVentaTipo3,   
+
+                                            auto_precio_may_1 = @autoEmpVentaTipo2,
+                                            auto_precio_may_2 = @autoEmpVentaTipo2,
+                                            auto_precio_may_3 = @autoEmpVentaTipo2,
+                                            auto_precio_may_4 = @autoEmpVentaTipo2,
+                                            contenido_may_1 = @contEmpVentaTipo2,
+                                            contenido_may_2 = @contEmpVentaTipo2,
+                                            contenido_may_3 = @contEmpVentaTipo2,
+                                            cont_may_4 = @contEmpVentaTipo2,
+
+                                            auto_precio_dsp_1 = @autoEmpVentaTipo3,
+                                            auto_precio_dsp_2 = @autoEmpVentaTipo3,
+                                            auto_precio_dsp_3 = @autoEmpVentaTipo3,
+                                            auto_precio_dsp_4 = @autoEmpVentaTipo3,
+                                            cont_dsp_1 = @contEmpVentaTipo3,
+                                            cont_dsp_2 = @contEmpVentaTipo3,
+                                            cont_dsp_3 = @contEmpVentaTipo3,
+                                            cont_dsp_4 = @contEmpVentaTipo3
+
+                                        where auto_producto=@auto";
+                        var r1 = cnn.Database.ExecuteSqlCommand(xsql, p1, p2, p3, p4, p5, p6, p7, p8, p9);
                         if (r1 == 0) 
                         {
                             rt.Mensaje = "PRODUCTO_EXT NO ENCONTRADO";
@@ -1273,7 +1311,8 @@ namespace ProvLibInventario
             return rt;
         }
 
-        public DtoLib.ResultadoEntidad<bool> Producto_Verificar_EsBienServicio(string autoPrd)
+        public DtoLib.ResultadoEntidad<bool> 
+            Producto_Verificar_EsBienServicio(string autoPrd)
         {
             var rt = new DtoLib.ResultadoEntidad<bool>();
 
@@ -1301,7 +1340,8 @@ namespace ProvLibInventario
             return rt;
         }
 
-        public DtoLib.ResultadoEntidad<bool> Producto_Verificar_HayDepositosAsignado(string autoPrd)
+        public DtoLib.ResultadoEntidad<bool> 
+            Producto_Verificar_HayDepositosAsignado(string autoPrd)
         {
             var rt = new DtoLib.ResultadoEntidad<bool>();
 
@@ -1424,17 +1464,17 @@ namespace ProvLibInventario
                         entPrd.estatus_oferta = "0";
                         entPrd.estatus_web = "0";
                         entPrd.estatus_corte = "0";
-                        entPrd.auto_precio_1 = "0000000001";
-                        entPrd.auto_precio_2 = "0000000001";
-                        entPrd.auto_precio_3 = "0000000001";
-                        entPrd.auto_precio_4 = "0000000001";
-                        entPrd.auto_precio_pto = "0000000001";
+                        entPrd.auto_precio_1 = ficha.autoEmpVentaTipo_1;
+                        entPrd.auto_precio_2 = ficha.autoEmpVentaTipo_1;
+                        entPrd.auto_precio_3 = ficha.autoEmpVentaTipo_1;
+                        entPrd.auto_precio_4 = ficha.autoEmpVentaTipo_1;
+                        entPrd.auto_precio_pto = ficha.autoEmpVentaTipo_1; 
                         entPrd.memo = "";
-                        entPrd.contenido_1 = 1;
-                        entPrd.contenido_2 = 1;
-                        entPrd.contenido_3 = 1;
-                        entPrd.contenido_4 = 1;
-                        entPrd.contenido_pto = 1;
+                        entPrd.contenido_1 = ficha.contEmpVentaTipo_1;
+                        entPrd.contenido_2 = ficha.contEmpVentaTipo_1;
+                        entPrd.contenido_3 = ficha.contEmpVentaTipo_1;
+                        entPrd.contenido_4 = ficha.contEmpVentaTipo_1;
+                        entPrd.contenido_pto = ficha.contEmpVentaTipo_1;
                         entPrd.corte = "";
                         entPrd.estatus_pesado = ficha.esPesado;
                         entPrd.plu = ficha.plu;
@@ -1470,14 +1510,14 @@ namespace ProvLibInventario
                         var entPrdExt = new productos_ext()
                         {
                             auto_producto = autoPrd,
-                            auto_precio_may_1 = "0000000001",
-                            auto_precio_may_2 = "0000000001",
-                            auto_precio_may_3 = "0000000001",
-                            auto_precio_may_4 = "0000000001",
-                            contenido_may_1 = 1,
-                            contenido_may_2 = 1,
-                            contenido_may_3 = 1,
-                            cont_may_4 = 1,
+                            auto_precio_may_1 = ficha.autoEmpVentaTipo_2,
+                            auto_precio_may_2 = ficha.autoEmpVentaTipo_2,
+                            auto_precio_may_3 = ficha.autoEmpVentaTipo_2,
+                            auto_precio_may_4 = ficha.autoEmpVentaTipo_2,
+                            contenido_may_1 = ficha.contEmpVentaTipo_2,
+                            contenido_may_2 = ficha.contEmpVentaTipo_2,
+                            contenido_may_3 = ficha.contEmpVentaTipo_2,
+                            cont_may_4 = ficha.contEmpVentaTipo_2,
                             pdmf_1 = 0.0m,
                             pdmf_2 = 0.0m,
                             pdmf_3 = 0.0m,
@@ -1493,29 +1533,36 @@ namespace ProvLibInventario
                             auto_emp_inv_1 = ficha.autoEmpInv,
                             cont_emp_inv_1 = ficha.contEmpInv,
                             //
-                            auto_precio_dsp_1 = "0000000001",
-                            cont_dsp_1 =1,
-                            utilidad_dsp_1=0m,
-                            precio_dsp_1=0m,
-                            pdivisafull_dsp_1=0m,
+                            auto_precio_dsp_1 = ficha.autoEmpVentaTipo_3,
+                            cont_dsp_1 = ficha.contEmpVentaTipo_3,
+                            utilidad_dsp_1 = 0m,
+                            precio_dsp_1 = 0m,
+                            pdivisafull_dsp_1 = 0m,
                             //
-                            auto_precio_dsp_2 = "0000000001",
-                            cont_dsp_2 = 1,
+                            auto_precio_dsp_2 = ficha.autoEmpVentaTipo_3,
+                            cont_dsp_2 = ficha.contEmpVentaTipo_3,
                             utilidad_dsp_2 = 0m,
                             precio_dsp_2 = 0m,
                             pdivisafull_dsp_2 = 0m,
                             //
-                            auto_precio_dsp_3 = "0000000001",
-                            cont_dsp_3 = 1,
+                            auto_precio_dsp_3 = ficha.autoEmpVentaTipo_3,
+                            cont_dsp_3 = ficha.contEmpVentaTipo_3,
                             utilidad_dsp_3 = 0m,
                             precio_dsp_3 = 0m,
                             pdivisafull_dsp_3 = 0m,
                             //
-                            auto_precio_dsp_4 = "0000000001",
-                            cont_dsp_4 = 1,
+                            auto_precio_dsp_4 = ficha.autoEmpVentaTipo_3,
+                            cont_dsp_4 = ficha.contEmpVentaTipo_3,
                             utilidad_dsp_4 = 0m,
                             precio_dsp_4 = 0m,
                             pdivisafull_dsp_4 = 0m,
+                            //
+                            auto_emp_venta_tipo_1 = ficha.autoEmpVentaTipo_1,
+                            auto_emp_venta_tipo_2 = ficha.autoEmpVentaTipo_2,
+                            auto_emp_venta_tipo_3 = ficha.autoEmpVentaTipo_3,
+                            cont_emp_venta_tipo_1 = ficha.contEmpVentaTipo_1,
+                            cont_emp_venta_tipo_2 = ficha.contEmpVentaTipo_2,
+                            cont_emp_venta_tipo_3 = ficha.contEmpVentaTipo_3,
                         };
                         cnn.productos_ext.Add(entPrdExt);
                         cnn.SaveChanges();
@@ -1555,7 +1602,8 @@ namespace ProvLibInventario
             return rt;
         }
 
-        public DtoLib.ResultadoEntidad<bool> Producto_Verificar_CodigoProductoYaRegistrado(string codigo, string autoPrd)
+        public DtoLib.ResultadoEntidad<bool> 
+            Producto_Verificar_CodigoProductoYaRegistrado(string codigo, string autoPrd)
         {
             var rt = new DtoLib.ResultadoEntidad<bool>();
 
@@ -1600,7 +1648,8 @@ namespace ProvLibInventario
             return rt;
         }
 
-        public DtoLib.ResultadoEntidad<bool> Producto_Verificar_CodigoPluProductoYaRegistrado(string codigo, string autoPrd)
+        public DtoLib.ResultadoEntidad<bool> 
+            Producto_Verificar_CodigoPluProductoYaRegistrado(string codigo, string autoPrd)
         {
             var rt = new DtoLib.ResultadoEntidad<bool>();
 
@@ -1645,7 +1694,8 @@ namespace ProvLibInventario
             return rt;
         }
 
-        public DtoLib.Resultado Producto_CambiarEstatusA_Activo(string auto)
+        public DtoLib.Resultado 
+            Producto_CambiarEstatusA_Activo(string auto)
         {
             var rt = new DtoLib.Resultado();
 
@@ -1711,7 +1761,8 @@ namespace ProvLibInventario
             return rt;
         }
 
-        public DtoLib.Resultado Producto_CambiarEstatusA_Inactivo(string auto)
+        public DtoLib.Resultado
+            Producto_CambiarEstatusA_Inactivo(string auto)
         {
             var rt = new DtoLib.Resultado();
 
@@ -1777,7 +1828,8 @@ namespace ProvLibInventario
             return rt;
         }
 
-        public DtoLib.Resultado Producto_CambiarEstatusA_Suspendido(string auto)
+        public DtoLib.Resultado 
+            Producto_CambiarEstatusA_Suspendido(string auto)
         {
             var rt = new DtoLib.Resultado();
 
@@ -1843,7 +1895,8 @@ namespace ProvLibInventario
             return rt;
         }
 
-        public DtoLib.ResultadoEntidad<bool> Producto_Verificar_ExistenciaEnCero(string autoPrd)
+        public DtoLib.ResultadoEntidad<bool> 
+            Producto_Verificar_ExistenciaEnCero(string autoPrd)
         {
             var rt = new DtoLib.ResultadoEntidad<bool>();
 
@@ -1883,7 +1936,8 @@ namespace ProvLibInventario
             return rt;
         }
 
-        public DtoLib.ResultadoEntidad<bool> Producto_Verificar_QueExista_EstatusActivo_NoSeaBienServicio(string autoPrd)
+        public DtoLib.ResultadoEntidad<bool> 
+            Producto_Verificar_QueExista_EstatusActivo_NoSeaBienServicio(string autoPrd)
         {
             var rt = new DtoLib.ResultadoEntidad<bool>();
 
@@ -1925,7 +1979,8 @@ namespace ProvLibInventario
             return rt;
         }
 
-        public DtoLib.ResultadoEntidad<DtoLibInventario.Producto.Depositos.Ver.Ficha> Producto_GetDeposito(DtoLibInventario.Producto.Depositos.Ver.Filtro filtro)
+        public DtoLib.ResultadoEntidad<DtoLibInventario.Producto.Depositos.Ver.Ficha> 
+            Producto_GetDeposito(DtoLibInventario.Producto.Depositos.Ver.Filtro filtro)
         {
             var result = new DtoLib.ResultadoEntidad<DtoLibInventario.Producto.Depositos.Ver.Ficha>();
 
@@ -2000,7 +2055,8 @@ namespace ProvLibInventario
             return result;
         }
 
-        public DtoLib.Resultado Producto_EditarDeposito(DtoLibInventario.Producto.Depositos.Editar.Ficha ficha)
+        public DtoLib.Resultado 
+            Producto_EditarDeposito(DtoLibInventario.Producto.Depositos.Editar.Ficha ficha)
         {
             var result = new DtoLib.Resultado();
 

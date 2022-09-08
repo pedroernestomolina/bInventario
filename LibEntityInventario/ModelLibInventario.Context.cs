@@ -54,7 +54,7 @@ namespace LibEntityInventario
         public virtual DbSet<productos_kardex> productos_kardex { get; set; }
         public virtual DbSet<productos_movimientos_detalle> productos_movimientos_detalle { get; set; }
         public virtual DbSet<productos_conceptos> productos_conceptos { get; set; }
-        public virtual DbSet<productos_ext> productos_ext { get; set; }
         public virtual DbSet<productos> productos { get; set; }
+        public virtual DbSet<productos_ext> productos_ext { get; set; }
     }
 }

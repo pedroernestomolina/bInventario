@@ -18,5 +18,6 @@ namespace LibEntityInventario
         public int id_producto_precio { get; set; }
         public string empaque { get; set; }
         public int contenido { get; set; }
+        public decimal factor_cambio { get; set; }
     }
 }
