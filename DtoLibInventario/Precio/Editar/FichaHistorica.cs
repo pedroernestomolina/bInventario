@@ -16,6 +16,7 @@ namespace DtoLibInventario.Precio.Editar
         public decimal precio { get; set; }
         public string empaque { get; set; }
         public int contenido { get; set; }
+        public decimal factorCambio { get; set; }
 
 
         public FichaHistorica()
@@ -25,6 +26,7 @@ namespace DtoLibInventario.Precio.Editar
             precio = 0.0m;
             empaque = "";
             contenido = 0;
+            factorCambio = 0m;
         }
 
     }

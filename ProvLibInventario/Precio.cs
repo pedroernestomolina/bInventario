@@ -24,7 +24,6 @@ namespace ProvLibInventario
             {
                 using (var cnn = new invEntities(_cnInv.ConnectionString))
                 {
-
                     var prd = cnn.productos.Find(filtro.autoProducto);
                     if (prd == null) 
                     {
@@ -32,92 +31,28 @@ namespace ProvLibInventario
                         result.Mensaje = "[ ID ] PRODUCTO NO ENCONTRADO";
                         return result;
                     }
-
-                    var et1 = "Precio 1";
-                    var et2 = "Precio 2";
-                    var et3 = "Precio 3";
-                    var et4 = "Precio 4";
-                    var et5 = "Precio 5";
-                    var etM1 = "Mayor 1";
-                    var etM2 = "Mayor 2";
-
-                    var emp = cnn.empresa.FirstOrDefault();
-                    if (emp != null)
-                    {
-                        if (emp.precio_1.Trim() != "") 
-                        {
-                            et1 = emp.precio_1;
-                        }
-                        if (emp.precio_2.Trim() != "")
-                        {
-                            et2 = emp.precio_2;
-                        }
-                        if (emp.precio_3.Trim() != "")
-                        {
-                            et3 = emp.precio_3;
-                        }
-                        if (emp.precio_4.Trim() != "")
-                        {
-                            et4 = emp.precio_4;
-                        }
-                        if (emp.precio_5.Trim() != "")
-                        {
-                            et5 = emp.precio_5;
-                        }
-                    }
-
-                    var q = cnn.productos_precios.Where(f => f.auto_producto == filtro.autoProducto).ToList();
-                    var list = new List<DtoLibInventario.Precio.Historico.Data>();
-                    if (q != null)
-                    {
-                        if (q.Count() > 0)
-                        {
-                            list = q.Select(s =>
-                            {
-                                var r = new DtoLibInventario.Precio.Historico.Data()
-                                {
-                                    estacion = s.estacion,
-                                    fecha = s.fecha,
-                                    hora = s.hora,
-                                    nota = s.nota,
-                                    usuario = s.usuario,
-                                    precio=s.precio,
-                                    idPrecio=s.precio_id,
-                                };
-                                switch (s.precio_id) 
-                                {
-                                    case "1":
-                                        r.etqPrecio = et1;
-                                        break;
-                                    case "2":
-                                        r.etqPrecio = et2;
-                                        break;
-                                    case "3":
-                                        r.etqPrecio = et3;
-                                        break;
-                                    case "4":
-                                        r.etqPrecio = et4;
-                                        break;
-                                    case "PTO":
-                                        r.etqPrecio = et5;
-                                        break;
-                                    case "MY1":
-                                        r.etqPrecio = etM1;
-                                        break;
-                                    case "MY2":
-                                        r.etqPrecio = etM2;
-                                        break;
-                                }
-                                return r;
-                            }).ToList();
-                        }
-                    }
+                    var p1 = new MySql.Data.MySqlClient.MySqlParameter("@idPrd", filtro.autoProducto);
+                    var sql = @"SELECT prdPrecio.nota,  
+                                        prdPrecio.fecha,
+                                        prdPrecio.hora,
+                                        prdPrecio.estacion,
+                                        prdPrecio.usuario,
+                                        prdPrecio.precio_id,
+                                        prdPrecio.precio,
+                                        prdPrecioExt.empaque,
+                                        prdPrecioExt.contenido,
+                                        prdPrecioExt.factor_cambio
+                                FROM productos_precios as prdPrecio
+                                    join productos_precios_ext as prdPrecioExt on prdPrecioExt.id_producto_precio=prdPrecio.id
+                                    where prdPrecio.auto_producto=@idPrd";
+                    var _lst = cnn.Database.SqlQuery<DtoLibInventario.Precio.Historico.Data>(sql, p1).ToList();
                     var nr = new DtoLibInventario.Precio.Historico.Resumen();
-                    nr.data = list;
-                    nr.codigo = prd.codigo;
-                    nr.descripcion = prd.nombre;
-
-                    result.Entidad=nr;
+                    result.Entidad = new DtoLibInventario.Precio.Historico.Resumen()
+                    {
+                        codigo = prd.codigo,
+                        descripcion = prd.nombre,
+                        data = _lst,
+                    };
                 }
             }
             catch (Exception e)
@@ -409,6 +344,7 @@ namespace ProvLibInventario
 
                                 var entHistExt = new productos_precios_ext()
                                 {
+                                    factor_cambio= it.factorCambio,
                                     contenido = it.contenido,
                                     empaque = it.empaque,
                                     id_producto_precio = entHist.id,

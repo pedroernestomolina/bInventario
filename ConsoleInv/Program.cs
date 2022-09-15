@@ -76,6 +76,8 @@ namespace ConsoleInv
             //};
             //var r05 = invPrv.Tools_CambioMasivoPrecio_GetData(filtro);
 
+            //var filtro = new DtoLibInventario.Precio.Historico.Filtro() { autoProducto = "0000000432" };
+            //var r01 = invPrv.HistoricoPrecio_GetLista(filtro);
         }
 
     }
