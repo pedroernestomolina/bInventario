@@ -12,9 +12,15 @@ namespace ServiceInventario.MyService
     public partial class Service: IService
     {
 
-        public DtoLib.ResultadoLista<DtoLibInventario.TasaImpuesto.Resumen> TasaImpuesto_GetLista()
+        public DtoLib.ResultadoLista<DtoLibInventario.TasaImpuesto.Resumen> 
+            TasaImpuesto_GetLista()
         {
             return ServiceProv.TasaImpuesto_GetLista();
+        }
+        public DtoLib.ResultadoEntidad<DtoLibInventario.TasaImpuesto.Resumen> 
+            TasaImpuesto_GetById(string id)
+        {
+            return ServiceProv.TasaImpuesto_GetById(id);
         }
 
     }

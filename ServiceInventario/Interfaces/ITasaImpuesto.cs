@@ -11,7 +11,10 @@ namespace ServiceInventario.Interfaces
     public interface ITasaImpuesto
     {
 
-        DtoLib.ResultadoLista<DtoLibInventario.TasaImpuesto.Resumen> TasaImpuesto_GetLista();
+        DtoLib.ResultadoLista<DtoLibInventario.TasaImpuesto.Resumen> 
+            TasaImpuesto_GetLista();
+        DtoLib.ResultadoEntidad<DtoLibInventario.TasaImpuesto.Resumen>
+            TasaImpuesto_GetById(string id);
 
     }
 
