@@ -12,6 +12,12 @@ namespace ServiceInventario.MyService
     public partial class Service: IService
     {
 
+        public DtoLib.ResultadoEntidad<string> 
+            Configuracion_ModuloInventario_Modo()
+        {
+            return ServiceProv.Configuracion_ModuloInventario_Modo();
+        }
+
         public DtoLib.ResultadoEntidad<DtoLibInventario.Configuracion.Enumerados.EnumPreferenciaBusqueda> 
             Configuracion_PreferenciaBusqueda()
         {

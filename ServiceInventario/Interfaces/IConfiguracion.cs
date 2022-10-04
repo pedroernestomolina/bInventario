@@ -11,6 +11,9 @@ namespace ServiceInventario.Interfaces
     public interface IConfiguracion
     {
 
+        DtoLib.ResultadoEntidad<string>
+            Configuracion_ModuloInventario_Modo();
+
         DtoLib.ResultadoEntidad<DtoLibInventario.Configuracion.Enumerados.EnumPreferenciaBusqueda> 
             Configuracion_PreferenciaBusqueda();
         DtoLib.ResultadoEntidad<DtoLibInventario.Configuracion.Enumerados.EnumMetodoCalculoUtilidad> 
