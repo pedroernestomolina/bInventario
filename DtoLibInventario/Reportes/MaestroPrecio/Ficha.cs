@@ -10,71 +10,67 @@ namespace DtoLibInventario.Reportes.MaestroPrecio
     
     public class Ficha
     {
-
-        private string codigo { get; set; }
-        private string nombre { get; set; }
-        private decimal tasa { get; set; }
-        private string referencia { get; set; }
-        private string nombreDepartamento { get; set; }
-        private string modelo { get; set; }
-        private string estatus { get; set; }
-        private string estatus_divisa { get; set; }
-        private decimal precio_1 { get; set; }
-        private decimal precio_2 { get; set; }
-        private decimal precio_3 { get; set; }
-        private decimal precio_4 { get; set; }
-        private decimal precio_pto { get; set; }
-        private decimal pdf_1 { get; set; }
-        private decimal pdf_2 { get; set; }
-        private decimal pdf_3 { get; set; }
-        private decimal pdf_4 { get; set; }
-        private decimal pdf_pto { get; set; }
-        private DateTime fecha_cambio { get; set; }
-
-
-        public string codigoPrd { get { return codigo; } }
-        public string nombrePrd { get { return nombre; } }
-        public string departamento { get { return nombreDepartamento; } }
-        public string referenciaPrd { get { return referencia; } }
-        public string modeloPrd { get { return modelo; } }
-        public decimal tasaIvaPrd { get { return tasa; } }
-        public decimal precioNeto_1 { get { return precio_1; } }
-        public decimal precioNeto_2 { get { return precio_2; } }
-        public decimal precioNeto_3 { get { return precio_3; } }
-        public decimal precioNeto_4 { get { return precio_4; } }
-        public decimal precioNeto_5 { get { return precio_pto; } }
-        public decimal precioDivisaFull_1 { get { return pdf_1; } }
-        public decimal precioDivisaFull_2 { get { return pdf_2; } }
-        public decimal precioDivisaFull_3 { get { return pdf_3; } }
-        public decimal precioDivisaFull_4 { get { return pdf_4; } }
-        public decimal precioDivisaFull_5 { get { return pdf_pto; } }
-        public DateTime fechaUltCambioPrd { get { return fecha_cambio; } }
+        public string codigo { get; set; }
+        public string nombre { get; set; }
+        public string admDivisa { get; set; }
+        public string departamento { get; set; }
         public string grupo { get; set; }
+        public decimal tasa { get; set; }
 
-        public enumerados.EnumAdministradorPorDivisa isAdmDivisaPrd
-        {
-            get
-            {
-                var rt = DtoLibInventario.Reportes.enumerados.EnumAdministradorPorDivisa.No;
-                if (estatus_divisa.Trim().ToUpper() == "1")
-                    rt = DtoLibInventario.Reportes.enumerados.EnumAdministradorPorDivisa.Si;
-                return rt;
-            }
-        }
+        public decimal p1_neto  { get; set; }
+        public decimal p2_neto { get; set; }
+        public decimal p3_neto { get; set; }
+        public decimal p4_neto { get; set; }
+        public decimal p5_neto { get; set; }
+        public int cont_1 { get; set; }
+        public int cont_2 { get; set; }
+        public int cont_3 { get; set; }
+        public int cont_4 { get; set; }
+        public int cont_5 { get; set; }
+        public decimal p1_div_full { get; set; }
+        public decimal p2_div_full { get; set; }
+        public decimal p3_div_full { get; set; }
+        public decimal p4_div_full { get; set; }
+        public decimal p5_div_full { get; set; }
+        public string empaque_1 { get; set; }
+        public string empaque_2 { get; set; }
+        public string empaque_3 { get; set; }
+        public string empaque_4 { get; set; }
+        public string empaque_5 { get; set; }
 
-        public enumerados.EnumEstatus estatusPrd
-        {
-            get
-            {
-                var rt = DtoLibInventario.Reportes.enumerados.EnumEstatus.Activo;
-                if (estatus.Trim().ToUpper() != "ACTIVO")
-                {
-                    rt = DtoLibInventario.Reportes.enumerados.EnumEstatus.Inactivo;
-                }
-                return rt;
-            }
-        }
+        public decimal pM1_neto { get; set; }
+        public decimal pM2_neto { get; set; }
+        public decimal pM3_neto { get; set; }
+        public decimal pM4_neto { get; set; }
+        public int cont_M1 { get; set; }
+        public int cont_M2 { get; set; }
+        public int cont_M3 { get; set; }
+        public int cont_M4 { get; set; }
+        public decimal pM1_div_full { get; set; }
+        public decimal pM2_div_full { get; set; }
+        public decimal pM3_div_full { get; set; }
+        public decimal pM4_div_full { get; set; }
+        public string empaque_M1 { get; set; }
+        public string empaque_M2 { get; set; }
+        public string empaque_M3 { get; set; }
+        public string empaque_M4 { get; set; }
 
+        public decimal pD1_neto { get; set; }
+        public decimal pD2_neto { get; set; }
+        public decimal pD3_neto { get; set; }
+        public decimal pD4_neto { get; set; }
+        public int cont_D1 { get; set; }
+        public int cont_D2 { get; set; }
+        public int cont_D3 { get; set; }
+        public int cont_D4 { get; set; }
+        public decimal pD1_div_full { get; set; }
+        public decimal pD2_div_full { get; set; }
+        public decimal pD3_div_full { get; set; }
+        public decimal pD4_div_full { get; set; }
+        public string empaque_D1 { get; set; }
+        public string empaque_D2 { get; set; }
+        public string empaque_D3 { get; set; }
+        public string empaque_D4 { get; set; }
     }
 
 }

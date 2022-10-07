@@ -18,7 +18,8 @@ namespace DtoLibInventario.Reportes.MaestroPrecio
         public enumerados.EnumAdministradorPorDivisa admDivisa { get; set; }
         public enumerados.EnumOrigen origen { get; set; }
         public enumerados.EnumCategoria categoria { get; set; }
-        public enumerados.EnumPrecio precio{ get; set; }
+        public enumerados.EnumPesado pesado { get; set; }
+        public enumerados.EnumPrecio precio { get; set; }
 
 
         public Filtro()
@@ -27,6 +28,7 @@ namespace DtoLibInventario.Reportes.MaestroPrecio
             origen = enumerados.EnumOrigen.SnDefinir;
             categoria = enumerados.EnumCategoria.SnDefinir;
             precio = enumerados.EnumPrecio.SnDefinir;
+            pesado = enumerados.EnumPesado.SnDefinir;
             autoGrupo = "";
             autoMarca = "";
             autoDepartamento = "";

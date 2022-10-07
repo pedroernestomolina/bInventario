@@ -17,6 +17,7 @@ namespace DtoLibInventario.Reportes
         public enum EnumCategoria { SnDefinir = -1, ProductoTerminado = 1, BienServicio, MateriaPrima, UsoInterno, SubProducto };
         public enum EnumModulo { SnDefinir = -1, Ventas= 1, Compras , Inventario };
         public enum EnumPrecio { SnDefinir = -1, P1 = 1, P2, P3, P4, P5 };
+        public enum EnumPesado { SnDefinir = -1, Si = 1, No };
 
     }
 

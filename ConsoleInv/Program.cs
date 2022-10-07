@@ -78,6 +78,9 @@ namespace ConsoleInv
 
             //var filtro = new DtoLibInventario.Precio.Historico.Filtro() { autoProducto = "0000000432" };
             //var r01 = invPrv.HistoricoPrecio_GetLista(filtro);
+
+            //var filtro = new DtoLibInventario.Reportes.MaestroPrecio.Filtro() { };
+            //var r01 = invPrv.Reportes_MaestroPrecio(filtro);
         }
 
     }

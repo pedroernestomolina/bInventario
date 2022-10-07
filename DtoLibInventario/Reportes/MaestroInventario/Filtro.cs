@@ -14,6 +14,9 @@ namespace DtoLibInventario.Reportes.MaestroInventario
         public string autoDeposito { get; set; }
         public string autoDepartamento { get; set; }
         public string autoGrupo { get; set; }
+        public string autoTasa { get; set; }
+        public enumerados.EnumAdministradorPorDivisa admDivisa { get; set; }
+        public enumerados.EnumPesado pesado { get; set; }
 
 
         public Filtro()
@@ -21,6 +24,9 @@ namespace DtoLibInventario.Reportes.MaestroInventario
             autoDepartamento = "";
             autoDeposito = "";
             autoGrupo = "";
+            autoTasa = "";
+            admDivisa = enumerados.EnumAdministradorPorDivisa.SnDefinir;
+            pesado = enumerados.EnumPesado.SnDefinir;
         }
 
     }

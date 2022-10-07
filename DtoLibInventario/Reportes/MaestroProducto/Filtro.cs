@@ -19,6 +19,7 @@ namespace DtoLibInventario.Reportes.MaestroProducto
         public enumerados.EnumOrigen origen { get; set; }
         public enumerados.EnumCategoria categoria { get; set; }
         public enumerados.EnumEstatus estatus { get; set; }
+        public enumerados.EnumPesado pesado { get; set; }
 
 
         public Filtro()
@@ -27,6 +28,7 @@ namespace DtoLibInventario.Reportes.MaestroProducto
             origen = enumerados.EnumOrigen.SnDefinir;
             categoria = enumerados.EnumCategoria.SnDefinir;
             estatus = enumerados.EnumEstatus.SnDefinir;
+            pesado = enumerados.EnumPesado.SnDefinir;
             autoDepartamento = "";
             autoDeposito = "";
             autoTasa = "";
