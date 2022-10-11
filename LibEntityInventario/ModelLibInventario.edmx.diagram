@@ -42,8 +42,6 @@
         <EntityTypeShape EntityType="ModelLibInventario.productos_movimientos_extra" Width="1.5" PointX="6.375" PointY="9.75" />
         <EntityTypeShape EntityType="ModelLibInventario.productos_precios_ext" Width="1.5" PointX="10.375" PointY="5.75" />
         <EntityTypeShape EntityType="ModelLibInventario.productos_movimientos_transito" Width="1.5" PointX="30.25" PointY="26.375" />
-        <EntityTypeShape EntityType="ModelLibInventario.productos_movimientos_transito_detalle" Width="1.5" PointX="32.5" PointY="25.875" />
-        <AssociationConnector Association="ModelLibInventario.productos_movimientos_transito_detalle_ibfk_1" />
         <AssociationConnector Association="ModelLibInventario.empresa_sucursal_ibfk_1" />
         <EntityTypeShape EntityType="ModelLibInventario.productos" Width="1.5" PointX="0.5" PointY="6" />
         <AssociationConnector Association="ModelLibInventario.productos_ibfk_1" />
@@ -75,6 +73,8 @@
         <AssociationConnector Association="ModelLibInventario.productos_ext_ibfk_7" />
         <AssociationConnector Association="ModelLibInventario.productos_ext_ibfk_8" />
         <AssociationConnector Association="ModelLibInventario.productos_ext_ibfk_9" />
+        <EntityTypeShape EntityType="ModelLibInventario.productos_movimientos_transito_detalle" Width="1.5" PointX="32.5" PointY="25.75" />
+        <AssociationConnector Association="ModelLibInventario.productos_movimientos_transito_detalle_ibfk_1" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

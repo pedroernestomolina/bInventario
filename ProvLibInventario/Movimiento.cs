@@ -2286,7 +2286,9 @@ namespace ProvLibInventario
                                   pDepo.nivel_minimo as nivelMinimo, pDepo.nivel_optimo as nivelOptimo,
                                   eDepoOrigen.auto as autoDepositoOrigen, eDepoOrigen.codigo as codigoDepositoOrigen, eDepoOrigen.nombre as nombreDepositoOrigen, 
                                   pDepoOrigen.fisica as exFisicaOrigen, pDepoOrigen.reservada as exReservaOrigen, pDepoOrigen.disponible as exDisponibleOrigen,
-                                  pMed.decimales, pMed.nombre as empCompra
+                                  pMed.decimales, pMed.nombre as empCompra,
+                                  pExt.cont_emp_inv_1 as contEmpInv,
+                                  pMedInv.nombre as nombreEmpInv
                                   from productos as p 
                                   join productos_medida as pMed on p.auto_empaque_compra=pMed.auto 
                                   join productos_deposito as pDepo on p.auto=pDepo.auto_producto 
@@ -2294,7 +2296,9 @@ namespace ProvLibInventario
                                   join empresa_depositos as eDepo on pDepo.auto_deposito=eDepo.auto
                                   join empresa_depositos as eDepoOrigen on pDepoOrigen.auto_deposito=eDepoOrigen.auto
                                   join empresa_departamentos as eDepart on p.auto_departamento=eDepart.auto
-                                  join empresa_tasas as eTasa on p.auto_tasa=eTasa.auto ";
+                                  join empresa_tasas as eTasa on p.auto_tasa=eTasa.auto 
+                                  join productos_ext as pExt on pExt.auto_producto=p.auto
+                                  join productos_medida as pMedInv on pExt.auto_emp_inv_1=pMedInv.auto ";
                     p3.ParameterName = "@autoDepOrigen";
                     p3.Value = filtro.autoDepositoOrigen;
 
@@ -2361,11 +2365,15 @@ namespace ProvLibInventario
                                     etasa.auto as autoTasa,
                                     etasa.nombre as descTasa,
                                     etasa.tasa as valorTasa,
-                                    p.fecha_ult_costo as fechaUltActCosto
+                                    p.fecha_ult_costo as fechaUltActCosto,
+                                    pExt.cont_emp_inv_1 as contEmpInv,
+                                    pMedInv.nombre as nombreEmpInv
                                     from productos_deposito as pdepo
                                     join productos as p on p.auto=pdepo.auto_producto
                                     join productos_medida as pmed on pmed.auto=p.auto_empaque_compra
                                     join empresa_tasas as etasa on etasa.auto=p.auto_tasa
+                                    join productos_ext as pExt on pExt.auto_producto=p.auto
+                                    join productos_medida as pMedInv on pExt.auto_emp_inv_1=pMedInv.auto
                                     where pdepo.auto_deposito=@autoDeposito and pdepo.auto_producto=@autoProducto";
                     var sql = sql_1;
                     var ent = cnn.Database.SqlQuery<DtoLibInventario.Movimiento.DesCargo.CapturaMov.Data>(sql, p1, p2, p3).FirstOrDefault();
@@ -2423,11 +2431,15 @@ namespace ProvLibInventario
                                     etasa.auto as autoTasa,
                                     etasa.nombre as descTasa,
                                     etasa.tasa as valorTasa,
-                                    p.fecha_ult_costo as fechaUltActCosto
+                                    p.fecha_ult_costo as fechaUltActCosto,
+                                    pExt.cont_emp_inv_1 as contEmpInv,
+                                    pMedInv.nombre as nombreEmpInv
                                     from productos_deposito as pdepo
                                     join productos as p on p.auto=pdepo.auto_producto
                                     join productos_medida as pmed on pmed.auto=p.auto_empaque_compra
                                     join empresa_tasas as etasa on etasa.auto=p.auto_tasa
+                                    join productos_ext as pExt on pExt.auto_producto=p.auto
+                                    join productos_medida as pMedInv on pExt.auto_emp_inv_1=pMedInv.auto
                                     where pdepo.auto_deposito=@autoDeposito and pdepo.auto_producto=@autoProducto";
                     var sql = sql_1;
                     var ent = cnn.Database.SqlQuery<DtoLibInventario.Movimiento.Cargo.CapturaMov.Data>(sql, p1, p2, p3).FirstOrDefault();
@@ -2493,11 +2505,15 @@ namespace ProvLibInventario
                                     etasa.auto as autoTasa,
                                     etasa.nombre as descTasa,
                                     etasa.tasa as valorTasa,
-                                    p.fecha_ult_costo as fechaUltActCosto
+                                    p.fecha_ult_costo as fechaUltActCosto,
+                                    pExt.cont_emp_inv_1 as contEmpInv,
+                                    pMedInv.nombre as nombreEmpInv
                                     from productos_deposito as pdepo
                                     join productos as p on p.auto=pdepo.auto_producto
                                     join productos_medida as pmed on pmed.auto=p.auto_empaque_compra
                                     join empresa_tasas as etasa on etasa.auto=p.auto_tasa
+                                    join productos_ext as pExt on pExt.auto_producto=p.auto
+                                    join productos_medida as pMedInv on pExt.auto_emp_inv_1=pMedInv.auto
                                     where pdepo.auto_deposito=@autoDeposito and pdepo.auto_producto=@autoProducto";
                     var sql = sql_1;
                     var ent = cnn.Database.SqlQuery<DtoLibInventario.Movimiento.Traslado.CapturaMov.Data>(sql, p1, p2, p3).FirstOrDefault();

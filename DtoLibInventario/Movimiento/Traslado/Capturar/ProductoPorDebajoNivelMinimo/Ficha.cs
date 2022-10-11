@@ -47,6 +47,9 @@ namespace DtoLibInventario.Movimiento.Traslado.Capturar.ProductoPorDebajoNivelMi
         //
         public decimal costo { get; set; }
         public string tasaAuto { get; set; }
+        //
+        public int contEmpInv { get; set; }
+        public string nombreEmpInv { get; set; }
 
 
         public Ficha() 
@@ -87,6 +90,9 @@ namespace DtoLibInventario.Movimiento.Traslado.Capturar.ProductoPorDebajoNivelMi
             //
             tasaAuto = "";
             costo = 0m;
+            //
+            contEmpInv = 0;
+            nombreEmpInv = "";
         }
 
     }

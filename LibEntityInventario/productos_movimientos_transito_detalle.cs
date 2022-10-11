@@ -42,6 +42,8 @@ namespace LibEntityInventario
         public decimal nivelOptimo { get; set; }
         public decimal costoDivisaUnd { get; set; }
         public decimal exFisicaDestino { get; set; }
+        public int contEmpaqueInv { get; set; }
+        public string descEmpaqueInv { get; set; }
     
         public virtual productos_movimientos_transito productos_movimientos_transito { get; set; }
     }

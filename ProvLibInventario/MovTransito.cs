@@ -87,6 +87,9 @@ namespace ProvLibInventario
                                 costoSolicitado = rg.costoSolicitada,
                                 empaqueIdSolicitado = rg.empaqueIdSolicitada,
                                 ajusteIdSolicitado = rg.ajusteIdSolicitada,
+                                //
+                                contEmpaqueInv = rg.contEmpInv,
+                                descEmpaqueInv = rg.nombreEmpInv,
                             };
                             cnn.productos_movimientos_transito_detalle.Add(det);
                             cnn.SaveChanges();

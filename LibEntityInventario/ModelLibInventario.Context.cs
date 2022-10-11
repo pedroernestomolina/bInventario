@@ -41,7 +41,6 @@ namespace LibEntityInventario
         public virtual DbSet<productos_movimientos> productos_movimientos { get; set; }
         public virtual DbSet<productos_movimientos_extra> productos_movimientos_extra { get; set; }
         public virtual DbSet<productos_movimientos_transito> productos_movimientos_transito { get; set; }
-        public virtual DbSet<productos_movimientos_transito_detalle> productos_movimientos_transito_detalle { get; set; }
         public virtual DbSet<productos_precios> productos_precios { get; set; }
         public virtual DbSet<productos_precios_ext> productos_precios_ext { get; set; }
         public virtual DbSet<productos_proveedor> productos_proveedor { get; set; }
@@ -56,5 +55,6 @@ namespace LibEntityInventario
         public virtual DbSet<productos_conceptos> productos_conceptos { get; set; }
         public virtual DbSet<productos> productos { get; set; }
         public virtual DbSet<productos_ext> productos_ext { get; set; }
+        public virtual DbSet<productos_movimientos_transito_detalle> productos_movimientos_transito_detalle { get; set; }
     }
 }

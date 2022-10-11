@@ -29,6 +29,9 @@ namespace DtoLibInventario.Movimiento.Cargo.CapturaMov
         public string descTasa {get;set;}
         public decimal valorTasa {get;set;}
         public DateTime fechaUltActCosto { get; set; }
+        //
+        public string nombreEmpInv { get; set; }
+        public int contEmpInv { get; set; }
 
 
         public Data() 
@@ -51,6 +54,9 @@ namespace DtoLibInventario.Movimiento.Cargo.CapturaMov
             descTasa = "";
             valorTasa = 0m;
             fechaUltActCosto = DateTime.Now.Date;
+            //
+            nombreEmpInv = "";
+            contEmpInv = 0;
         }
 
     }

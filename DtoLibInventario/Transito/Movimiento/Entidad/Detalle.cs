@@ -39,6 +39,9 @@ namespace DtoLibInventario.Transito.Movimiento.Entidad
         public decimal nivelMinimo { get; set; }
         public decimal nivelOptimo { get; set; }
         public decimal exFisicaDestino { get; set; }
+        //
+        public int contEmpaqueInv { get; set; }
+        public string descEmpaqueInv { get; set; }
 
 
         public Detalle()
@@ -70,6 +73,9 @@ namespace DtoLibInventario.Transito.Movimiento.Entidad
             empaqueIdSolicitado = "";
             ajusteIdSolicitado = "";
             costoSolicitado = 0m;
+            //
+            contEmpaqueInv = 0;
+            descEmpaqueInv = "";
         }
 
     }
