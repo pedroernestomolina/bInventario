@@ -43,6 +43,7 @@ namespace ProvLibInventario
             return result;
         }
 
+
         public DtoLib.ResultadoEntidad<DtoLibInventario.Configuracion.Enumerados.EnumPreferenciaBusqueda> 
             Configuracion_PreferenciaBusqueda()
         {
