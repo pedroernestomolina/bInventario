@@ -81,6 +81,8 @@ namespace ConsoleInv
 
             //var filtro = new DtoLibInventario.Reportes.MaestroPrecio.Filtro() { };
             //var r01 = invPrv.Reportes_MaestroPrecio(filtro);
+
+            //var r01 = invPrv.Producto_GetExistencia("0000000432");
         }
 
     }

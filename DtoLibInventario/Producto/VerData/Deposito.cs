@@ -18,6 +18,17 @@ namespace DtoLibInventario.Producto.VerData
         public decimal exReserva { get; set; }
         public decimal exDisponible { get; set; }
 
+
+        public Deposito()
+        {
+            autoId = "";
+            codigo = "";
+            nombre = "";
+            exDisponible = 0m;
+            exFisica = 0m;
+            exReserva = 0m;
+        }
+
     }
 
 }

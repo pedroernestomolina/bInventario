@@ -619,46 +619,42 @@ namespace ProvLibInventario
             {
                 using (var cnn = new invEntities(_cnInv.ConnectionString))
                 {
-                    var entPrd = cnn.productos.Find(autoPrd);
-                    if (entPrd == null)
+                    var p1 = new MySql.Data.MySqlClient.MySqlParameter("@autoPrd", autoPrd);
+                    var sql = @"select 
+                                p.codigo as codigoPrd,
+                                p.nombre as nombrePrd,
+                                p.contenido_compras as empaqueCompraCont,
+                                pmCompra.nombre as empaqueCompra,
+                                pmCompra.decimales as decimales,
+                                pExt.cont_emp_inv_1 as contEmpInv,
+                                pmInv.nombre as descEmpInv
+                                from productos as p 
+                                join productos_medida as pmCompra on pmCompra.auto=p.auto_empaque_compra 
+                                join productos_ext as pExt on pExt.auto_producto=p.auto
+                                join productos_medida as pmInv on pmInv.auto=pExt.auto_emp_inv_1
+                                where p.auto=@autoPrd";
+                    var ent = cnn.Database.SqlQuery<DtoLibInventario.Producto.VerData.Existencia>(sql,p1).FirstOrDefault();
+                    if (ent== null)
                     {
                         rt.Mensaje = "[ ID ] PRODUCTO NO ENCONTRADO";
                         rt.Result = DtoLib.Enumerados.EnumResult.isError;
                         return rt;
                     }
 
-                    var entEmp = cnn.productos_medida.Find(entPrd.auto_empaque_compra);
-                    var nr = new DtoLibInventario.Producto.VerData.Existencia();
-                    nr.decimales = entEmp.decimales;
-                    nr.empaqueCompra = entEmp.nombre;
-                    nr.empaqueCompraCont = entPrd.contenido_compras;
-                    nr.codigoPrd = entPrd.codigo;
-                    nr.nombrePrd = entPrd.nombre;
-
-                    var list = new List<DtoLibInventario.Producto.VerData.Deposito>();
-                    var dep = cnn.productos_deposito.Where(w => w.auto_producto == autoPrd).ToList();
-                    if (dep != null)
-                    {
-                        if (dep.Count > 0)
-                        {
-                            list = dep.Select(s =>
-                            {
-                                var dp = new DtoLibInventario.Producto.VerData.Deposito()
-                                {
-                                    autoId = s.auto_deposito,
-                                    codigo = s.empresa_depositos.codigo,
-                                    exDisponible = s.disponible,
-                                    exFisica = s.fisica,
-                                    exReserva = s.reservada,
-                                    nombre = s.empresa_depositos.nombre,
-                                };
-                                return dp;
-                            }).ToList();
-                        }
-                    }
-                    nr.depositos = list;
-
-                    rt.Entidad = nr;
+                    var p2 = new MySql.Data.MySqlClient.MySqlParameter("@autoPrd", autoPrd);
+                    var sql2 = @"select 
+                                    eDep.auto as autoId,
+                                    eDep.codigo as codigo,
+                                    eDep.nombre as nombre,
+                                    pDep.disponible as exDisponible,
+                                    pDep.fisica as exFisica,
+                                    pDep.reservada as exReserva
+                                    from productos_deposito as pDep
+                                    join empresa_depositos as eDep on eDep.auto=pDep.auto_deposito
+                                    where pDep.auto_producto=@autoPrd";
+                    var lst = cnn.Database.SqlQuery<DtoLibInventario.Producto.VerData.Deposito>(sql2, p2).ToList();
+                    ent.depositos = lst;
+                    rt.Entidad = ent;
                 }
             }
             catch (Exception e)

@@ -17,6 +17,20 @@ namespace DtoLibInventario.Producto.VerData
         public int empaqueCompraCont { get; set; }
         public string codigoPrd { get; set; }
         public string nombrePrd { get; set; }
+        public string descEmpInv { get; set; }
+        public int contEmpInv { get; set; }
+
+
+        public Existencia()
+        {
+            decimales = "";
+            empaqueCompra = "";
+            empaqueCompraCont=0;
+            codigoPrd="";
+            nombrePrd="";
+            descEmpInv="";
+            contEmpInv=0;
+        }
 
     }
 
