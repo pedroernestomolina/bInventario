@@ -14,7 +14,14 @@ namespace ConsoleInv
 
         static void Main(string[] args)
         {
-            ILibInventario.IProvider invPrv = new ProvLibInventario.Provider("localhost", "pita");
+            ILibInventario.IProvider invPrv = new ProvLibInventario.Provider("localhost", "mscala");
+            var filtroDTO = new DtoLibInventario.Visor.Precio.SoloReporte.Filtro()
+            {
+                autoDeposito = "0000000023",
+                desdeCntDias = 1
+            };
+            var r01 = invPrv.Visor_Precio_Modo_SoloReporte(filtroDTO);
+
 //            var r01 = invPrv.Producto_GetFicha("0000000450");
 
             //var filtro = new DtoLibInventario.MovPend.Lista.Filtro();

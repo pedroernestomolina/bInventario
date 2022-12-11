@@ -85,6 +85,7 @@
     <Compile Include="EmpaqueMedida\Ficha.cs" />
     <Compile Include="EmpaqueMedida\Resumen.cs" />
     <Compile Include="Empresa\Data\Ficha.cs" />
+    <Compile Include="Empresa\Data\FichaExtra.cs" />
     <Compile Include="Empresa\Grupo\Lista\Ficha.cs" />
     <Compile Include="Grupo\Agregar.cs" />
     <Compile Include="Grupo\Editar.cs" />
@@ -303,6 +304,8 @@
     <Compile Include="Visor\PrecioAjuste\Filtro.cs" />
     <Compile Include="Visor\Precio\Ficha.cs" />
     <Compile Include="Visor\Precio\Filtro.cs" />
+    <Compile Include="Visor\Precio\SoloReporte\Ficha.cs" />
+    <Compile Include="Visor\Precio\SoloReporte\Filtro.cs" />
     <Compile Include="Visor\Traslado\Ficha.cs" />
     <Compile Include="Visor\Traslado\Filtro.cs" />
   </ItemGroup>

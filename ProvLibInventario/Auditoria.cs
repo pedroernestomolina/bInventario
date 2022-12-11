@@ -12,7 +12,8 @@ namespace ProvLibInventario
     public partial class Provider : ILibInventario.IProvider
     {
 
-        public DtoLib.ResultadoEntidad<DtoLibInventario.Auditoria.Entidad.Ficha> Auditoria_Documento_GetFichaBy(DtoLibInventario.Auditoria.Buscar.Ficha ficha)
+        public DtoLib.ResultadoEntidad<DtoLibInventario.Auditoria.Entidad.Ficha> 
+            Auditoria_Documento_GetFichaBy(DtoLibInventario.Auditoria.Buscar.Ficha ficha)
         {
             var result = new DtoLib.ResultadoEntidad<DtoLibInventario.Auditoria.Entidad.Ficha>();
 

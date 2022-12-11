@@ -14,11 +14,13 @@ namespace ServiceInventario.Interfaces
         IProveedor, IVisor, IPermisos, IAnalisis, IAuditoria, ISistema, IMovTransito,
         IMovPend, IEmpresa
     {
-
-        DtoLib.ResultadoEntidad<DateTime> FechaServidor();
-        DtoLib.ResultadoEntidad<DtoLibInventario.Empresa.Data.Ficha> Empresa_Datos();
+        DtoLib.ResultadoEntidad<DateTime> 
+            FechaServidor();
+        DtoLib.ResultadoEntidad<DtoLibInventario.Empresa.Data.Ficha> 
+            Empresa_Datos();
+        DtoLib.ResultadoEntidad<string>
+            Empresa_Sucursal_TipoPrecioManejar(string codEmpresa);
         //DtoLib.ResultadoEntidad<DtoLibPosOffLine.Sistema.InformacionBD.Ficha> InformacionBD();
-
     }
 
 }

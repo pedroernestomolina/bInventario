@@ -21,21 +21,26 @@ namespace ServiceInventario.MyService
         }
 
 
-        public DtoLib.ResultadoEntidad<DateTime> FechaServidor()
+        public DtoLib.ResultadoEntidad<DateTime> 
+            FechaServidor()
         {
             return ServiceProv.FechaServidor();
         }
-
+        public DtoLib.ResultadoEntidad<DtoLibInventario.Empresa.Data.Ficha> 
+            Empresa_Datos()
+        {
+            return ServiceProv.Empresa_Datos();
+        }
+        public DtoLib.ResultadoEntidad<string> 
+            Empresa_Sucursal_TipoPrecioManejar(string codEmpresa)
+        {
+            return ServiceProv.Empresa_Sucursal_TipoPrecioManejar(codEmpresa);
+        }
         //public DtoLib.ResultadoEntidad<DtoLibPosOffLine.Sistema.InformacionBD.Ficha> InformacionBD()
         //{
         //    throw new NotImplementedException();
         //    //return ServiceProv.InformacionBD();
         //}
-
-        public DtoLib.ResultadoEntidad<DtoLibInventario.Empresa.Data.Ficha> Empresa_Datos()
-        {
-            return ServiceProv.Empresa_Datos();
-        }
 
     }
 

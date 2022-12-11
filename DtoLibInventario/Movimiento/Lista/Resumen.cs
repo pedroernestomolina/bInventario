@@ -28,6 +28,8 @@ namespace DtoLibInventario.Movimiento.Lista
         public string estatusAnulado { get; set; }
         public string tipo { get; set; }
         public bool isDocAnulado { get { return estatusAnulado == "1"; } }
+        public string idDepOrigen { get; set; }
+        public string idDepestino { get; set; }
         public enumerados.EnumTipoDocumento docTipo
         {
             get
@@ -69,6 +71,8 @@ namespace DtoLibInventario.Movimiento.Lista
             docMotivo = "";
             depositoDestino = "";
             depositoOrigen = "";
+            idDepOrigen = "";
+            idDepestino = "";
         }
 
     }

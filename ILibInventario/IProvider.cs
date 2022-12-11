@@ -18,8 +18,9 @@ namespace ILibInventario
             FechaServidor();
         DtoLib.ResultadoEntidad<DtoLibInventario.Empresa.Data.Ficha> 
             Empresa_Datos();
+        DtoLib.ResultadoEntidad<string>
+            Empresa_Sucursal_TipoPrecioManejar(string codEmpresa);
         //DtoLib.ResultadoEntidad<DtoLibPosOffLine.Sistema.InformacionBD.Ficha> InformacionBD();
-
     }
 
 }

@@ -1478,7 +1478,9 @@ namespace ProvLibInventario
                                 m.concepto as docConcepto, m.total as docMonto, m.nota as docMotivo, m.documento as docNro,
                                 m.renglones as docRenglones, m.situacion as docSituacion, m.codigo_sucursal as docSucursal,
                                 m.tipo, m.estacion, m.estatus_anulado as estatusAnulado, m.usuario, 
-                                m.deposito as depositoOrigen, m.destino as depositoDestino
+                                m.deposito as depositoOrigen, m.destino as depositoDestino,
+                                m.auto_deposito as idDepOrigen,
+                                m.auto_destino as idDepDestino
                                 from productos_movimientos as m ";
                     var sql_2 = @"";
                     var sql_3 = @" where 1=1 ";

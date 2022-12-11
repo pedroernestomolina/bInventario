@@ -466,7 +466,80 @@ namespace ProvLibInventario
 
             return rt;
         }
+        //
+        public DtoLib.ResultadoLista<DtoLibInventario.Visor.Precio.SoloReporte.Ficha> 
+            Visor_Precio_Modo_SoloReporte(DtoLibInventario.Visor.Precio.SoloReporte.Filtro filtro)
+        {
+            var rt = new DtoLib.ResultadoLista<DtoLibInventario.Visor.Precio.SoloReporte.Ficha>();
 
+            try
+            {
+                using (var cnn = new invEntities(_cnInv.ConnectionString))
+                {
+                    var p1 = new MySql.Data.MySqlClient.MySqlParameter("@dias", filtro.desdeCntDias);
+                    var _fecha = cnn.Database.SqlQuery<DateTime>("select now() - interval @dias day", p1).FirstOrDefault();
+
+                    p1 = new MySql.Data.MySqlClient.MySqlParameter("@fecha", _fecha.Date);
+                    var p2 = new MySql.Data.MySqlClient.MySqlParameter("@autoDep", filtro.autoDeposito);
+                    var sql_1 = @"SELECT 
+                                    p.codigo, p.nombre, eTasa.tasa,
+                                    p.precio_1 as p1, 
+                                    p.precio_2 as p2, 
+                                    p.precio_3 as p3, 
+                                    p.precio_4 as p4,
+                                    p.pdf_1 as p1_FD,
+                                    p.pdf_2 as p2_FD,
+                                    p.pdf_3 as p3_FD,
+                                    p.pdf_4 as p4_FD,
+                                    pExt.precio_may_1 as pM1,
+                                    pExt.precio_may_2 as pM2,
+                                    pExt.precio_may_3 as pM3,
+                                    pExt.precio_may_4 as pM4,
+                                    pExt.pdmf_1 as pM1_FD, 
+                                    pExt.pdmf_2 as pM2_FD, 
+                                    pExt.pdmf_3 as pM3_FD, 
+                                    pExt.pdmf_4 as pM4_FD, 
+                                    pExt.precio_dsp_1 as pDSP1, 
+                                    pExt.precio_dsp_2 as pDSP2, 
+                                    pExt.precio_dsp_3 as pDSP3, 
+                                    pExt.precio_dsp_4 as pDSP4, 
+                                    pExt.pdivisafull_dsp_1 as pDSP1_FD, 
+                                    pExt.pdivisafull_dsp_2 as pDSP2_FD, 
+                                    pExt.pdivisafull_dsp_3 as pDSP3_FD, 
+                                    pExt.pdivisafull_dsp_4 as pDSP4_FD, 
+                                    pExt.cont_emp_venta_tipo_1 as cont_emp_1, 
+                                    pExt.cont_emp_venta_tipo_2 as cont_emp_2, 
+                                    pExt.cont_emp_venta_tipo_3 as cont_emp_3,
+                                    tipo_1.nombre as emp_1, 
+                                    tipo_2.nombre as emp_2, 
+                                    tipo_3.nombre as emp_3
+                                from 
+                                    (
+                                        SELECT 
+                                            distinct pPrec.auto_producto 
+                                        FROM productos_precios as pPrec
+                                        join productos_deposito as pDep on pDep.auto_producto=pPrec.auto_producto
+                                        where pPrec.fecha>=@fecha and pDep.auto_deposito=@autoDep
+                                    ) as c1
+                                join productos as p on c1.auto_producto = p.auto
+                                join productos_ext as pExt on pExt.auto_producto=p.auto
+                                join empresa_tasas as eTasa on eTasa.auto=p.auto_tasa
+                                join productos_medida as tipo_1 on pExt.auto_emp_venta_tipo_1=tipo_1.auto
+                                join productos_medida as tipo_2 on pExt.auto_emp_venta_tipo_2=tipo_2.auto
+                                join productos_medida as tipo_3 on pExt.auto_emp_venta_tipo_3=tipo_3.auto";
+                    var sql = sql_1;
+                    var lst = cnn.Database.SqlQuery<DtoLibInventario.Visor.Precio.SoloReporte.Ficha>(sql, p1, p2).ToList();
+                    rt.Lista = lst;
+                }
+            }
+            catch (Exception e)
+            {
+                rt.Mensaje = e.Message;
+                rt.Result = DtoLib.Enumerados.EnumResult.isError;
+            }
+
+            return rt;
+        }
     }
 
 }

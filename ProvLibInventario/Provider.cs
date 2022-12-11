@@ -54,7 +54,8 @@ namespace ProvLibInventario
             _cnInv.ProviderConnectionString = "data source=" + _Instancia + ";initial catalog=" + _BaseDatos + ";user id=" + _Usuario + ";Password=" + _Password + ";Convert Zero Datetime=True;";
         }
 
-        public DtoLib.ResultadoEntidad<DateTime> FechaServidor()
+        public DtoLib.ResultadoEntidad<DateTime> 
+            FechaServidor()
         {
             var result = new DtoLib.ResultadoEntidad<DateTime>();
 
@@ -74,8 +75,8 @@ namespace ProvLibInventario
 
             return result;
         }
-
-        public DtoLib.ResultadoEntidad<DtoLibInventario.Empresa.Data.Ficha> Empresa_Datos()
+        public DtoLib.ResultadoEntidad<DtoLibInventario.Empresa.Data.Ficha> 
+            Empresa_Datos()
         {
             var result = new DtoLib.ResultadoEntidad<DtoLibInventario.Empresa.Data.Ficha>();
 
@@ -90,7 +91,6 @@ namespace ProvLibInventario
                         result.Mensaje = "REGISTRO ENTIDAD [ EMPRESA ] NO DEFINIDO";
                         return result;
                     }
-
                     var nr = new DtoLibInventario.Empresa.Data.Ficha()
                     {
                         CiRif = ent.rif,
@@ -99,6 +99,12 @@ namespace ProvLibInventario
                         Telefono = ent.telefono,
                     };
                     result.Entidad = nr;
+                    var sql = @"select 
+                                    deposito_principal as idDepPrincipal, 
+                                    codigo_empresa as codEmpresa
+                                from sistema";
+                    var ent2= ctx.Database.SqlQuery<DtoLibInventario.Empresa.Data.FichaExtra>(sql).FirstOrDefault();
+                    nr.extra = ent2;
                 }
             }
             catch (Exception e)
@@ -109,7 +115,40 @@ namespace ProvLibInventario
 
             return result;
         }
+        public DtoLib.ResultadoEntidad<string> 
+            Empresa_Sucursal_TipoPrecioManejar(string codEmpresa)
+        {
+            var result = new DtoLib.ResultadoEntidad<string>();
 
+            try
+            {
+                using (var ctx = new invEntities(_cnInv.ConnectionString))
+                {
+                    var p1 = new MySqlParameter("@codSuc", codEmpresa);
+                    var sql = @"SELECT 
+                                    empHndPrc.codigo as codPrecio
+                                FROM empresa_sucursal as empSuc
+                                join empresa_grupo_ext as empGrpExt on empGrpExt.auto_empresagrupo=empSuc.autoempresagrupo
+                                join empresa_hnd_precios empHndPrc on empHndPrc.id=empGrpExt.idempresahndprecio
+                                where empSuc.codigo=@codSuc";
+                    var ent = ctx.Database.SqlQuery<string>(sql,p1).FirstOrDefault();
+                    if (ent == null)
+                    {
+                        result.Result = DtoLib.Enumerados.EnumResult.isError;
+                        result.Mensaje = "CODIGO SUCURSAL [ EMPRESA ] NO DEFINIDO";
+                        return result;
+                    }
+                    result.Entidad = ent;
+                }
+            }
+            catch (Exception e)
+            {
+                result.Mensaje = e.Message;
+                result.Result = DtoLib.Enumerados.EnumResult.isError;
+            }
+
+            return result;
+        }
     }
 
 }

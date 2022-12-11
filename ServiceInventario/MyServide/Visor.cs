@@ -11,7 +11,6 @@ namespace ServiceInventario.MyService
 
     public partial class Service: IService
     {
-
         public DtoLib.ResultadoLista<DtoLibInventario.Visor.Existencia.Ficha> 
             Visor_Existencia(DtoLibInventario.Visor.Existencia.Filtro filtro)
         {
@@ -47,7 +46,12 @@ namespace ServiceInventario.MyService
         {
             return ServiceProv.Visor_PrecioAjuste(filtro);
         }
-
+        //
+        public DtoLib.ResultadoLista<DtoLibInventario.Visor.Precio.SoloReporte.Ficha> 
+            Visor_Precio_Modo_SoloReporte(DtoLibInventario.Visor.Precio.SoloReporte.Filtro filtro)
+        {
+            return ServiceProv.Visor_Precio_Modo_SoloReporte(filtro);
+        }
     }
 
 }
