@@ -297,6 +297,8 @@
     <Compile Include="Visor\CostoEddad\Filtro.cs" />
     <Compile Include="Visor\CostoExistencia\Ficha.cs" />
     <Compile Include="Visor\CostoExistencia\Filtro.cs" />
+    <Compile Include="Visor\EntradaxCompra\Ficha.cs" />
+    <Compile Include="Visor\EntradaxCompra\Filtro.cs" />
     <Compile Include="Visor\Existencia\Enumerados.cs" />
     <Compile Include="Visor\Existencia\Ficha.cs" />
     <Compile Include="Visor\Existencia\Filtro.cs" />

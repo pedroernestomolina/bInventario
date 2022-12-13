@@ -12,6 +12,7 @@ namespace DtoLibInventario.Visor.Precio.SoloReporte
     {
         public int desdeCntDias { get; set; }
         public string autoDeposito { get; set; }
+        public bool excluirCambMasivo { get; set; }
     }
 
 }

@@ -21,20 +21,26 @@ namespace ProvLibInventario
             {
                 using (var cnn = new invEntities(_cnInv.ConnectionString))
                 {
-                    var sql = "SELECT p.nombre as nombrePrd, p.codigo as codigoPrd, p.auto as autoPrd, " +
-                        "case when p.estatus='Activo' then '0' else '1' end as estatusActivo, " +
-                        "p.estatus_cambio as estatusSuspendido, " +
-                        "pdep.fisica as cntFisica, pdep.nivel_minimo as nivelMinimo, pdep.nivel_optimo as nivelOptimo, " +
-                        "case when p.estatus_pesado='0' then 'N' when p.estatus_pesado='1' then 'S' end as esPesado, " +
-                        "edep.auto as autoDeposito, edep.nombre as nombreDeposito, edep.codigo as codigoDeposito, " +
-                        "edepart.auto as autoDepart, edepart.codigo as codigoDepart, edepart.nombre as nombreDepart, " +
-                        "pmed.decimales " +
-                        "FROM `productos_deposito` as pdep " +
-                        "join empresa_depositos as edep on pdep.auto_deposito=edep.auto " +
-                        "join productos as p on pdep.auto_producto=p.auto " +
-                        "join empresa_departamentos as edepart on p.auto_departamento=edepart.auto " +
-                        "join productos_medida as pmed on p.auto_empaque_compra=pmed.auto " +
-                        "WHERE 1 = 1 " ;
+                    var sql = @"SELECT 
+                        p.nombre as nombrePrd, 
+                        p.codigo as codigoPrd, 
+                        p.auto as autoPrd, 
+                        case when p.estatus='Activo' then '0' else '1' end as estatusActivo, 
+                        p.estatus_cambio as estatusSuspendido, 
+                        pdep.fisica as cntFisica, 
+                        pdep.reservada as cntReserva, 
+                        pdep.disponible as cntDisponible,
+                        pdep.nivel_minimo as nivelMinimo, pdep.nivel_optimo as nivelOptimo, 
+                        case when p.estatus_pesado='0' then 'N' when p.estatus_pesado='1' then 'S' end as esPesado, 
+                        edep.auto as autoDeposito, edep.nombre as nombreDeposito, edep.codigo as codigoDeposito, 
+                        edepart.auto as autoDepart, edepart.codigo as codigoDepart, edepart.nombre as nombreDepart, 
+                        pmed.decimales 
+                        FROM `productos_deposito` as pdep 
+                        join empresa_depositos as edep on pdep.auto_deposito=edep.auto 
+                        join productos as p on pdep.auto_producto=p.auto 
+                        join empresa_departamentos as edepart on p.auto_departamento=edepart.auto 
+                        join productos_medida as pmed on p.auto_empaque_compra=pmed.auto 
+                        WHERE 1 = 1 ";
 
                     var p1 = new MySql.Data.MySqlClient.MySqlParameter();
                     var p2 = new MySql.Data.MySqlClient.MySqlParameter();
@@ -512,14 +518,21 @@ namespace ProvLibInventario
                                     pExt.cont_emp_venta_tipo_3 as cont_emp_3,
                                     tipo_1.nombre as emp_1, 
                                     tipo_2.nombre as emp_2, 
-                                    tipo_3.nombre as emp_3
+                                    tipo_3.nombre as emp_3 ";
+                    var sql_2= @"
                                 from 
                                     (
                                         SELECT 
                                             distinct pPrec.auto_producto 
                                         FROM productos_precios as pPrec
-                                        join productos_deposito as pDep on pDep.auto_producto=pPrec.auto_producto
-                                        where pPrec.fecha>=@fecha and pDep.auto_deposito=@autoDep
+                                        join productos_deposito as pDep on pDep.auto_producto=pPrec.auto_producto ";
+                    var sql_3=@"
+                                        where pPrec.fecha>=@fecha and pDep.auto_deposito=@autoDep ";
+                    if (filtro.excluirCambMasivo)
+                    {
+                        sql_3 += "and pPrec.nota<>'CAMBIO MASIVO' ";
+                    }
+                    var sql_4=@"
                                     ) as c1
                                 join productos as p on c1.auto_producto = p.auto
                                 join productos_ext as pExt on pExt.auto_producto=p.auto
@@ -527,7 +540,7 @@ namespace ProvLibInventario
                                 join productos_medida as tipo_1 on pExt.auto_emp_venta_tipo_1=tipo_1.auto
                                 join productos_medida as tipo_2 on pExt.auto_emp_venta_tipo_2=tipo_2.auto
                                 join productos_medida as tipo_3 on pExt.auto_emp_venta_tipo_3=tipo_3.auto";
-                    var sql = sql_1;
+                    var sql = sql_1+sql_2+sql_3+sql_4;
                     var lst = cnn.Database.SqlQuery<DtoLibInventario.Visor.Precio.SoloReporte.Ficha>(sql, p1, p2).ToList();
                     rt.Lista = lst;
                 }
@@ -540,6 +553,53 @@ namespace ProvLibInventario
 
             return rt;
         }
+        public DtoLib.ResultadoLista<DtoLibInventario.Visor.EntradaxCompra.Ficha> 
+            Visor_EntradasxCompra(DtoLibInventario.Visor.EntradaxCompra.Filtro filtro)
+        {
+            var rt = new DtoLib.ResultadoLista<DtoLibInventario.Visor.EntradaxCompra.Ficha>();
+
+            try
+            {
+                using (var cnn = new invEntities(_cnInv.ConnectionString))
+                {
+                    var p1 = new MySql.Data.MySqlClient.MySqlParameter("@idDeposito", filtro.idDeposito);
+                    var p2 = new MySql.Data.MySqlClient.MySqlParameter("@mes", filtro.mes);
+                    var p3 = new MySql.Data.MySqlClient.MySqlParameter("@ano", filtro.ano);
+                    var sql_1 = @"SELECT 
+                                    p.codigo as codigoPrd, 
+                                    p.nombre as nombrePrd, 
+                                    pKard.documento as nroDoc,
+                                    pKard.fecha,
+                                    pkard.hora,
+                                    pkard.entidad as entidadProv,
+                                    pkard.codigo_deposito as codDeposito,
+                                    pkard.nombre_deposito as descDeposito,
+                                    pkard.signo as signoDoc,
+                                    pkard.cantidad_und as cantUnd,
+                                    pkard.siglas as siglasDoc,
+                                    pkard.codigo_concepto as codConcepto,
+                                    pkard.nombre_concepto as descConcepto
+                                FROM productos_kardex as pKard
+                                join productos as p on p.auto=pKard.auto_producto ";
+                    var sql_2 = @" where modulo='Compras'
+                                    and estatus_anulado='0'
+                                    and auto_deposito=@idDeposito
+                                    and year(fecha)=@ano
+                                    and month(fecha)=@mes";
+                    var sql = sql_1 + sql_2;
+                    var lst = cnn.Database.SqlQuery<DtoLibInventario.Visor.EntradaxCompra.Ficha>(sql, p1, p2, p3).ToList();
+                    rt.Lista = lst;
+                }
+            }
+            catch (Exception e)
+            {
+                rt.Mensaje = e.Message;
+                rt.Result = DtoLib.Enumerados.EnumResult.isError;
+            }
+
+            return rt;
+        }
+
     }
 
 }

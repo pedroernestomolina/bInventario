@@ -27,6 +27,8 @@ namespace ServiceInventario.Interfaces
         //
         DtoLib.ResultadoLista<DtoLibInventario.Visor.Precio.SoloReporte.Ficha>
             Visor_Precio_Modo_SoloReporte(DtoLibInventario.Visor.Precio.SoloReporte.Filtro filtro);
+        DtoLib.ResultadoLista<DtoLibInventario.Visor.EntradaxCompra.Ficha>
+            Visor_EntradasxCompra(DtoLibInventario.Visor.EntradaxCompra.Filtro filtro);
     }
 
 }

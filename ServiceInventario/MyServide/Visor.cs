@@ -52,6 +52,11 @@ namespace ServiceInventario.MyService
         {
             return ServiceProv.Visor_Precio_Modo_SoloReporte(filtro);
         }
+        public DtoLib.ResultadoLista<DtoLibInventario.Visor.EntradaxCompra.Ficha> 
+            Visor_EntradasxCompra(DtoLibInventario.Visor.EntradaxCompra.Filtro filtro)
+        {
+            return ServiceProv.Visor_EntradasxCompra(filtro);
+        }
     }
 
 }
