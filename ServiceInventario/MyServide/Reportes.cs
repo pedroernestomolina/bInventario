@@ -77,7 +77,11 @@ namespace ServiceInventario.MyService
         {
             return ServiceProv.Reportes_ResumenCostoInventario(filtro);
         }
-
+        public DtoLib.ResultadoLista<DtoLibInventario.Reportes.MaestroPrecio.FichaFox> 
+            Reportes_MaestroPrecio_FoxSystem(DtoLibInventario.Reportes.MaestroPrecio.Filtro filtro)
+        {
+            return ServiceProv.Reportes_MaestroPrecio_FoxSystem(filtro);
+        }
     }
 
 }

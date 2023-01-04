@@ -15,9 +15,20 @@ namespace ServiceInventario.MyService
         public static ILibInventario.IProvider ServiceProv;
 
 
-        public Service(string instancia, string bd, string usu="root")
+        public Service(string instancia, string bd, string usu, string gestorDatos)
         {
-            ServiceProv = new ProvLibInventario.Provider(instancia, bd, usu);
+            switch (gestorDatos.Trim().ToUpper())
+            {
+                case "SQLSERVER":
+                    ServiceProv = new ProvSqlServer.Provider(instancia, bd);
+                    break;
+                default:
+                    if (usu.Trim() == "")
+                    { ServiceProv = new ProvLibInventario.Provider(instancia, bd); }
+                    else
+                    { ServiceProv = new ProvLibInventario.Provider(instancia, bd, usu); }
+                    break;
+            }
         }
 
 
@@ -36,11 +47,6 @@ namespace ServiceInventario.MyService
         {
             return ServiceProv.Empresa_Sucursal_TipoPrecioManejar(codEmpresa);
         }
-        //public DtoLib.ResultadoEntidad<DtoLibPosOffLine.Sistema.InformacionBD.Ficha> InformacionBD()
-        //{
-        //    throw new NotImplementedException();
-        //    //return ServiceProv.InformacionBD();
-        //}
 
     }
 

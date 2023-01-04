@@ -52,7 +52,6 @@ namespace ProvLibInventario
             Sistema_TipoPreciosDefinidos_Lista()
         {
             var result = new DtoLib.ResultadoLista<DtoLibInventario.Sistema.HndPrecios.Lista.Ficha>();
-
             try
             {
                 using (var cnn = new invEntities(_cnInv.ConnectionString))
@@ -69,7 +68,6 @@ namespace ProvLibInventario
                 result.Mensaje = e.Message;
                 result.Result = DtoLib.Enumerados.EnumResult.isError;
             }
-
             return result;
         }
 

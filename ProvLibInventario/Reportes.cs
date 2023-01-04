@@ -11,7 +11,6 @@ namespace ProvLibInventario
 
     public partial class Provider : ILibInventario.IProvider
     {
-
         public DtoLib.ResultadoLista<DtoLibInventario.Reportes.MaestroProducto.Ficha> 
             Reportes_MaestroProducto(DtoLibInventario.Reportes.MaestroProducto.Filtro filtro)
         {
@@ -386,20 +385,10 @@ namespace ProvLibInventario
             Reportes_MaestroExistencia(DtoLibInventario.Reportes.MaestroExistencia.Filtro filtro)
         {
             var rt = new DtoLib.ResultadoLista<DtoLibInventario.Reportes.MaestroExistencia.Ficha>();
-
             try
             {
                 using (var cnn = new invEntities(_cnInv.ConnectionString))
                 {
-                    //var sql = "SELECT p.auto as autoprd, p.codigo as codigoPrd, p.nombre as nombrePrd, p.estatus as estatusPrd, " +
-                    //    "pdep.fisica as exFisica, edep.auto as autoDep, edep.codigo as codigoDep, edep.nombre as nombreDep, " +
-                    //    "pmed.decimales as decimales "+
-                    //    "FROM productos as p " +
-                    //    "join productos_medida as pmed on p.auto_empaque_compra=pmed.auto "+
-                    //    "left join productos_deposito as pdep on pdep.auto_producto=p.auto " +
-                    //    "left join empresa_depositos as edep on edep.auto=pdep.auto_deposito " +
-                    //    "where p.estatus='Activo' and p.categoria<>'Bien de Servicio' ";
-
                     var sql = "SELECT " +
                         "p.auto as autoprd, " +
                         "p.codigo as codigoPrd, " +
@@ -429,11 +418,10 @@ namespace ProvLibInventario
                         "left join empresa_sucursal as esuc on edep.codigo_sucursal=esuc.codigo " +
                         "left join empresa_grupo as egru on egru.auto=esuc.autoempresagrupo " +
                         "where p.estatus='Activo' and p.categoria<>'Bien de Servicio' ";
-
                     var p1 = new MySql.Data.MySqlClient.MySqlParameter();
                     var p2 = new MySql.Data.MySqlClient.MySqlParameter();
                     var p3 = new MySql.Data.MySqlClient.MySqlParameter();
-
+                    var p4 = new MySql.Data.MySqlClient.MySqlParameter();
                     if (filtro.autoDepartamento != "")
                     {
                         sql += " and p.auto_departamento=@autoDepartamento ";
@@ -452,8 +440,13 @@ namespace ProvLibInventario
                         p3.ParameterName = "@autoGrupo";
                         p3.Value = filtro.autoGrupo;
                     }
-
-                    var list = cnn.Database.SqlQuery<DtoLibInventario.Reportes.MaestroExistencia.Ficha>(sql, p1, p2, p3).ToList();
+                    if (filtro.autoProducto != "")
+                    {
+                        sql += " and p.auto=@autoProducto ";
+                        p4.ParameterName = "@autoProducto";
+                        p4.Value = filtro.autoProducto;
+                    }
+                    var list = cnn.Database.SqlQuery<DtoLibInventario.Reportes.MaestroExistencia.Ficha>(sql, p1, p2, p3, p4).ToList();
                     rt.Lista = list;
                 }
             }
@@ -462,7 +455,6 @@ namespace ProvLibInventario
                 rt.Mensaje = e.Message;
                 rt.Result = DtoLib.Enumerados.EnumResult.isError;
             }
-
             return rt;
         }
         public DtoLib.ResultadoEntidad<DtoLibInventario.Reportes.Kardex.Ficha> 
@@ -1119,7 +1111,6 @@ namespace ProvLibInventario
 
             return rt;
         }
-
         public DtoLib.ResultadoLista<DtoLibInventario.Reportes.MaestroPrecio.Ficha>
             Reportes_MaestroPrecio(DtoLibInventario.Reportes.MaestroPrecio.Filtro filtro)
         {
@@ -1269,8 +1260,14 @@ namespace ProvLibInventario
 
             return rt;
         }
-
-
+        public DtoLib.ResultadoLista<DtoLibInventario.Reportes.MaestroPrecio.FichaFox> 
+            Reportes_MaestroPrecio_FoxSystem(DtoLibInventario.Reportes.MaestroPrecio.Filtro filtro)
+        {
+            var rt = new DtoLib.ResultadoLista<DtoLibInventario.Reportes.MaestroPrecio.FichaFox>();
+            rt.Result = DtoLib.Enumerados.EnumResult.isError;
+            rt.Mensaje = "NO IMPLEMENTAR ESTE METODO";
+            return rt;
+        }
     }
 
 }

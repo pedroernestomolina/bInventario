@@ -10,7 +10,6 @@ namespace DtoLibInventario.Usuario
     
     public class Ficha
     {
-
         public string autoUsu { get; set; }
         public string autoGru { get; set; }
         public string nombreUsu { get; set; }
@@ -18,17 +17,7 @@ namespace DtoLibInventario.Usuario
         public string codigoUsu { get; set; }
         public string nombreGru { get; set; }
         private string estatusUsu { get; set; }
-        public bool isActivo 
-        {
-            get 
-            {
-                var rt = false;
-                if (estatusUsu.Trim().ToUpper() == "ACTIVO")
-                    rt = true;
-                return rt;
-            }
-        }
-
+        public bool isActivo { get { return estatusUsu.Trim().ToUpper() == "ACTIVO"; } }
     }
 
 }

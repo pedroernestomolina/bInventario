@@ -14,34 +14,20 @@ namespace ProvLibInventario
     
     public partial class Provider : ILibInventario.IProvider
     {
-
-        public DtoLib.ResultadoLista<DtoLibInventario.Marca.Resumen> Marca_GetLista()
+        public DtoLib.ResultadoLista<DtoLibInventario.Marca.Resumen> 
+            Marca_GetLista()
         {
             var result = new DtoLib.ResultadoLista<DtoLibInventario.Marca.Resumen>();
-
             try
             {
                 using (var cnn = new invEntities(_cnInv.ConnectionString))
                 {
-                    var q = cnn.productos_marca.ToList();
-
-                    var list = new List<DtoLibInventario.Marca.Resumen>();
-                    if (q != null)
-                    {
-                        if (q.Count() > 0)
-                        {
-                            list = q.Select(s =>
-                            {
-                                var r = new DtoLibInventario.Marca.Resumen()
-                                {
-                                    auto = s.auto,
-                                    nombre = s.nombre,
-                                };
-                                return r;
-                            }).ToList();
-                        }
-                    }
-                    result.Lista = list;
+                    var sql = @"SELECT 
+                                    auto, 
+                                    nombre
+                                FROM productos_marca";
+                    var lst = cnn.Database.SqlQuery<DtoLibInventario.Marca.Resumen>(sql).ToList();
+                    result.Lista = lst;
                 }
             }
             catch (Exception e)
@@ -52,8 +38,8 @@ namespace ProvLibInventario
 
             return result;
         }
-
-        public DtoLib.ResultadoEntidad<DtoLibInventario.Marca.Ficha> Marca_GetFicha(string auto)
+        public DtoLib.ResultadoEntidad<DtoLibInventario.Marca.Ficha> 
+            Marca_GetFicha(string auto)
         {
             var result = new DtoLib.ResultadoEntidad<DtoLibInventario.Marca.Ficha>();
 
@@ -84,8 +70,8 @@ namespace ProvLibInventario
 
             return result;
         }
-
-        public DtoLib.ResultadoAuto Marca_Agregar(DtoLibInventario.Marca.Agregar ficha)
+        public DtoLib.ResultadoAuto 
+            Marca_Agregar(DtoLibInventario.Marca.Agregar ficha)
         {
             var result = new DtoLib.ResultadoAuto();
 
@@ -154,8 +140,8 @@ namespace ProvLibInventario
 
             return result;
         }
-
-        public DtoLib.Resultado Marca_Editar(DtoLibInventario.Marca.Editar ficha)
+        public DtoLib.Resultado 
+            Marca_Editar(DtoLibInventario.Marca.Editar ficha)
         {
             var result = new DtoLib.ResultadoAuto();
 
@@ -214,8 +200,8 @@ namespace ProvLibInventario
 
             return result;
         }
-
-        public DtoLib.Resultado Marca_Eliminar(string auto)
+        public DtoLib.Resultado 
+            Marca_Eliminar(string auto)
         {
             var result = new DtoLib.Resultado();
 
@@ -262,7 +248,6 @@ namespace ProvLibInventario
 
             return result;
         }
-
     }
 
 }

@@ -14,14 +14,22 @@ namespace ConsoleInv
 
         static void Main(string[] args)
         {
-            ILibInventario.IProvider invPrv = new ProvLibInventario.Provider("localhost", "mscala");
-            var filtroDTO = new DtoLibInventario.Visor.EntradaxCompra.Filtro()
-            {
-                idDeposito = "0000000023",
-                mes = 11,
-                ano = 2022,
-            };
-            var r01 = invPrv.Visor_EntradasxCompra(filtroDTO);
+
+            //ILibInventario.IProvider invPrv = new  ProvSqlServer.Provider("192.168.1.5", "00000001");
+            //invPrv.FechaServidor();
+            //invPrv.Empresa_Datos();
+            //var filtro = new DtoLibInventario.Reportes.MaestroPrecio.Filtro();
+            //invPrv.Reportes_MaestroPrecio_FoxSystem(filtro);
+
+
+            //ILibInventario.IProvider invPrv = new ProvLibInventario.Provider("localhost", "mscala");
+            //var filtroDTO = new DtoLibInventario.Visor.EntradaxCompra.Filtro()
+            //{
+            //    idDeposito = "0000000023",
+            //    mes = 11,
+            //    ano = 2022,
+            //};
+            //var r01 = invPrv.Visor_EntradasxCompra(filtroDTO);
 
 //            var r01 = invPrv.Producto_GetFicha("0000000450");
 

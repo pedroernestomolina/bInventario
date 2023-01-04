@@ -7,10 +7,8 @@ using System.Threading.Tasks;
 
 namespace DtoLibInventario.Visor.Ajuste
 {
-    
     public class FichaDetalle
     {
-
         public DateTime fecha { get; set; }
         public string hora { get; set; }
         public string autoUsuario { get; set; }
@@ -29,7 +27,6 @@ namespace DtoLibInventario.Visor.Ajuste
         public string decimales { get; set; }
         public string nota { get; set; }
         public int signo { get; set; }
-
+        public decimal factor { get; set; }
     }
-
 }

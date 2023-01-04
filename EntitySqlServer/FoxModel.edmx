@@ -1,0 +1,197 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="FoxInvModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <!--Errors Found During Generation:
+warning 6002: The table/view '00000001.dbo.empresa' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="empresa">
+          <Key>
+            <PropertyRef Name="nombre" />
+            <PropertyRef Name="direccion" />
+            <PropertyRef Name="rif" />
+            <PropertyRef Name="clave1" />
+            <PropertyRef Name="clave2" />
+            <PropertyRef Name="clave3" />
+            <PropertyRef Name="telefono" />
+            <PropertyRef Name="sucursal" />
+            <PropertyRef Name="codigo_sucursal" />
+            <PropertyRef Name="nit" />
+            <PropertyRef Name="contacto" />
+            <PropertyRef Name="fax" />
+            <PropertyRef Name="email" />
+            <PropertyRef Name="website" />
+            <PropertyRef Name="registro" />
+          </Key>
+          <Property Name="nombre" Type="nchar" MaxLength="120" Nullable="false" />
+          <Property Name="direccion" Type="nchar" MaxLength="120" Nullable="false" />
+          <Property Name="rif" Type="nchar" MaxLength="15" Nullable="false" />
+          <Property Name="clave1" Type="nchar" MaxLength="15" Nullable="false" />
+          <Property Name="clave2" Type="nchar" MaxLength="15" Nullable="false" />
+          <Property Name="clave3" Type="nchar" MaxLength="15" Nullable="false" />
+          <Property Name="telefono" Type="nchar" MaxLength="60" Nullable="false" />
+          <Property Name="sucursal" Type="nchar" MaxLength="60" Nullable="false" />
+          <Property Name="codigo_sucursal" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="nit" Type="nchar" MaxLength="15" Nullable="false" />
+          <Property Name="contacto" Type="nchar" MaxLength="60" Nullable="false" />
+          <Property Name="fax" Type="nchar" MaxLength="60" Nullable="false" />
+          <Property Name="email" Type="nchar" MaxLength="60" Nullable="false" />
+          <Property Name="website" Type="nchar" MaxLength="60" Nullable="false" />
+          <Property Name="registro" Type="nchar" MaxLength="100" Nullable="false" />
+          <Property Name="Telefono_1" Type="nchar" MaxLength="14" />
+          <Property Name="Telefono_2" Type="nchar" MaxLength="14" />
+          <Property Name="Telefono_3" Type="nchar" MaxLength="14" />
+          <Property Name="Telefono_4" Type="nchar" MaxLength="14" />
+          <Property Name="Celular_1" Type="nchar" MaxLength="14" />
+          <Property Name="Celular_2" Type="nchar" MaxLength="14" />
+          <Property Name="Fax_1" Type="nchar" MaxLength="14" />
+          <Property Name="Fax_2" Type="nchar" MaxLength="14" />
+          <Property Name="Direccion_Referencia" Type="nchar" MaxLength="200" />
+          <Property Name="Id_Seguridad" Type="timestamp" StoreGeneratedPattern="Computed" />
+        </EntityType>
+        <EntityContainer Name="FoxInvModelStoreContainer">
+          <EntitySet Name="empresa" EntityType="Self.empresa" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [empresa].[nombre] AS [nombre], 
+    [empresa].[direccion] AS [direccion], 
+    [empresa].[rif] AS [rif], 
+    [empresa].[clave1] AS [clave1], 
+    [empresa].[clave2] AS [clave2], 
+    [empresa].[clave3] AS [clave3], 
+    [empresa].[telefono] AS [telefono], 
+    [empresa].[sucursal] AS [sucursal], 
+    [empresa].[codigo_sucursal] AS [codigo_sucursal], 
+    [empresa].[nit] AS [nit], 
+    [empresa].[contacto] AS [contacto], 
+    [empresa].[fax] AS [fax], 
+    [empresa].[email] AS [email], 
+    [empresa].[website] AS [website], 
+    [empresa].[registro] AS [registro], 
+    [empresa].[Telefono_1] AS [Telefono_1], 
+    [empresa].[Telefono_2] AS [Telefono_2], 
+    [empresa].[Telefono_3] AS [Telefono_3], 
+    [empresa].[Telefono_4] AS [Telefono_4], 
+    [empresa].[Celular_1] AS [Celular_1], 
+    [empresa].[Celular_2] AS [Celular_2], 
+    [empresa].[Fax_1] AS [Fax_1], 
+    [empresa].[Fax_2] AS [Fax_2], 
+    [empresa].[Direccion_Referencia] AS [Direccion_Referencia], 
+    [empresa].[Id_Seguridad] AS [Id_Seguridad]
+    FROM [dbo].[empresa] AS [empresa]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="FoxInvModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="empresa">
+          <Key>
+            <PropertyRef Name="nombre" />
+            <PropertyRef Name="direccion" />
+            <PropertyRef Name="rif" />
+            <PropertyRef Name="clave1" />
+            <PropertyRef Name="clave2" />
+            <PropertyRef Name="clave3" />
+            <PropertyRef Name="telefono" />
+            <PropertyRef Name="sucursal" />
+            <PropertyRef Name="codigo_sucursal" />
+            <PropertyRef Name="nit" />
+            <PropertyRef Name="contacto" />
+            <PropertyRef Name="fax" />
+            <PropertyRef Name="email" />
+            <PropertyRef Name="website" />
+            <PropertyRef Name="registro" />
+          </Key>
+          <Property Name="nombre" Type="String" MaxLength="120" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="direccion" Type="String" MaxLength="120" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="rif" Type="String" MaxLength="15" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="clave1" Type="String" MaxLength="15" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="clave2" Type="String" MaxLength="15" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="clave3" Type="String" MaxLength="15" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="telefono" Type="String" MaxLength="60" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="sucursal" Type="String" MaxLength="60" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="codigo_sucursal" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="nit" Type="String" MaxLength="15" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="contacto" Type="String" MaxLength="60" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="fax" Type="String" MaxLength="60" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="email" Type="String" MaxLength="60" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="website" Type="String" MaxLength="60" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="registro" Type="String" MaxLength="100" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Telefono_1" Type="String" MaxLength="14" FixedLength="true" Unicode="true" />
+          <Property Name="Telefono_2" Type="String" MaxLength="14" FixedLength="true" Unicode="true" />
+          <Property Name="Telefono_3" Type="String" MaxLength="14" FixedLength="true" Unicode="true" />
+          <Property Name="Telefono_4" Type="String" MaxLength="14" FixedLength="true" Unicode="true" />
+          <Property Name="Celular_1" Type="String" MaxLength="14" FixedLength="true" Unicode="true" />
+          <Property Name="Celular_2" Type="String" MaxLength="14" FixedLength="true" Unicode="true" />
+          <Property Name="Fax_1" Type="String" MaxLength="14" FixedLength="true" Unicode="true" />
+          <Property Name="Fax_2" Type="String" MaxLength="14" FixedLength="true" Unicode="true" />
+          <Property Name="Direccion_Referencia" Type="String" MaxLength="200" FixedLength="true" Unicode="true" />
+          <Property Name="Id_Seguridad" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+        </EntityType>
+        <EntityContainer Name="FoxInvEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="empresa" EntityType="Self.empresa" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="FoxInvModelStoreContainer" CdmEntityContainer="FoxInvEntities">
+          <EntitySetMapping Name="empresa">
+            <EntityTypeMapping TypeName="FoxInvModel.empresa">
+              <MappingFragment StoreEntitySet="empresa">
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="direccion" ColumnName="direccion" />
+                <ScalarProperty Name="rif" ColumnName="rif" />
+                <ScalarProperty Name="clave1" ColumnName="clave1" />
+                <ScalarProperty Name="clave2" ColumnName="clave2" />
+                <ScalarProperty Name="clave3" ColumnName="clave3" />
+                <ScalarProperty Name="telefono" ColumnName="telefono" />
+                <ScalarProperty Name="sucursal" ColumnName="sucursal" />
+                <ScalarProperty Name="codigo_sucursal" ColumnName="codigo_sucursal" />
+                <ScalarProperty Name="nit" ColumnName="nit" />
+                <ScalarProperty Name="contacto" ColumnName="contacto" />
+                <ScalarProperty Name="fax" ColumnName="fax" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="website" ColumnName="website" />
+                <ScalarProperty Name="registro" ColumnName="registro" />
+                <ScalarProperty Name="Telefono_1" ColumnName="Telefono_1" />
+                <ScalarProperty Name="Telefono_2" ColumnName="Telefono_2" />
+                <ScalarProperty Name="Telefono_3" ColumnName="Telefono_3" />
+                <ScalarProperty Name="Telefono_4" ColumnName="Telefono_4" />
+                <ScalarProperty Name="Celular_1" ColumnName="Celular_1" />
+                <ScalarProperty Name="Celular_2" ColumnName="Celular_2" />
+                <ScalarProperty Name="Fax_1" ColumnName="Fax_1" />
+                <ScalarProperty Name="Fax_2" ColumnName="Fax_2" />
+                <ScalarProperty Name="Direccion_Referencia" ColumnName="Direccion_Referencia" />
+                <ScalarProperty Name="Id_Seguridad" ColumnName="Id_Seguridad" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

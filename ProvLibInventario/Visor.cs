@@ -40,7 +40,7 @@ namespace ProvLibInventario
                         join productos as p on pdep.auto_producto=p.auto 
                         join empresa_departamentos as edepart on p.auto_departamento=edepart.auto 
                         join productos_medida as pmed on p.auto_empaque_compra=pmed.auto 
-                        WHERE 1 = 1 ";
+                        WHERE 1 = 1 and p.estatus='Activo' ";
 
                     var p1 = new MySql.Data.MySqlClient.MySqlParameter();
                     var p2 = new MySql.Data.MySqlClient.MySqlParameter();
@@ -201,82 +201,6 @@ namespace ProvLibInventario
                     }
                 }
                 rt.Lista = list;
-            }
-            catch (Exception e)
-            {
-                rt.Mensaje = e.Message;
-                rt.Result = DtoLib.Enumerados.EnumResult.isError;
-            }
-
-            return rt;
-        }
-        public DtoLib.ResultadoEntidad<DtoLibInventario.Visor.Ajuste.Ficha> 
-            Visor_Ajuste(DtoLibInventario.Visor.Ajuste.Filtro filtro)
-        {
-            var rt = new DtoLib.ResultadoEntidad<DtoLibInventario.Visor.Ajuste.Ficha>();
-
-            try
-            {
-                var list = new List<DtoLibInventario.Visor.Ajuste.FichaDetalle>();
-                var totalVentasNeta = 0.0m;
-                using (var cnn = new invEntities(_cnInv.ConnectionString))
-                {
-                    var p1 = new MySql.Data.MySqlClient.MySqlParameter("@p1", filtro.mes.ToString().Trim().PadLeft(2, '0'));
-                    var p2 = new MySql.Data.MySqlClient.MySqlParameter("@p2", filtro.ano.ToString().Trim().PadLeft(4, '0'));
-                    var sql = "select sum(neto*signo) as total from ventas "+
-                        "where mes_relacion=@p1 and ano_relacion=@p2 "+
-                        "and (tipo='01' or tipo='02' or tipo='03') "+
-                        "and estatus_anulado='0' ";
-                    var total= cnn.Database.SqlQuery<decimal?>(sql, p1, p2).FirstOrDefault();
-                    if (total.HasValue)
-                        totalVentasNeta = total.Value;
-
-                    var q = cnn.productos_movimientos_detalle.
-                        Join(cnn.productos_movimientos, pmd => pmd.auto_documento, pm => pm.auto, (pmd, pm) => new { pmd, pm }).
-                        Where(w => w.pm.fecha.Year == filtro.ano && w.pm.estatus_anulado == "0" && 
-                            (w.pm.tipo == "04" || ((w.pm.tipo=="01" || w.pm.tipo=="02") && w.pm.auto_concepto=="0000000007"))
-                            ).ToList();
-
-                    if (filtro.mes != 0)
-                    {
-                        q = q.Where(w => w.pm.fecha.Month == filtro.mes).ToList();
-                    }
-
-                    if (q != null)
-                    {
-                        if (q.Count > 0)
-                        {
-                            list = q.Select(s =>
-                            {
-                                var rg = new DtoLibInventario.Visor.Ajuste.FichaDetalle()
-                                {
-                                    autoDepositoOrigen = s.pm.auto_deposito,
-                                    autoPrd = s.pmd.auto_producto,
-                                    autoUsuario = s.pm.auto_usuario,
-                                    cantidadUnd = s.pmd.cantidad_und,
-                                    codigoDepositoOrigen = s.pm.codigo_deposito,
-                                    codigoPrd = s.pmd.codigo,
-                                    codigoUsuario = s.pm.codigo_usuario,
-                                    decimales = s.pmd.decimales,
-                                    documentoNro = s.pm.documento,
-                                    fecha = s.pm.fecha,
-                                    hora = s.pm.hora,
-                                    nombreDepositoOrigen = s.pm.deposito,
-                                    nombrePrd = s.pmd.nombre,
-                                    nombreUsuario = s.pm.usuario,
-                                    nota = s.pm.nota,
-                                    costoUnd = s.pmd.costo_und,
-                                    importe = s.pmd.total,
-                                    signo = s.pmd.signo,
-                                };
-                                return rg;
-                            }).ToList();
-                        }
-                    }
-                }
-                rt.Entidad = new DtoLibInventario.Visor.Ajuste.Ficha();
-                rt.Entidad.detalles = list;
-                rt.Entidad.montoVentaNeto = totalVentasNeta;
             }
             catch (Exception e)
             {
@@ -599,6 +523,148 @@ namespace ProvLibInventario
 
             return rt;
         }
+        //
+        //public DtoLib.ResultadoEntidad<DtoLibInventario.Visor.Ajuste.Ficha>
+        //    Visor_Ajuste(DtoLibInventario.Visor.Ajuste.Filtro filtro)
+        //{
+        //    var rt = new DtoLib.ResultadoEntidad<DtoLibInventario.Visor.Ajuste.Ficha>();
+
+        //    try
+        //    {
+        //        var list = new List<DtoLibInventario.Visor.Ajuste.FichaDetalle>();
+        //        var totalVentasNeta = 0.0m;
+        //        using (var cnn = new invEntities(_cnInv.ConnectionString))
+        //        {
+        //            var p1 = new MySql.Data.MySqlClient.MySqlParameter("@p1", filtro.mes.ToString().Trim().PadLeft(2, '0'));
+        //            var p2 = new MySql.Data.MySqlClient.MySqlParameter("@p2", filtro.ano.ToString().Trim().PadLeft(4, '0'));
+        //            var sql = "select sum(neto*signo) as total from ventas " +
+        //                "where mes_relacion=@p1 and ano_relacion=@p2 " +
+        //                "and (tipo='01' or tipo='02' or tipo='03') " +
+        //                "and estatus_anulado='0' ";
+        //            var total = cnn.Database.SqlQuery<decimal?>(sql, p1, p2).FirstOrDefault();
+        //            if (total.HasValue)
+        //                totalVentasNeta = total.Value;
+
+        //            var q = cnn.productos_movimientos_detalle.
+        //                Join(cnn.productos_movimientos, pmd => pmd.auto_documento, pm => pm.auto, (pmd, pm) => new { pmd, pm }).
+        //                Where(w => w.pm.fecha.Year == filtro.ano && w.pm.estatus_anulado == "0" &&
+        //                    (w.pm.tipo == "04" || ((w.pm.tipo == "01" || w.pm.tipo == "02") && w.pm.auto_concepto == "0000000007"))
+        //                    ).ToList();
+
+        //            if (filtro.mes != 0)
+        //            {
+        //                q = q.Where(w => w.pm.fecha.Month == filtro.mes).ToList();
+        //            }
+
+        //            if (q != null)
+        //            {
+        //                if (q.Count > 0)
+        //                {
+        //                    list = q.Select(s =>
+        //                    {
+        //                        var rg = new DtoLibInventario.Visor.Ajuste.FichaDetalle()
+        //                        {
+        //                            autoDepositoOrigen = s.pm.auto_deposito,
+        //                            autoPrd = s.pmd.auto_producto,
+        //                            autoUsuario = s.pm.auto_usuario,
+        //                            cantidadUnd = s.pmd.cantidad_und,
+        //                            codigoDepositoOrigen = s.pm.codigo_deposito,
+        //                            codigoPrd = s.pmd.codigo,
+        //                            codigoUsuario = s.pm.codigo_usuario,
+        //                            decimales = s.pmd.decimales,
+        //                            documentoNro = s.pm.documento,
+        //                            fecha = s.pm.fecha,
+        //                            hora = s.pm.hora,
+        //                            nombreDepositoOrigen = s.pm.deposito,
+        //                            nombrePrd = s.pmd.nombre,
+        //                            nombreUsuario = s.pm.usuario,
+        //                            nota = s.pm.nota,
+        //                            costoUnd = s.pmd.costo_und,
+        //                            importe = s.pmd.total,
+        //                            signo = s.pmd.signo,
+        //                        };
+        //                        return rg;
+        //                    }).ToList();
+        //                }
+        //            }
+        //        }
+        //        rt.Entidad = new DtoLibInventario.Visor.Ajuste.Ficha();
+        //        rt.Entidad.detalles = list;
+        //        rt.Entidad.montoVentaNeto = totalVentasNeta;
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        rt.Mensaje = e.Message;
+        //        rt.Result = DtoLib.Enumerados.EnumResult.isError;
+        //    }
+
+        //    return rt;
+        //}
+        public DtoLib.ResultadoEntidad<DtoLibInventario.Visor.Ajuste.Ficha>
+            Visor_Ajuste(DtoLibInventario.Visor.Ajuste.Filtro filtro)
+        {
+            var rt = new DtoLib.ResultadoEntidad<DtoLibInventario.Visor.Ajuste.Ficha>();
+            try
+            {
+                using (var cnn = new invEntities(_cnInv.ConnectionString))
+                {
+                    var totalVentasNeta = 0.0m;
+                    var p1 = new MySql.Data.MySqlClient.MySqlParameter("@p1", filtro.mes.ToString().Trim().PadLeft(2, '0'));
+                    var p2 = new MySql.Data.MySqlClient.MySqlParameter("@p2", filtro.ano.ToString().Trim().PadLeft(4, '0'));
+                    var sql = @"select 
+                                    sum(neto*signo/factor_cambio) as total 
+                                from ventas 
+                                where mes_relacion=@p1 and ano_relacion=@p2 
+                                    and (tipo='01' or tipo='02' or tipo='03') 
+                                    and estatus_anulado='0' ";
+                    var total = cnn.Database.SqlQuery<decimal?>(sql, p1, p2).FirstOrDefault();
+                    if (total.HasValue)
+                        totalVentasNeta = total.Value;
+
+                    p1 = new MySql.Data.MySqlClient.MySqlParameter("@mes", filtro.mes);
+                    p2 = new MySql.Data.MySqlClient.MySqlParameter("@ano", filtro.ano);
+                    sql = @"SELECT 
+                                    mov.auto_deposito as autodepositoOrigen,
+                                    movDet.auto_producto asautoPrd,
+                                    mov.auto_usuario as autoUsuario,
+                                    movDet.cantidad_und as cantidadUnd,
+                                    mov.codigo_deposito as codigoDepositoOrigen,
+                                    movDet.codigo as codigoPrd,
+                                    mov.codigo_usuario as codigoUsuario,
+                                    movDet.decimales as decimales,
+                                    mov.documento as documentoNro,
+                                    mov.fecha as fecha,
+                                    mov.hora as hora,
+                                    mov.deposito as nombreDepositoOrigen,
+                                    movDet.nombre as nombrePrd,
+                                    mov.usuario as nombreUsuario,
+                                    mov.nota as nota,
+                                    movDet.costo_und as costoUnd,
+                                    movDet.total as importe,
+                                    movDet.signo as signo,
+                                    movExt.factor_cambio as factor
+                                from productos_movimientos_detalle as movDet
+                                join productos_movimientos as mov on mov.auto=movDet.auto_documento
+                                join productos_movimientos_extra as movExt on movExt.auto_movimiento=mov.auto
+                                where year(mov.fecha)=@ano
+                                    and month(mov.fecha)=@mes
+                                    and mov.estatus_anulado='0'
+                                    and (mov.tipo='04'or ((mov.tipo ='01' or mov.tipo='02') and mov.auto_concepto='0000000007'))";
+                    var lst = cnn.Database.SqlQuery<DtoLibInventario.Visor.Ajuste.FichaDetalle>(sql, p1, p2).ToList();
+                    rt.Entidad = new DtoLibInventario.Visor.Ajuste.Ficha();
+                    rt.Entidad.detalles = lst;
+                    rt.Entidad.montoVentaNeto = totalVentasNeta;
+                }
+            }
+            catch (Exception e)
+            {
+                rt.Mensaje = e.Message;
+                rt.Result = DtoLib.Enumerados.EnumResult.isError;
+            }
+            return rt;
+        }
+
+
 
     }
 

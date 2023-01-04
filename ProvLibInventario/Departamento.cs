@@ -15,35 +15,21 @@ namespace ProvLibInventario
     
     public partial class Provider : ILibInventario.IProvider
     {
-
-        public DtoLib.ResultadoLista<DtoLibInventario.Departamento.Resumen> Departamento_GetLista()
+        public DtoLib.ResultadoLista<DtoLibInventario.Departamento.Resumen> 
+            Departamento_GetLista()
         {
             var result = new DtoLib.ResultadoLista<DtoLibInventario.Departamento.Resumen>();
-
             try
             {
                 using (var cnn = new invEntities(_cnInv.ConnectionString))
                 {
-                    var q = cnn.empresa_departamentos.ToList();
-
-                    var list = new List<DtoLibInventario.Departamento.Resumen>();
-                    if (q != null)
-                    {
-                        if (q.Count() > 0)
-                        {
-                            list = q.Select(s =>
-                            {
-                                var r = new DtoLibInventario.Departamento.Resumen()
-                                {
-                                    auto = s.auto,
-                                    codigo = s.codigo,
-                                    nombre = s.nombre,
-                                };
-                                return r;
-                            }).ToList();
-                        }
-                    }
-                    result.Lista = list;
+                    var sql = @"select 
+                                    auto, 
+                                    nombre, 
+                                    codigo 
+                                from empresa_departamentos";
+                    var lst = cnn.Database.SqlQuery<DtoLibInventario.Departamento.Resumen>(sql).ToList();
+                    result.Lista = lst;
                 }
             }
             catch (Exception e)
@@ -51,32 +37,31 @@ namespace ProvLibInventario
                 result.Mensaje = e.Message;
                 result.Result = DtoLib.Enumerados.EnumResult.isError;
             }
-
             return result;
         }
-
-        public DtoLib.ResultadoEntidad<DtoLibInventario.Departamento.Ficha> Departamento_GetFicha(string auto)
+        public DtoLib.ResultadoEntidad<DtoLibInventario.Departamento.Ficha> 
+            Departamento_GetFicha(string auto)
         {
             var result = new DtoLib.ResultadoEntidad<DtoLibInventario.Departamento.Ficha>();
-
             try
             {
                 using (var cnn = new invEntities(_cnInv.ConnectionString))
                 {
-                    var ent = cnn.empresa_departamentos.Find(auto);
+                    var p1 = new MySql.Data.MySqlClient.MySqlParameter("@id", auto);
+                    var sql = @"select 
+                                    auto, 
+                                    nombre, 
+                                    codigo 
+                                from empresa_departamentos
+                                where auto=@id";
+                    var ent= cnn.Database.SqlQuery<DtoLibInventario.Departamento.Ficha>(sql,p1).FirstOrDefault();
                     if (ent == null) 
                     {
                         result.Mensaje = "[ ID ] DEPARTAMENTO NO ENCONTRADO";
                         result.Result = DtoLib.Enumerados.EnumResult.isError;
                         return result;
                     };
-                    var nr = new DtoLibInventario.Departamento.Ficha()
-                    {
-                        auto = ent.auto,
-                        codigo = ent.codigo,
-                        nombre = ent.nombre,
-                    };
-                    result.Entidad = nr;
+                    result.Entidad = ent;
                 }
             }
             catch (Exception e)
@@ -84,14 +69,12 @@ namespace ProvLibInventario
                 result.Mensaje = e.Message;
                 result.Result = DtoLib.Enumerados.EnumResult.isError;
             }
-
             return result;
         }
-
-        public DtoLib.ResultadoAuto Departamento_Agregar(DtoLibInventario.Departamento.Agregar ficha)
+        public DtoLib.ResultadoAuto 
+            Departamento_Agregar(DtoLibInventario.Departamento.Agregar ficha)
         {
             var result = new DtoLib.ResultadoAuto();
-
             try
             {
                 using (var cnn = new invEntities(_cnInv.ConnectionString))
@@ -117,36 +100,19 @@ namespace ProvLibInventario
                         };
                         cnn.empresa_departamentos.Add(ent);
                         cnn.SaveChanges();
-
                         ts.Complete();
                         result.Auto = autoEmpresaDepart;
                     }
                 }
             }
+            catch (MySql.Data.MySqlClient.MySqlException ex)
+            {
+                result.Mensaje = Helpers.MYSQL_VerificaError(ex);
+                result.Result = DtoLib.Enumerados.EnumResult.isError;
+            }
             catch (DbUpdateException ex)
             {
-                var dbUpdateEx = ex as DbUpdateException;
-                var sqlEx = dbUpdateEx.InnerException;
-                if (sqlEx != null)
-                {
-                    var exx = (MySql.Data.MySqlClient.MySqlException)sqlEx.InnerException;
-                    if (exx != null)
-                    {
-                        if (exx.Number == 1451)
-                        {
-                            result.Mensaje = "REGISTRO CONTIENE DATA RELACIONADA";
-                            result.Result = DtoLib.Enumerados.EnumResult.isError;
-                            return result;
-                        }
-                        if (exx.Number == 1062)
-                        {
-                            result.Mensaje = exx.Message;
-                            result.Result = DtoLib.Enumerados.EnumResult.isError;
-                            return result;
-                        }
-                    }
-                }
-                result.Mensaje = ex.Message;
+                result.Mensaje = Helpers.ENTITY_VerificaError(ex);
                 result.Result = DtoLib.Enumerados.EnumResult.isError;
             }
             catch (Exception e)
@@ -154,14 +120,12 @@ namespace ProvLibInventario
                 result.Mensaje = e.Message;
                 result.Result = DtoLib.Enumerados.EnumResult.isError;
             }
-
             return result;
         }
-
-        public DtoLib.Resultado Departamento_Editar(DtoLibInventario.Departamento.Editar ficha)
+        public DtoLib.Resultado 
+            Departamento_Editar(DtoLibInventario.Departamento.Editar ficha)
         {
             var result = new DtoLib.ResultadoAuto();
-
             try
             {
                 using (var cnn = new invEntities (_cnInv.ConnectionString))
@@ -175,39 +139,21 @@ namespace ProvLibInventario
                             result.Result = DtoLib.Enumerados.EnumResult.isError;
                             return result;
                         }
-
                         ent.codigo = ficha.codigo;
                         ent.nombre = ficha.nombre;
                         cnn.SaveChanges();
-
                         ts.Complete();
                     }
                 }
             }
+            catch (MySql.Data.MySqlClient.MySqlException ex)
+            {
+                result.Mensaje = Helpers.MYSQL_VerificaError(ex);
+                result.Result = DtoLib.Enumerados.EnumResult.isError;
+            }
             catch (DbUpdateException ex)
             {
-                var dbUpdateEx = ex as DbUpdateException;
-                var sqlEx = dbUpdateEx.InnerException;
-                if (sqlEx != null)
-                {
-                    var exx = (MySql.Data.MySqlClient.MySqlException)sqlEx.InnerException;
-                    if (exx != null)
-                    {
-                        if (exx.Number == 1451)
-                        {
-                            result.Mensaje = "REGISTRO CONTIENE DATA RELACIONADA";
-                            result.Result = DtoLib.Enumerados.EnumResult.isError;
-                            return result;
-                        }
-                        if (exx.Number == 1062)
-                        {
-                            result.Mensaje = exx.Message;
-                            result.Result = DtoLib.Enumerados.EnumResult.isError;
-                            return result;
-                        }
-                    }
-                }
-                result.Mensaje = ex.Message;
+                result.Mensaje = Helpers.ENTITY_VerificaError(ex);
                 result.Result = DtoLib.Enumerados.EnumResult.isError;
             }
             catch (Exception e)
@@ -215,14 +161,12 @@ namespace ProvLibInventario
                 result.Mensaje = e.Message;
                 result.Result = DtoLib.Enumerados.EnumResult.isError;
             }
-
             return result;
         }
-
-        public DtoLib.Resultado Departamento_Eliminar(string auto)
+        public DtoLib.Resultado 
+            Departamento_Eliminar(string auto)
         {
             var result = new DtoLib.Resultado();
-
             try
             {
                 using (var cnn = new invEntities(_cnInv.ConnectionString))
@@ -238,24 +182,14 @@ namespace ProvLibInventario
                     cnn.SaveChanges();
                 }
             }
+            catch (MySql.Data.MySqlClient.MySqlException ex)
+            {
+                result.Mensaje = Helpers.MYSQL_VerificaError(ex);
+                result.Result = DtoLib.Enumerados.EnumResult.isError;
+            }
             catch (DbUpdateException ex)
             {
-                var dbUpdateEx = ex as DbUpdateException;
-                var sqlEx = dbUpdateEx.InnerException ;
-                if (sqlEx != null)
-                {
-                    var exx = (MySql.Data.MySqlClient.MySqlException)sqlEx.InnerException;
-                    if (exx != null)
-                    {
-                        if (exx.Number == 1451)
-                        {
-                            result.Mensaje = "REGISTRO CONTIENE DATA RELACIONADA";
-                            result.Result = DtoLib.Enumerados.EnumResult.isError;
-                            return result;
-                        }
-                    }
-                }
-                result.Mensaje = ex.Message;
+                result.Mensaje = Helpers.ENTITY_VerificaError(ex);
                 result.Result = DtoLib.Enumerados.EnumResult.isError;
             }
             catch (Exception e)
@@ -263,10 +197,8 @@ namespace ProvLibInventario
                 result.Mensaje = e.Message;
                 result.Result = DtoLib.Enumerados.EnumResult.isError;
             }
-
             return result;
         }
-
     }
 
 }

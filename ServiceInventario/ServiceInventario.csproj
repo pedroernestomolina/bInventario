@@ -113,6 +113,10 @@
       <Project>{05606fc0-751b-4e6f-9065-6cf64416b56b}</Project>
       <Name>ProvLibInventario</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ProvSqlServer\ProvSqlServer.csproj">
+      <Project>{7456ed22-face-4a25-8740-6147301f8352}</Project>
+      <Name>ProvSqlServer</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

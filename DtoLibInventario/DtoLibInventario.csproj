@@ -249,6 +249,7 @@
     <Compile Include="Reportes\MaestroNivelMinimo\Ficha.cs" />
     <Compile Include="Reportes\MaestroNivelMinimo\Filtro.cs" />
     <Compile Include="Reportes\MaestroPrecio\Ficha.cs" />
+    <Compile Include="Reportes\MaestroPrecio\FichaFox.cs" />
     <Compile Include="Reportes\MaestroPrecio\Filtro.cs" />
     <Compile Include="Reportes\MaestroProducto\Ficha.cs" />
     <Compile Include="Reportes\MaestroProducto\Filtro.cs" />

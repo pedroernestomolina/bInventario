@@ -4,16 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{04B8DDE0-E5DF-444C-B777-42119FC8DD3F}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{A21BC388-54F1-4EF7-947B-16EEA50D78F2}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ConsoleInv</RootNamespace>
-    <AssemblyName>ConsoleInv</AssemblyName>
+    <RootNamespace>EntitySqlServer</RootNamespace>
+    <AssemblyName>EntitySqlServer</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,7 +22,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -33,24 +31,18 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.0.0\lib\net45\EntityFramework.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.0.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
-    </Reference>
-    <Reference Include="MySql.Data, Version=6.8.1.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files (x86)\MySQL\MySQL Connector Net 6.8.1\Assemblies\v4.5\MySql.Data.dll</HintPath>
-    </Reference>
-    <Reference Include="MySql.Data.Entity.EF6, Version=6.8.1.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files (x86)\MySQL\MySQL Connector Net 6.8.1\Assemblies\v4.5\MySql.Data.Entity.EF6.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -58,34 +50,54 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="empresa.cs">
+      <DependentUpon>FoxModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FoxModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FoxModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FoxModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FoxModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FoxModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FoxModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Principal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <EntityDeploy Include="FoxModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>FoxModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.Config" />
+    <None Include="FoxModel.edmx.diagram">
+      <DependentUpon>FoxModel.edmx</DependentUpon>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DtoLibInventario\DtoLibInventario.csproj">
-      <Project>{8866b712-613d-498a-b285-924f6401f456}</Project>
-      <Name>DtoLibInventario</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DtoLib\DtoLib.csproj">
-      <Project>{d9f4fbb8-7f86-4c1a-9568-ada43072250c}</Project>
-      <Name>DtoLib</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ILibInventario\ILibInventario.csproj">
-      <Project>{fda7c93e-2df3-4bb2-9db5-2212b1044c45}</Project>
-      <Name>ILibInventario</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ProvLibInventario\ProvLibInventario.csproj">
-      <Project>{05606fc0-751b-4e6f-9065-6cf64416b56b}</Project>
-      <Name>ProvLibInventario</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ProvSqlServer\ProvSqlServer.csproj">
-      <Project>{7456ed22-face-4a25-8740-6147301f8352}</Project>
-      <Name>ProvSqlServer</Name>
-    </ProjectReference>
+    <Content Include="FoxModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>FoxModel.edmx</DependentUpon>
+      <LastGenOutput>FoxModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="FoxModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>FoxModel.edmx</DependentUpon>
+      <LastGenOutput>FoxModel.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

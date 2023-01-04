@@ -11,17 +11,20 @@ namespace ProvLibInventario
 
     public partial class Provider : ILibInventario.IProvider
     {
-
-        public DtoLib.ResultadoLista<DtoLibInventario.Deposito.Resumen> Deposito_GetLista()
+        public DtoLib.ResultadoLista<DtoLibInventario.Deposito.Resumen> 
+            Deposito_GetLista()
         {
             var result = new DtoLib.ResultadoLista<DtoLibInventario.Deposito.Resumen>();
-
             try
             {
                 using (var cnn = new invEntities(_cnInv.ConnectionString))
                 {
-                    var xsql = @"SELECT ed.auto, ed.codigo, ed.nombre, 
-                                edExt.es_activo as estatusActivo, edExt.es_predeterminado as estatusPredeterminado
+                    var xsql = @"SELECT 
+                                    ed.auto, 
+                                    ed.codigo, 
+                                    ed.nombre, 
+                                    edExt.es_activo as estatusActivo, 
+                                    edExt.es_predeterminado as estatusPredeterminado
                                 FROM empresa_depositos as ed 
                                 join empresa_depositos_ext as edExt on ed.auto=edExt.auto_deposito 
                                 where edExt.es_activo='1'";
@@ -34,10 +37,10 @@ namespace ProvLibInventario
                 result.Mensaje = e.Message;
                 result.Result = DtoLib.Enumerados.EnumResult.isError;
             }
-
             return result;
         }
-        public DtoLib.ResultadoEntidad<DtoLibInventario.Deposito.Ficha> Deposito_GetFicha(string autoDep)
+        public DtoLib.ResultadoEntidad<DtoLibInventario.Deposito.Ficha> 
+            Deposito_GetFicha(string autoDep)
         {
             var result = new DtoLib.ResultadoEntidad<DtoLibInventario.Deposito.Ficha>();
 
@@ -85,7 +88,8 @@ namespace ProvLibInventario
 
             return result;
         }
-        public DtoLib.ResultadoLista<DtoLibInventario.Deposito.Resumen> Deposito_GetListaBySucursal(string codSuc)
+        public DtoLib.ResultadoLista<DtoLibInventario.Deposito.Resumen> 
+            Deposito_GetListaBySucursal(string codSuc)
         {
             var result = new DtoLib.ResultadoLista<DtoLibInventario.Deposito.Resumen>();
 
@@ -130,7 +134,6 @@ namespace ProvLibInventario
 
             return result;
         }
-
     }
 
 }

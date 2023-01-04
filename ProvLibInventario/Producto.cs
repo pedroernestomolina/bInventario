@@ -570,12 +570,10 @@ namespace ProvLibInventario
         {
             var result = new DtoLib.ResultadoLista<DtoLibInventario.Producto.AdmDivisa.Resumen>();
             var list = new List<DtoLibInventario.Producto.AdmDivisa.Resumen>();
-
             var nr = new DtoLibInventario.Producto.AdmDivisa.Resumen() { Id = 1, Descripcion = "Si" };
             list.Add(nr);
             nr = new DtoLibInventario.Producto.AdmDivisa.Resumen() { Id = 2, Descripcion = "No" };
             list.Add(nr);
-
             result.Lista = list;
             return result;
         }

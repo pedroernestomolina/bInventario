@@ -46,6 +46,8 @@ namespace ILibInventario
         DtoLib.ResultadoEntidad<DtoLibInventario.Reportes.ResumenCostoInv.Ficha>
             Reportes_ResumenCostoInventario(DtoLibInventario.Reportes.ResumenCostoInv.Filtro filtro);
 
+        DtoLib.ResultadoLista<DtoLibInventario.Reportes.MaestroPrecio.FichaFox>
+            Reportes_MaestroPrecio_FoxSystem(DtoLibInventario.Reportes.MaestroPrecio.Filtro filtro);
     }
 
 }
