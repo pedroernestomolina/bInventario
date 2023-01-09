@@ -1115,7 +1115,6 @@ namespace ProvLibInventario
             Reportes_MaestroPrecio(DtoLibInventario.Reportes.MaestroPrecio.Filtro filtro)
         {
             var rt = new DtoLib.ResultadoLista<DtoLibInventario.Reportes.MaestroPrecio.Ficha>();
-
             try
             {
                 using (var cnn = new invEntities(_cnInv.ConnectionString))
@@ -1194,9 +1193,8 @@ namespace ProvLibInventario
                                 join productos_medida as empM1 on empM1.auto=pExt.auto_precio_may_1
                                 join productos_medida as empM2 on empM2.auto=pExt.auto_precio_may_2
                                 join productos_medida as empM3 on empM3.auto=pExt.auto_precio_may_3
-                                join productos_medida as empM4 on empM4.auto=pExt.auto_precio_may_4";
+                                join productos_medida as empM4 on empM4.auto=pExt.auto_precio_may_4 ";
                     var sql_3 = @" where 1=1 ";
-
                     var p1 = new MySql.Data.MySqlClient.MySqlParameter();
                     var p2 = new MySql.Data.MySqlClient.MySqlParameter();
                     var p3 = new MySql.Data.MySqlClient.MySqlParameter();
@@ -1205,6 +1203,23 @@ namespace ProvLibInventario
                     var p6 = new MySql.Data.MySqlClient.MySqlParameter();
                     var p7 = new MySql.Data.MySqlClient.MySqlParameter();
                     var p8 = new MySql.Data.MySqlClient.MySqlParameter();
+                    if (filtro.autoDepositoPrincipal != "")
+                    {
+                        sql_2 += @" join productos_deposito as pDeposito on pDeposito.auto_producto=p.auto 
+                                        and pDeposito.auto_deposito=@idDeposito 
+                                        and pDeposito.fisica>0";
+                        p7.ParameterName = "@idDeposito";
+                        p7.Value = filtro.autoDepositoPrincipal;
+                    }
+                    else 
+                    {
+                        sql_3 += @" and 
+                                        (select 
+                                            sum(fisica) 
+                                        from productos_deposito as pDep 
+                                        where pDep.auto_producto=p.auto
+                                        ) >0 ";
+                    }
                     if (filtro.autoDepartamento != "")
                     {
                         sql_3 += " and p.auto_departamento=@autoDepartamento ";
@@ -1246,7 +1261,6 @@ namespace ProvLibInventario
                         p6.ParameterName = "@estatusPesado";
                         p6.Value = f;
                     }
-
                     var sql = sql_1 + sql_2 + sql_3;
                     var list = cnn.Database.SqlQuery<DtoLibInventario.Reportes.MaestroPrecio.Ficha>(sql, p1, p2, p3, p4, p5, p6, p7, p8).ToList();
                     rt.Lista = list;
@@ -1257,7 +1271,6 @@ namespace ProvLibInventario
                 rt.Mensaje = e.Message;
                 rt.Result = DtoLib.Enumerados.EnumResult.isError;
             }
-
             return rt;
         }
         public DtoLib.ResultadoLista<DtoLibInventario.Reportes.MaestroPrecio.FichaFox> 
