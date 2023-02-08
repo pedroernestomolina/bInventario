@@ -185,6 +185,8 @@
     <Compile Include="Producto\AdmDivisa\Resumen.cs" />
     <Compile Include="Producto\Agregar\Ficha.cs" />
     <Compile Include="Producto\Agregar\FichaCodAlterno.cs" />
+    <Compile Include="Producto\Agregar\FichaTallaColorSabor.cs" />
+    <Compile Include="Producto\Agregar\TallaColorSabor.cs" />
     <Compile Include="Producto\Categoria\Resumen.cs" />
     <Compile Include="Producto\Clasificacion\Resumen.cs" />
     <Compile Include="Producto\Depositos\AsignacionMasiva\Ficha.cs" />
@@ -198,11 +200,15 @@
     <Compile Include="Producto\Depositos\Lista\Ficha.cs" />
     <Compile Include="Producto\Depositos\Ver\Ficha.cs" />
     <Compile Include="Producto\Depositos\Ver\Filtro.cs" />
+    <Compile Include="Producto\Editar\Actualizar\Enumerados.cs" />
     <Compile Include="Producto\Editar\Actualizar\Ficha.cs" />
     <Compile Include="Producto\Editar\Actualizar\FichaCodAlterno.cs" />
     <Compile Include="Producto\Editar\Actualizar\FichaPrecio.cs" />
+    <Compile Include="Producto\Editar\Actualizar\FichaTallaColorSabor.cs" />
+    <Compile Include="Producto\Editar\Actualizar\TallaColorSabor.cs" />
     <Compile Include="Producto\Editar\Obtener\Ficha.cs" />
     <Compile Include="Producto\Editar\Obtener\FichaAlterno.cs" />
+    <Compile Include="Producto\Editar\Obtener\TallaColorSabor.cs" />
     <Compile Include="Producto\Enumerados.cs" />
     <Compile Include="Producto\Estatus\Actual\Ficha.cs" />
     <Compile Include="Producto\Estatus\Lista\Resumen.cs" />
@@ -270,6 +276,9 @@
     <Compile Include="Sucursal\Ficha.cs" />
     <Compile Include="Sucursal\Filtro.cs" />
     <Compile Include="Sucursal\Resumen.cs" />
+    <Compile Include="TallaColorSabor\Existencia\ExDepTCS.cs" />
+    <Compile Include="TallaColorSabor\Existencia\Ficha.cs" />
+    <Compile Include="TallaColorSabor\Existencia\Filtro.cs" />
     <Compile Include="TasaImpuesto\Resumen.cs" />
     <Compile Include="Tool\AjusteNivelMinimoMaximo\Ajustar\Ficha.cs" />
     <Compile Include="Tool\AjusteNivelMinimoMaximo\Capturar\Ficha.cs" />

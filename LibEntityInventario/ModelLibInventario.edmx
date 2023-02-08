@@ -346,6 +346,7 @@ warning 6002: The table/view 'pita.pos_arqueo' does not have a primary key defin
           <Property Name="pdf_4" Type="decimal" Precision="16" Scale="2" Nullable="false" />
           <Property Name="pdf_pto" Type="decimal" Precision="16" Scale="2" Nullable="false" />
           <Property Name="volumen" Type="decimal" Precision="14" Scale="6" Nullable="false" />
+          <Property Name="estatus_talla_color_sabor" Type="varchar" MaxLength="1" Nullable="false" />
         </EntityType>
         <EntityType Name="productos_alterno">
           <Key>
@@ -2726,6 +2727,7 @@ FROM `productos_movimientos_detalle` AS `productos_movimientos_detalle`</Definin
           <NavigationProperty Name="productos_precios" Relationship="ModelLibInventario.productos_precios_ibfk_1" FromRole="productos" ToRole="productos_precios" />
           <NavigationProperty Name="productos_proveedor" Relationship="ModelLibInventario.productos_proveedor_ibfk_1" FromRole="productos" ToRole="productos_proveedor" />
           <NavigationProperty Name="productos_ext" Relationship="ModelLibInventario.productos_ext_ibfk_1" FromRole="productos" ToRole="productos_ext" />
+          <Property Name="estatus_talla_color_sabor" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
         </EntityType>
         <Association Name="productos_ibfk_1">
           <End Type="ModelLibInventario.empresa_departamentos" Role="empresa_departamentos" Multiplicity="1" />
@@ -3718,6 +3720,7 @@ FROM `productos_movimientos_detalle` AS `productos_movimientos_detalle`</Definin
           <EntitySetMapping Name="productos">
             <EntityTypeMapping TypeName="ModelLibInventario.productos">
               <MappingFragment StoreEntitySet="productos">
+                <ScalarProperty Name="estatus_talla_color_sabor" ColumnName="estatus_talla_color_sabor" />
                 <ScalarProperty Name="volumen" ColumnName="volumen" />
                 <ScalarProperty Name="pdf_pto" ColumnName="pdf_pto" />
                 <ScalarProperty Name="pdf_4" ColumnName="pdf_4" />

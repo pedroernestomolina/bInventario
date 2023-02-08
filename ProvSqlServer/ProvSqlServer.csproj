@@ -62,6 +62,7 @@
     <Compile Include="Reporte.cs" />
     <Compile Include="Sistema.cs" />
     <Compile Include="Sucursal.cs" />
+    <Compile Include="TallaColorSabor.cs" />
     <Compile Include="TasaImpuesto.cs" />
     <Compile Include="Usuario.cs" />
   </ItemGroup>

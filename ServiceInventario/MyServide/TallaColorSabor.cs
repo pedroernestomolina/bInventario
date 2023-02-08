@@ -10,10 +10,10 @@ namespace ServiceInventario.MyService
 {
     public partial class Service: IService
     {
-        public DtoLib.ResultadoEntidad<DtoLibInventario.Auditoria.Entidad.Ficha> 
-            Auditoria_Documento_GetFichaBy(DtoLibInventario.Auditoria.Buscar.Ficha ficha)
+        public DtoLib.ResultadoEntidad<DtoLibInventario.TallaColorSabor.Existencia.Ficha> 
+            TallaColorSabor_ExDep(DtoLibInventario.TallaColorSabor.Existencia.Filtro filtro)
         {
-            return ServiceProv.Auditoria_Documento_GetFichaBy(ficha);
+            return ServiceProv.TallaColorSabor_ExDep(filtro);
         }
     }
 }

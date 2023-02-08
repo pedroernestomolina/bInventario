@@ -150,7 +150,6 @@ namespace ServiceInventario.MyService
                 rs.Result = DtoLib.Enumerados.EnumResult.isError;
                 return rs;
             }
-
             if (ficha.categoria.Trim().ToUpper() == "BIEN DE SERVICIO") 
             {
                 var rt= ServiceProv.Producto_Verificar_HayDepositosAsignado(ficha.auto);
@@ -168,7 +167,24 @@ namespace ServiceInventario.MyService
                     return rs;
                 }
             }
-
+            if (ficha.categoria.Trim().ToUpper() == "BIEN DE SERVICIO") 
+            {
+                if (ficha.tallaColorSabor != null) 
+                {
+                    rs.Mensaje = "CATEGORIA DEL PRODUCTO IMPIDE MANEJO DE [TALLA / COLOR / SABOR]";
+                    rs.Result = DtoLib.Enumerados.EnumResult.isError;
+                    return rs;
+                }
+            }
+            if (ficha.tallaColorSabor != null)
+            {
+                if (ficha.tallaColorSabor.ListaTallaColorSabor == null || ficha.tallaColorSabor.ListaTallaColorSabor.Count == 0)
+                {
+                    rs.Mensaje = "LISTA [TALLA / COLOR / SABOR] NO DEFINIDA O ESTA VACIA";
+                    rs.Result = DtoLib.Enumerados.EnumResult.isError;
+                    return rs;
+                }
+            }
             return ServiceProv.Producto_Editar_Actualizar(ficha);
         }
         public DtoLib.ResultadoAuto 
@@ -189,7 +205,6 @@ namespace ServiceInventario.MyService
                 rt.Result = DtoLib.Enumerados.EnumResult.isError;
                 return rt;
             }
-
             var r2 = ServiceProv.Producto_Verificar_CodigoPluProductoYaRegistrado(ficha.plu,"");
             if (r2.Result == DtoLib.Enumerados.EnumResult.isError)
             {
@@ -203,7 +218,16 @@ namespace ServiceInventario.MyService
                 rt.Result = DtoLib.Enumerados.EnumResult.isError;
                 return rt;
             }
-
+            //
+            if (ficha.tallaColorSabor != null) 
+            {
+                if (ficha.tallaColorSabor.ListaTallaColorSabor == null || ficha.tallaColorSabor.ListaTallaColorSabor.Count == 0) 
+                {
+                    rt.Mensaje = "LISTA [TALLA / COLOR / SABOR] NO DEFINIDA O ESTA VACIA";
+                    rt.Result = DtoLib.Enumerados.EnumResult.isError;
+                    return rt;
+                } 
+            }
             return ServiceProv.Producto_Nuevo_Agregar (ficha);
         }
         public DtoLib.Resultado 

@@ -15,7 +15,11 @@ namespace ConsoleInv
         static void Main(string[] args)
         {
 
-            //ILibInventario.IProvider invPrv = new  ProvSqlServer.Provider("192.168.1.5", "00000001");
+            //ILibInventario.IProvider invPrv = new ProvSqlServer.Provider("localhost", "pita");
+            ILibInventario.IProvider invPrv = new ProvLibInventario.Provider("localhost", "pita");
+            var filtro = new DtoLibInventario.TallaColorSabor.Existencia.Filtro() { autoPrd= "0000002660", autoDep="0000000023" };
+            invPrv.TallaColorSabor_ExDep(filtro);
+
             //invPrv.FechaServidor();
             //invPrv.Empresa_Datos();
             //var filtro = new DtoLibInventario.Reportes.MaestroPrecio.Filtro();

@@ -10,7 +10,6 @@ namespace DtoLibInventario.Producto.Editar.Obtener
     
     public class Ficha
     {
-
         public string auto { get; set; }
         public string autoDepartamento { get; set; }
         public string autoGrupo { get; set; }
@@ -47,7 +46,8 @@ namespace DtoLibInventario.Producto.Editar.Obtener
         public int contEmpVentaTipo_1 { get; set; }
         public int contEmpVentaTipo_2 { get; set; }
         public int contEmpVentaTipo_3 { get; set; }
-
+        //
+        public string estatusTallaColorSabor { get; set; }
+        public List<TallaColorSabor> tallaColorSabor { get; set; }
     }
-
 }

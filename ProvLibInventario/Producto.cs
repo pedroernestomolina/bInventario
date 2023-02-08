@@ -14,12 +14,10 @@ namespace ProvLibInventario
 
     public partial class Provider : ILibInventario.IProvider
     {
-
         public DtoLib.ResultadoLista<DtoLibInventario.Producto.Resumen> 
             Producto_GetLista(DtoLibInventario.Producto.Filtro filtro)
         {
             var rt = new DtoLib.ResultadoLista<DtoLibInventario.Producto.Resumen>();
-
             try
             {
                 using (var cnn = new invEntities(_cnInv.ConnectionString))
@@ -65,6 +63,7 @@ namespace ProvLibInventario
                     var pD = new MySql.Data.MySqlClient.MySqlParameter();
                     var pE = new MySql.Data.MySqlClient.MySqlParameter();
                     var pF = new MySql.Data.MySqlClient.MySqlParameter();
+                    var pG = new MySql.Data.MySqlClient.MySqlParameter();
 
                     var valor = "";
                     if (filtro.cadena != "")
@@ -117,30 +116,12 @@ namespace ProvLibInventario
                         p1.ParameterName = "@p";
                         p1.Value = valor;
                     }
-
                     if (filtro.autoProducto != "")
                     {
                         xsql3 += " and p.auto=@autoProducto";
                         p2.ParameterName = "@autoProducto";
                         p2.Value = filtro.autoProducto;
                     }
-
-                    //if (filtro.existencia != DtoLibInventario.Producto.Filtro.Existencia.SinDefinir)
-                    //{
-                    //    switch (filtro.existencia)
-                    //    {
-                    //        case DtoLibInventario.Producto.Filtro.Existencia.MayorQueCero:
-                    //            xsql3 += " and (select sum(fisica) from productos_deposito where auto_producto=p.auto)>0 ";
-                    //            break;
-                    //        case DtoLibInventario.Producto.Filtro.Existencia.IgualCero:
-                    //            xsql3 += " and (select sum(fisica) from productos_deposito where auto_producto=p.auto)=0 ";
-                    //            break;
-                    //        case DtoLibInventario.Producto.Filtro.Existencia.MenorQueCero:
-                    //            xsql3 += " and (select sum(fisica) from productos_deposito where auto_producto=p.auto)<0 ";
-                    //            break;
-                    //    }
-                    //}
-
                     if (filtro.autoDepartamento != "")
                     {
                         xsql3 += " and p.auto_departamento=@autoDepartamento ";
@@ -178,7 +159,6 @@ namespace ProvLibInventario
                             {
                                 _f = "Inactivo";
                             }
-                            //xsql3 += " and p.estatus=@estatus and p.estatus_cambio='0' ";
                             xsql3 += " and p.estatus=@estatus ";
                             p7.ParameterName = "@estatus";
                             p7.Value = _f;
@@ -283,15 +263,12 @@ namespace ProvLibInventario
                         pF.ParameterName = "@autoProveedor";
                         pF.Value = filtro.autoProveedor;
                     }
-                    //if (filtro.precioMayorHabilitado != null)
-                    //{
-                    //    if (filtro.precioMayorHabilitado.Value == true) 
-                    //    {
-                    //        //xsql2 += " join productos_ext as pext on p.auto=pext.auto_producto ";
-                    //        //xsql3 += " and (pext.utilidad_may_1<>0 or pext.utilidad_may_2<>0 or pext.contenido_may_1>1 or pext.contenido_may_2>1) ";
-                    //        xsql3 += " and ((pext.contenido_may_1>1 or pext.contenido_may_2>1) and (pext.precio_may_1>0 or pext.precio_may_2>0)) ";
-                    //    }
-                    //}
+                    if (filtro.estatusTCS != "")
+                    {
+                        xsql3 += " and p.estatus_talla_color_sabor=@estatusTCS ";
+                        pG.ParameterName = "@estatusTCS";
+                        pG.Value = filtro.estatusTCS;
+                    }
 
                     var t1 = new MySql.Data.MySqlClient.MySqlParameter();
                     var t2 = new MySql.Data.MySqlClient.MySqlParameter();
@@ -308,7 +285,7 @@ namespace ProvLibInventario
                     }
 
                     var xsql = xsql1 + xsql2 + xsql3;
-                    var q = cnn.Database.SqlQuery<DtoLibInventario.Producto.Resumen>(xsql, p1, p2, p3, p4, p5, p6, p7, p8, p9, pA, pB, pC, pD, pE, pF, t1, t2).ToList();
+                    var q = cnn.Database.SqlQuery<DtoLibInventario.Producto.Resumen>(xsql, p1, p2, p3, p4, p5, p6, p7, p8, p9, pA, pB, pC, pD, pE, pF, pG, t1, t2).ToList();
                     rt.Lista = q;
                 }
             }
@@ -317,7 +294,6 @@ namespace ProvLibInventario
                 rt.Mensaje = e.Message;
                 rt.Result = DtoLib.Enumerados.EnumResult.isError;
             }
-
             return rt;
         }
 
@@ -1029,7 +1005,17 @@ namespace ProvLibInventario
                         rt.Result = DtoLib.Enumerados.EnumResult.isError;
                         return rt;
                     }
+
+                    //
+                    var _p1 = new MySql.Data.MySqlClient.MySqlParameter("@autoPrd",autoPrd);
                     var entPrdAlterno = cnn.productos_alterno.Where(w => w.auto_producto == autoPrd).ToList();
+                    var _sql =@"select 
+                                    id, 
+                                    descripcion
+                                from productos_talla_color_sabor
+                                where auto_producto=@autoPrd";
+                    var _lstTallaColorSabor = cnn.Database.SqlQuery<DtoLibInventario.Producto.Editar.Obtener.TallaColorSabor>(_sql, _p1).ToList();
+                    //
 
                     var _origen = entPrd.origen.Trim().ToUpper() == "NACIONAL" ?
                         DtoLibInventario.Producto.Enumerados.EnumOrigen.Nacional :
@@ -1132,6 +1118,7 @@ namespace ProvLibInventario
                         contEmpVentaTipo_1 = entPrdExt.cont_emp_venta_tipo_1,
                         contEmpVentaTipo_2 = entPrdExt.cont_emp_venta_tipo_2,
                         contEmpVentaTipo_3 = entPrdExt.cont_emp_venta_tipo_3,
+                        estatusTallaColorSabor=entPrd.estatus_talla_color_sabor,
                     };
                     var listPrdAlt = new List<DtoLibInventario.Producto.Editar.Obtener.FichaAlterno>();
                     foreach (var rg in entPrdAlterno)
@@ -1139,7 +1126,7 @@ namespace ProvLibInventario
                         listPrdAlt.Add(new DtoLibInventario.Producto.Editar.Obtener.FichaAlterno() { Codigo = rg.codigo_alterno });
                     }
                     f.CodigosAlterno = listPrdAlt;
-
+                    f.tallaColorSabor = _lstTallaColorSabor;
                     rt.Entidad = f;
                 }
             }
@@ -1155,7 +1142,6 @@ namespace ProvLibInventario
             Producto_Editar_Actualizar(DtoLibInventario.Producto.Editar.Actualizar.Ficha ficha)
         {
             var rt = new DtoLib.Resultado();
-
             try
             {
                 using (var cnn = new invEntities(_cnInv.ConnectionString))
@@ -1211,6 +1197,12 @@ namespace ProvLibInventario
                         entPrd.contenido_3 = ficha.contEmpVentaTipo_1;
                         entPrd.contenido_4 = ficha.contEmpVentaTipo_1;
                         entPrd.contenido_pto = ficha.contEmpVentaTipo_1;
+                        //
+                        entPrd.estatus_talla_color_sabor = "0";
+                        if (ficha.tallaColorSabor != null)
+                        {
+                            entPrd.estatus_talla_color_sabor = "1";
+                        }
                         cnn.SaveChanges();
 
                         if (entPrdExtra != null)
@@ -1282,6 +1274,53 @@ namespace ProvLibInventario
                             return rt;
                         }
 
+                        // MANEJA TALLA / COLOR / SABOR
+                        if (ficha.tallaColorSabor != null)
+                        {
+                            foreach (var rg in ficha.tallaColorSabor.ListaTallaColorSabor)
+                            {
+                                if (rg.Accion == DtoLibInventario.Producto.Editar.Actualizar.Enumerados.EnumAccionTallaColorSabor.Agregar) 
+                                {
+                                    var xp1 = new MySql.Data.MySqlClient.MySqlParameter("@autoPrd", entPrd.auto);
+                                    var xp2 = new MySql.Data.MySqlClient.MySqlParameter("@desc", rg.Descripcion);
+                                    xsql = @"INSERT INTO `productos_talla_color_sabor` (
+                                                    `id` ,
+                                                    `auto_producto` ,
+                                                    `descripcion`
+                                            )
+                                            VALUES (
+                                                NULL,
+                                                @autoPrd,
+                                                @desc
+                                            )";
+                                    var xrt = cnn.Database.ExecuteSqlCommand(xsql, xp1, xp2);
+                                    cnn.SaveChanges();
+                                }
+                                if (rg.Accion == DtoLibInventario.Producto.Editar.Actualizar.Enumerados.EnumAccionTallaColorSabor.Eliminar)
+                                {
+                                    var xp1 = new MySql.Data.MySqlClient.MySqlParameter("@idTallaColorSabor", rg.Id);
+                                    var xp2 = new MySql.Data.MySqlClient.MySqlParameter("@autoPrd", ficha.auto);
+                                    xsql = @"select 
+                                            count(*) as cnt 
+                                        FROM `productos_deposito_talla_color_sabor`
+                                        where auto_producto=@autoPrd
+                                        and id_prd_talla_color_sabor=@idTallaColorSabor";
+                                    var cnt = cnn.Database.SqlQuery<int>(xsql, xp1, xp2).FirstOrDefault();
+                                    if (cnt > 0)
+                                    {
+                                        rt.Mensaje = "[RELACION CON DEPOSITO EXISTENTE] ID TALLA COLOR SABOR NO PUEDE SER ELIMNADO (" + rg.Descripcion + ")";
+                                        rt.Result = DtoLib.Enumerados.EnumResult.isError;
+                                        return rt;
+                                    }
+
+                                    xp1 = new MySql.Data.MySqlClient.MySqlParameter("@idTallaColorSabor", rg.Id);
+                                    xsql = @"DELETE FROM `productos_talla_color_sabor` 
+                                             WHERE id=@idTallaColorSabor";
+                                    var xrt = cnn.Database.ExecuteSqlCommand(xsql, xp1);
+                                    cnn.SaveChanges();
+                                }
+                            }
+                        }
                         ts.Complete();
                     }
                 }
@@ -1301,7 +1340,6 @@ namespace ProvLibInventario
                 rt.Mensaje = e.Message;
                 rt.Result = DtoLib.Enumerados.EnumResult.isError;
             }
-
             return rt;
         }
 
@@ -1489,6 +1527,8 @@ namespace ProvLibInventario
                         //
                         entPrd.peso= ficha.peso;
                         entPrd.volumen = ficha.volumen;
+                        //
+                        entPrd.estatus_talla_color_sabor = ficha.tallaColorSabor == null ? "0" : "1";
                         cnn.productos.Add(entPrd);
                         cnn.SaveChanges();
 
@@ -1572,6 +1612,27 @@ namespace ProvLibInventario
                             cnn.SaveChanges();
                         }
 
+                        // MANEJA TALLA / COLOR / SABOR
+                        if (ficha.tallaColorSabor != null) 
+                        {
+                            foreach (var rg in ficha.tallaColorSabor.ListaTallaColorSabor) 
+                            {
+                                var xp1 = new MySql.Data.MySqlClient.MySqlParameter("@autoPrd",entPrd.auto);
+                                var xp2 = new MySql.Data.MySqlClient.MySqlParameter("@desc",rg.Descripcion);
+                                var xsql = @"INSERT INTO `productos_talla_color_sabor` (
+                                                    `id` ,
+                                                    `auto_producto` ,
+                                                    `descripcion`
+                                            )
+                                            VALUES (
+                                                NULL,
+                                                @autoPrd,
+                                                @desc
+                                            )";
+                                var xrt = cnn.Database.ExecuteSqlCommand(xsql, xp1, xp2);
+                                cnn.SaveChanges();
+                            }
+                        }
                         ts.Complete();
                         rt.Auto = autoPrd;
                     }
@@ -2755,7 +2816,5 @@ namespace ProvLibInventario
 
             return rt;
         }
-
     }
-
 }

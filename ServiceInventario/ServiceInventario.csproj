@@ -63,6 +63,7 @@
     <Compile Include="Interfaces\IService.cs" />
     <Compile Include="Interfaces\ISistema.cs" />
     <Compile Include="Interfaces\ISucursal.cs" />
+    <Compile Include="Interfaces\ITallaColorSabor.cs" />
     <Compile Include="Interfaces\ITasaImpuesto.cs" />
     <Compile Include="Interfaces\ITool.cs" />
     <Compile Include="Interfaces\IUsuario.cs" />
@@ -90,6 +91,7 @@
     <Compile Include="MyServide\Service.cs" />
     <Compile Include="MyServide\Sistema.cs" />
     <Compile Include="MyServide\Sucursal.cs" />
+    <Compile Include="MyServide\TallaColorSabor.cs" />
     <Compile Include="MyServide\TasaImpuesto.cs" />
     <Compile Include="MyServide\Tool.cs" />
     <Compile Include="MyServide\Usuario.cs" />

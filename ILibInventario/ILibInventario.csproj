@@ -63,6 +63,7 @@
     <Compile Include="IReportes.cs" />
     <Compile Include="ISistema.cs" />
     <Compile Include="ISucursal.cs" />
+    <Compile Include="ITallaColorSabor.cs" />
     <Compile Include="ITasaImpuesto.cs" />
     <Compile Include="ITool.cs" />
     <Compile Include="IUsuario.cs" />

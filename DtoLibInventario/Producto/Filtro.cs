@@ -7,14 +7,11 @@ using System.Threading.Tasks;
 
 namespace DtoLibInventario.Producto
 {
-    
     public class Filtro
     {
-
         public enum Existencia { SinDefinir = -1, MayorQueCero = 1, IgualCero, MenorQueCero };
 
         public string cadena { get; set; }
-
         public string autoProducto { get; set; }
         public string autoDepartamento { get; set; }
         public string autoGrupo { get; set; }
@@ -33,8 +30,7 @@ namespace DtoLibInventario.Producto
         public bool activarBusquedaPorTrasalado { get; set; }
         public string autoDepOrigen { get; set; }
         public string autoDepDestino { get; set; }
-        //public Existencia existencia { get; set; }
-        //public bool? precioMayorHabilitado { get; set; }
+        public string estatusTCS { get; set; }
 
 
         public Filtro()
@@ -57,10 +53,7 @@ namespace DtoLibInventario.Producto
             activarBusquedaPorTrasalado = false;
             autoDepOrigen = "";
             autoDepDestino = "";
-            //existencia = Existencia.SinDefinir;
-            //precioMayorHabilitado = null;
+            estatusTCS = "";
         }
-
     }
-
 }
