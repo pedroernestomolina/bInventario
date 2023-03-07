@@ -8,22 +8,24 @@ using System.Threading.Tasks;
 
 namespace ProvLibInventario
 {
-    
     public partial class Provider : ILibInventario.IProvider
     {
-
         public DtoLib.ResultadoLista<DtoLibInventario.Sucursal.Resumen> 
             Sucursal_GetLista(DtoLibInventario.Sucursal.Filtro filtro)
         {
             var result = new DtoLib.ResultadoLista<DtoLibInventario.Sucursal.Resumen>();
-
             try
             {
                 using (var cnn = new invEntities(_cnInv.ConnectionString))
                 {
                     var p1 = new MySql.Data.MySqlClient.MySqlParameter();
-                    var _sql_1 = @"select auto, codigo, nombre 
-                                        from empresa_sucursal ";
+                    var _sql_1 = @"select 
+                                        auto, 
+                                        codigo, 
+                                        nombre, 
+                                        es_activo as estatus
+                                        from empresa_sucursal as suc 
+                                        join empresa_sucursal_ext as sucExt on sucExt.auto_sucursal=suc.auto ";
                     var _sql_2 = " where 1=1 ";
                     if (filtro.idEmpresaGrupo != "") 
                     {
@@ -34,24 +36,6 @@ namespace ProvLibInventario
                     var sql= _sql_1+_sql_2;
                     var _lst = cnn.Database.SqlQuery<DtoLibInventario.Sucursal.Resumen>(sql, p1).ToList();
                     result.Lista = _lst;
-                    //var q = cnn.empresa_sucursal.ToList();
-                    //var list = new List<DtoLibInventario.Sucursal.Resumen>();
-                    //if (q != null)
-                    //{
-                    //    if (q.Count() > 0)
-                    //    {
-                    //        list = q.Select(s =>
-                    //        {
-                    //            var r = new DtoLibInventario.Sucursal.Resumen()
-                    //            {
-                    //                auto = s.auto,
-                    //                codigo = s.codigo,
-                    //                nombre = s.nombre,
-                    //            };
-                    //            return r;
-                    //        }).ToList();
-                    //    }
-                    //}
                 }
             }
             catch (Exception e)
@@ -59,7 +43,6 @@ namespace ProvLibInventario
                 result.Mensaje = e.Message;
                 result.Result = DtoLib.Enumerados.EnumResult.isError;
             }
-
             return result;
         }
         public DtoLib.ResultadoEntidad<DtoLibInventario.Sucursal.Ficha> 
@@ -122,7 +105,5 @@ namespace ProvLibInventario
 
             return result;
         }
-
     }
-
 }

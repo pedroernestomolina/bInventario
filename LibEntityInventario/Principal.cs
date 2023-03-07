@@ -8,14 +8,11 @@ using System.Threading.Tasks;
 
 namespace LibEntityInventario
 {
-
     public partial class invEntities : DbContext
     {
         public invEntities (string cn)
             : base(cn)
         {
         }
-
     }
-
 }
