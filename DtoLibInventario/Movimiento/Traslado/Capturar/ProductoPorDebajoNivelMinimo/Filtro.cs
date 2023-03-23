@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace DtoLibInventario.Movimiento.Traslado.Capturar.ProductoPorDebajoNivelMinimo
 {
-    
     public class Filtro
     {
-
         public string autoDepositoOrigen { get; set; }
         public string autoDepositoVerificarNivel { get; set; }
         public string autoDepartamento { get; set; }
+        public string autoProducto { get; set; }
+        public bool verificarNivel { get; set; }
 
 
         public Filtro() 
@@ -21,8 +21,8 @@ namespace DtoLibInventario.Movimiento.Traslado.Capturar.ProductoPorDebajoNivelMi
             autoDepartamento = "";
             autoDepositoOrigen = "";
             autoDepositoVerificarNivel = "";
+            autoProducto = "";
+            verificarNivel = true;
         }
-
     }
-
 }

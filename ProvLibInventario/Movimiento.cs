@@ -2269,7 +2269,6 @@ namespace ProvLibInventario
             Capturar_ProductosPorDebajoNivelMinimo(DtoLibInventario.Movimiento.Traslado.Capturar.ProductoPorDebajoNivelMinimo.Filtro filtro)
         {
             var result = new DtoLib.ResultadoLista<DtoLibInventario.Movimiento.Traslado.Capturar.ProductoPorDebajoNivelMinimo.Ficha>();
-
             try
             {
                 using (var cnn = new invEntities(_cnInv.ConnectionString))
@@ -2277,6 +2276,7 @@ namespace ProvLibInventario
                     var p1 = new MySql.Data.MySqlClient.MySqlParameter();
                     var p2 = new MySql.Data.MySqlClient.MySqlParameter();
                     var p3 = new MySql.Data.MySqlClient.MySqlParameter();
+                    var p4 = new MySql.Data.MySqlClient.MySqlParameter();
 
                     var sql_1 = @"select p.auto as autoPrd, p.codigo as codigoPrd, p.nombre as nombrePrd, p.contenido_compras as empCompraCont, 
                                   p.auto_departamento as autoDepartamento, p.auto_grupo as autoGrupo, p.categoria, 
@@ -2304,7 +2304,8 @@ namespace ProvLibInventario
                     p3.ParameterName = "@autoDepOrigen";
                     p3.Value = filtro.autoDepositoOrigen;
 
-                    var sql_2 = @" where p.estatus='ACTIVO' and pDepo.fisica<pDepo.nivel_minimo ";
+                    //var sql_2 = @" where p.estatus='ACTIVO' and pDepo.fisica<pDepo.nivel_minimo ";
+                    var sql_2 = @" where p.estatus='ACTIVO' ";
                     if (filtro.autoDepositoVerificarNivel != "")
                     {
                         p1.ParameterName = "@autoDeposito";
@@ -2317,8 +2318,18 @@ namespace ProvLibInventario
                         p2.Value = filtro.autoDepartamento;
                         sql_2 += " and p.auto_departamento=@autoDepartamento ";
                     }
+                    if (filtro.autoProducto != "")
+                    {
+                        p4.ParameterName = "@autoPrd";
+                        p4.Value = filtro.autoProducto;
+                        sql_2 += " and p.auto=@autoPrd ";
+                    }
+                    if (filtro.verificarNivel)
+                    {
+                        sql_2 += " and pDepo.fisica<pDepo.nivel_minimo ";
+                    }
                     var sql = sql_1 + sql_2;
-                    var lt=cnn.Database.SqlQuery<DtoLibInventario.Movimiento.Traslado.Capturar.ProductoPorDebajoNivelMinimo.Ficha>(sql, p1, p2,p3).ToList();
+                    var lt = cnn.Database.SqlQuery<DtoLibInventario.Movimiento.Traslado.Capturar.ProductoPorDebajoNivelMinimo.Ficha>(sql, p1, p2, p3, p4).ToList();
                     result.Lista = lt;
                 }
             }
@@ -2327,7 +2338,6 @@ namespace ProvLibInventario
                 result.Mensaje = e.Message;
                 result.Result = DtoLib.Enumerados.EnumResult.isError;
             }
-
             return result;
         }
 
