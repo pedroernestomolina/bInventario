@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace DtoLibInventario.Producto.Editar.Actualizar
 {
-    public class FichaCodAlterno
+    public class FichaHndEmpVenta
     {
-        public string codigo { get; set; }
+        public List<HndEmpVenta> ListaEmpVenta { get; set; }
     }
 }

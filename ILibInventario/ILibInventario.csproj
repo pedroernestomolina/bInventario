@@ -57,6 +57,7 @@
     <Compile Include="IPermisos.cs" />
     <Compile Include="IPrecio.cs" />
     <Compile Include="IProducto.cs" />
+    <Compile Include="IProducto_ModoAdm.cs" />
     <Compile Include="IProveedor.cs" />
     <Compile Include="IProvider.cs" />
     <Compile Include="IMovPend.cs" />

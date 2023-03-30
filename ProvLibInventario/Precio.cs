@@ -11,10 +11,8 @@ using System.Transactions;
 
 namespace ProvLibInventario
 {
-    
     public partial class Provider : ILibInventario.IProvider
     {
-
         public DtoLib.ResultadoEntidad<DtoLibInventario.Precio.Historico.Resumen> 
             HistoricoPrecio_GetLista(DtoLibInventario.Precio.Historico.Filtro filtro)
         {
@@ -430,7 +428,5 @@ namespace ProvLibInventario
 
             return rt;
         }
-
     }
-
 }

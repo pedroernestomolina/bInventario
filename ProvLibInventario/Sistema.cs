@@ -8,10 +8,8 @@ using System.Threading.Tasks;
 
 namespace ProvLibInventario
 {
-
     public partial class Provider : ILibInventario.IProvider
     {
-
         public DtoLib.ResultadoEntidad<DtoLibInventario.Sistema.TipoDocumento.Entidad.Ficha> 
             Sistema_TipoDocumento_GetFichaById(string autoId)
         {
@@ -70,7 +68,5 @@ namespace ProvLibInventario
             }
             return result;
         }
-
     }
-
 }

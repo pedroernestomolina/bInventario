@@ -7,8 +7,10 @@ using System.Threading.Tasks;
 
 namespace DtoLibInventario.Producto.Editar.Actualizar
 {
-    public class FichaCodAlterno
+    public class HndEmpVenta
     {
-        public string codigo { get; set; }
+        public int id { get; set; }
+        public string autoEmp { get; set; }
+        public int contEmp { get; set; }
     }
 }

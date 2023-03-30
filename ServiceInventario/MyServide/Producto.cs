@@ -305,7 +305,5 @@ namespace ServiceInventario.MyService
         {
             return ServiceProv.Producto_Precio_GetById(autoPrd);
         }
-
     }
-
 }

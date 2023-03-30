@@ -57,6 +57,7 @@
     <Compile Include="Interfaces\IPermisos.cs" />
     <Compile Include="Interfaces\IPrecio.cs" />
     <Compile Include="Interfaces\IProducto.cs" />
+    <Compile Include="Interfaces\IProducto_ModoAdm.cs" />
     <Compile Include="Interfaces\IProveedor.cs" />
     <Compile Include="Interfaces\IReporteDocumentos.cs" />
     <Compile Include="Interfaces\IReportes.cs" />
@@ -86,6 +87,7 @@
     <Compile Include="MyServide\Permisos.cs" />
     <Compile Include="MyServide\Precio.cs" />
     <Compile Include="MyServide\Producto.cs" />
+    <Compile Include="MyServide\Producto_ModoAdm.cs" />
     <Compile Include="MyServide\Proveedor.cs" />
     <Compile Include="MyServide\Reportes.cs" />
     <Compile Include="MyServide\Service.cs" />

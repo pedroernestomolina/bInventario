@@ -16,7 +16,5 @@ namespace ProvSqlServer
         {
             return new DtoLib.ResultadoEntidad<string>() { Entidad = "BASICO_FOX" };
         }
-
     }
-
 }

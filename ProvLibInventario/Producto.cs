@@ -1283,7 +1283,7 @@ namespace ProvLibInventario
                                 {
                                     var xp1 = new MySql.Data.MySqlClient.MySqlParameter("@autoPrd", entPrd.auto);
                                     var xp2 = new MySql.Data.MySqlClient.MySqlParameter("@desc", rg.Descripcion);
-                                    xsql = @"INSERT INTO `productos_talla_color_sabor` (
+                                    var xsql_1 = @"INSERT INTO `productos_talla_color_sabor` (
                                                     `id` ,
                                                     `auto_producto` ,
                                                     `descripcion`
@@ -1293,32 +1293,47 @@ namespace ProvLibInventario
                                                 @autoPrd,
                                                 @desc
                                             )";
-                                    var xrt = cnn.Database.ExecuteSqlCommand(xsql, xp1, xp2);
+                                    var xrt = cnn.Database.ExecuteSqlCommand(xsql_1, xp1, xp2);
                                     cnn.SaveChanges();
                                 }
                                 if (rg.Accion == DtoLibInventario.Producto.Editar.Actualizar.Enumerados.EnumAccionTallaColorSabor.Eliminar)
                                 {
                                     var xp1 = new MySql.Data.MySqlClient.MySqlParameter("@idTallaColorSabor", rg.Id);
                                     var xp2 = new MySql.Data.MySqlClient.MySqlParameter("@autoPrd", ficha.auto);
-                                    xsql = @"select 
+                                    var xsql_1 = @"select 
                                             count(*) as cnt 
                                         FROM `productos_deposito_talla_color_sabor`
                                         where auto_producto=@autoPrd
                                         and id_prd_talla_color_sabor=@idTallaColorSabor";
-                                    var cnt = cnn.Database.SqlQuery<int>(xsql, xp1, xp2).FirstOrDefault();
+                                    var cnt = cnn.Database.SqlQuery<int>(xsql_1, xp1, xp2).FirstOrDefault();
                                     if (cnt > 0)
                                     {
                                         rt.Mensaje = "[RELACION CON DEPOSITO EXISTENTE] ID TALLA COLOR SABOR NO PUEDE SER ELIMNADO (" + rg.Descripcion + ")";
                                         rt.Result = DtoLib.Enumerados.EnumResult.isError;
                                         return rt;
                                     }
-
                                     xp1 = new MySql.Data.MySqlClient.MySqlParameter("@idTallaColorSabor", rg.Id);
-                                    xsql = @"DELETE FROM `productos_talla_color_sabor` 
+                                    xsql_1 = @"DELETE FROM `productos_talla_color_sabor` 
                                              WHERE id=@idTallaColorSabor";
-                                    var xrt = cnn.Database.ExecuteSqlCommand(xsql, xp1);
+                                    var xrt = cnn.Database.ExecuteSqlCommand(xsql_1, xp1);
                                     cnn.SaveChanges();
                                 }
+                            }
+                        }
+
+                        if (ficha.hndEmpVenta != null)
+                        {
+                            foreach (var rg in ficha.hndEmpVenta.ListaEmpVenta)
+                            {
+                                var xp1 = new MySql.Data.MySqlClient.MySqlParameter("@id", rg.id);
+                                var xp2 = new MySql.Data.MySqlClient.MySqlParameter("@autoEmp", rg.autoEmp);
+                                var xp3 = new MySql.Data.MySqlClient.MySqlParameter("@cont", rg.contEmp);
+                                var xsql_1 = @"UPDATE productos_ext_hnd_empventa  
+                                                SET `auto_empaque`=@autoEmp,
+                                                    `contenido_empaque`=@cont
+                                            where id=@id";
+                                var xrt = cnn.Database.ExecuteSqlCommand(xsql_1, xp1, xp2, xp3);
+                                cnn.SaveChanges();
                             }
                         }
                         ts.Complete();
@@ -1630,6 +1645,90 @@ namespace ProvLibInventario
                                                 @desc
                                             )";
                                 var xrt = cnn.Database.ExecuteSqlCommand(xsql, xp1, xp2);
+                                cnn.SaveChanges();
+                            }
+                        }
+
+                        if (ficha.hndEmpVenta != null) 
+                        {
+                            foreach (var rg in ficha.hndEmpVenta.ListaEmpVenta)
+                            {
+                                var xp1 = new MySql.Data.MySqlClient.MySqlParameter("@autoPrd", entPrd.auto);
+                                var xp2 = new MySql.Data.MySqlClient.MySqlParameter("@autoEmp", rg.autoEmp);
+                                var xp3 = new MySql.Data.MySqlClient.MySqlParameter("@cont", rg.contEmp);
+                                var xp4 = new MySql.Data.MySqlClient.MySqlParameter("@tipo", rg.tipoEmp);
+                                var xsql = @"INSERT INTO productos_ext_hnd_empventa 
+                                                (
+                                                    `id` ,
+                                                    `auto_producto` ,
+                                                    `auto_empaque` ,
+                                                    `contenido_empaque` ,
+                                                    `tipo_empaque`
+                                                )
+                                            VALUES (
+                                                NULL , 
+                                                @autoPrd,
+                                                @autoEmp,
+                                                @cont,
+                                                @tipo
+                                            )";
+                                var xrt = cnn.Database.ExecuteSqlCommand(xsql, xp1, xp2, xp3, xp4);
+                                cnn.SaveChanges();
+                            }
+                        }
+                        if (ficha.hndPrecioVenta != null)
+                        {
+                            foreach (var rg in ficha.hndPrecioVenta.ListaPrecioVenta)
+                            {
+                                var p1 = new MySql.Data.MySqlClient.MySqlParameter("@autoPrd", entPrd.auto);
+                                var p2 = new MySql.Data.MySqlClient.MySqlParameter("@tipoEmp", rg.tipoEmp);
+                                var xsql = @"SELECT id  FROM `productos_ext_hnd_empventa`
+                                                where auto_producto=@autoPrd
+                                                and tipo_empaque=@tipoEmp";
+                                var id = cnn.Database.SqlQuery<int?>(xsql, p1, p2).FirstOrDefault();
+                                if (id == null) 
+                                {
+                                    throw new Exception("PROBLEMA AL REGISTRAR EMPAQUE VENTA");
+                                }
+
+                                var xp1 = new MySql.Data.MySqlClient.MySqlParameter("@autoPrd", entPrd.auto);
+                                var xp2 = new MySql.Data.MySqlClient.MySqlParameter("@idTipoPrecio", rg.idHndTipoPrecio);
+                                var xp3 = new MySql.Data.MySqlClient.MySqlParameter("@idTipoEmpaque", id.Value);
+                                var xp4 = new MySql.Data.MySqlClient.MySqlParameter("@netoMonedaLocal", rg.netoMonedaLocal);
+                                var xp5 = new MySql.Data.MySqlClient.MySqlParameter("@fullDivisa", rg.fullDivisa);
+                                var xp6 = new MySql.Data.MySqlClient.MySqlParameter("@utilidadPorc", rg.utilidadPorc);
+                                var xp7 = new MySql.Data.MySqlClient.MySqlParameter("@estatusOferta", rg.ofertaEstatus);
+                                var xp8 = new MySql.Data.MySqlClient.MySqlParameter("@desdeOferta", rg.ofertaDesde);
+                                var xp9 = new MySql.Data.MySqlClient.MySqlParameter("@hastaOferta", rg.ofertaHasta);
+                                var xp10 = new MySql.Data.MySqlClient.MySqlParameter("@porcOferta", rg.ofertaPorc);
+                                xsql = @"INSERT INTO `productos_ext_hnd_precioventa`
+                                                (
+                                                    `id` ,
+                                                    `id_empresa_hnd_precio` ,
+                                                    `id_prd_hnd_empVenta` ,
+                                                    `auto_producto` ,
+                                                    `neto_monedaLocal` ,
+                                                    `full_divisa` ,
+                                                    `utilidad_porct` ,
+                                                    `estatus_oferta` ,
+                                                    `desde_oferta` ,
+                                                    `hasta_oferta` ,
+                                                    `porct_oferta`
+                                                )
+                                            VALUES (
+                                                NULL , 
+                                                @idTipoPrecio,
+                                                @idTipoEmpaque,
+                                                @autoPrd,
+                                                @netoMonedaLocal,
+                                                @fullDivisa,
+                                                @utilidadPorc,
+                                                @estatusOferta,
+                                                @desdeOferta,
+                                                @hastaOferta,
+                                                @porcOferta
+                                            )";
+                                var xrt = cnn.Database.ExecuteSqlCommand(xsql, xp1, xp2, xp3, xp4, xp5, xp6, xp7, xp8, xp9, xp10);
                                 cnn.SaveChanges();
                             }
                         }

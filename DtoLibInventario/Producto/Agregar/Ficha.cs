@@ -49,5 +49,7 @@ namespace DtoLibInventario.Producto.Agregar
         public int contEmpVentaTipo_3 { get; set; }
         //
         public FichaTallaColorSabor tallaColorSabor { get; set; }
+        public FichaHndEmpVenta hndEmpVenta { get; set; }
+        public FichaHndPrecioVenta hndPrecioVenta { get; set; }
     }
 }

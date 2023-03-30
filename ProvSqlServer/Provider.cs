@@ -1084,6 +1084,25 @@ namespace ProvSqlServer
         {
             throw new NotImplementedException();
         }
+        public DtoLib.ResultadoLista<DtoLibInventario.Producto.VerData.EmpaqueVenta> Producto_GetEmpaqueVenta_ModoAdm(string autoPrd)
+        {
+            throw new NotImplementedException();
+        }
+        public DtoLib.ResultadoLista<DtoLibInventario.Producto.VerData.EmpaqueVenta> Producto_ModoAdm_GetEmpaqueVenta_By(string autoPrd)
+        {
+            throw new NotImplementedException();
+        }
+        public DtoLib.ResultadoEntidad<DtoLibInventario.Producto.VerData.ModoAdm.Precio.Ficha> Producto_ModoAdm_GetPrecio_By(string autoPrd, string tipoPrecio)
+        {
+            throw new NotImplementedException();
+        }
+        public DtoLib.ResultadoEntidad<DtoLibInventario.Producto.VerData.ModoAdm.Costo.Ficha> Producto_ModoAdm_GetCosto_By(string autoPrd)
+        {
+            throw new NotImplementedException();
+        }
+        public DtoLib.Resultado Producto_ModoAdm_ActualizarPrecio(DtoLibInventario.Producto.ActualizarPrecio.ModoAdm.Ficha ficha)
+        {
+            throw new NotImplementedException();
+        }
     }
-
 }

@@ -11,7 +11,8 @@ namespace ILibInventario
     public interface IProvider: IProducto, IDeposito, IDepartamento, IGrupo, ITasaImpuesto, IProveedor, IMarca,
         ICosto, IPrecio, IKardex, IConcepto, ISucursal, IMovimiento, IUsuario, 
         ITool, IEmpaqueMedida, IConfiguracion, IVisor, IReportes, IPermisos, IAnalisis,
-        IAuditoria, ISistema, IMonitorPos, IMovTransito, IMovPend , IEmpresa, ITallaColorSabor
+        IAuditoria, ISistema, IMonitorPos, IMovTransito, IMovPend , IEmpresa, ITallaColorSabor,
+        IProducto_ModoAdm
     {
 
         DtoLib.ResultadoEntidad<DateTime> 
