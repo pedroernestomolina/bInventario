@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace DtoLibInventario.Precio.Historico
+namespace DtoLibInventario.Producto.HistoricoPrecio
 {
     public class Filtro
     {

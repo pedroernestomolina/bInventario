@@ -61,6 +61,7 @@
     <Compile Include="Interfaces\IProveedor.cs" />
     <Compile Include="Interfaces\IReporteDocumentos.cs" />
     <Compile Include="Interfaces\IReportes.cs" />
+    <Compile Include="Interfaces\IReportes_ModoAdm.cs" />
     <Compile Include="Interfaces\IService.cs" />
     <Compile Include="Interfaces\ISistema.cs" />
     <Compile Include="Interfaces\ISucursal.cs" />
@@ -90,6 +91,7 @@
     <Compile Include="MyServide\Producto_ModoAdm.cs" />
     <Compile Include="MyServide\Proveedor.cs" />
     <Compile Include="MyServide\Reportes.cs" />
+    <Compile Include="MyServide\Reportes_ModAdm.cs" />
     <Compile Include="MyServide\Service.cs" />
     <Compile Include="MyServide\Sistema.cs" />
     <Compile Include="MyServide\Sucursal.cs" />

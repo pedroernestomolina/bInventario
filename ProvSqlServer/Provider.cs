@@ -1104,5 +1104,14 @@ namespace ProvSqlServer
         {
             throw new NotImplementedException();
         }
+        DtoLib.ResultadoEntidad<DtoLibInventario.Producto.HistoricoPrecio.ModoAdm.Ficha> ILibInventario.IProducto_ModoAdm.Producto_ModoAdm_HistoricoPrecio_By(DtoLibInventario.Producto.HistoricoPrecio.Filtro filtro)
+        {
+            throw new NotImplementedException();
+        }
+
+        public DtoLib.ResultadoLista<DtoLibInventario.Reportes.MaestroPrecio.ModoAdm.Ficha> Reportes_ModAdm_MaestroPrecio(DtoLibInventario.Reportes.MaestroPrecio.Filtro filtro)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

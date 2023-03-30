@@ -105,7 +105,7 @@ namespace ProvLibInventario
             }
             return rt;
         }
-        public DtoLib.ResultadoEntidad<DtoLibInventario.Producto.VerData.ModoAdm.Costo.Ficha> 
+        public DtoLib.ResultadoEntidad<DtoLibInventario.Producto.VerData.ModoAdm.Costo.Ficha>
             Producto_ModoAdm_GetCosto_By(string autoPrd)
         {
             var rt = new DtoLib.ResultadoEntidad<DtoLibInventario.Producto.VerData.ModoAdm.Costo.Ficha>();
@@ -147,7 +147,7 @@ namespace ProvLibInventario
             }
             return rt;
         }
-        public DtoLib.Resultado 
+        public DtoLib.Resultado
             Producto_ModoAdm_ActualizarPrecio(DtoLibInventario.Producto.ActualizarPrecio.ModoAdm.Ficha ficha)
         {
             var result = new DtoLib.Resultado();
@@ -158,7 +158,7 @@ namespace ProvLibInventario
                     using (var ts = new TransactionScope())
                     {
                         var fechaSistema = cnn.Database.SqlQuery<DateTime>("select now()").FirstOrDefault();
-                        var x1 = new MySql.Data.MySqlClient.MySqlParameter("@autoPrd",ficha.autoPrd);
+                        var x1 = new MySql.Data.MySqlClient.MySqlParameter("@autoPrd", ficha.autoPrd);
                         var x2 = new MySql.Data.MySqlClient.MySqlParameter("@fechasist", fechaSistema.Date);
                         var _sql = @"update productos set 
                                         fecha_cambio=@fechaSist
@@ -168,9 +168,9 @@ namespace ProvLibInventario
 
                         if (ficha.precios != null)
                         {
-                            foreach (var rg in ficha.precios) 
+                            foreach (var rg in ficha.precios)
                             {
-                                var p1= new MySql.Data.MySqlClient.MySqlParameter("@id",rg.id);
+                                var p1 = new MySql.Data.MySqlClient.MySqlParameter("@id", rg.id);
                                 var p2 = new MySql.Data.MySqlClient.MySqlParameter("@netoMonLocal", rg.netoMonedaLocal);
                                 var p3 = new MySql.Data.MySqlClient.MySqlParameter("@fullDivisa", rg.fullDivisa);
                                 var p4 = new MySql.Data.MySqlClient.MySqlParameter("@utilidad", rg.utilidad);
@@ -179,7 +179,7 @@ namespace ProvLibInventario
                                                 full_divisa=@fullDivisa,
                                                 utilidad_porct=@utilidad
                                             where id=@id";
-                                var _cnt= cnn.Database.ExecuteSqlCommand(sql, p1,p2,p3,p4);
+                                var _cnt = cnn.Database.ExecuteSqlCommand(sql, p1, p2, p3, p4);
                                 cnn.SaveChanges();
                             }
                         }
@@ -187,28 +187,50 @@ namespace ProvLibInventario
                         {
                             foreach (var rg in ficha.historia)
                             {
-                                var entHist = new productos_precios()
-                                {
-                                    auto_producto = ficha.autoPrd,
-                                    estacion = ficha.estacion,
-                                    fecha = fechaSistema.Date,
-                                    hora = fechaSistema.ToShortTimeString(),
-                                    usuario = ficha.nombreUsuario,
-                                    nota = rg.nota,
-                                    precio = rg.precio,
-                                    precio_id = rg.precio_id,
-                                };
-                                cnn.productos_precios.Add(entHist);
-                                cnn.SaveChanges();
-
-                                var entHistExt = new productos_precios_ext()
-                                {
-                                    factor_cambio = rg.factorCambio,
-                                    contenido = rg.contenido,
-                                    empaque = rg.empaque,
-                                    id_producto_precio = entHist.id,
-                                };
-                                cnn.productos_precios_ext.Add(entHistExt);
+                                var xp1 = new MySql.Data.MySqlClient.MySqlParameter("@autoPrd", ficha.autoPrd);
+                                var xp2 = new MySql.Data.MySqlClient.MySqlParameter("@empDesc", rg.empDesc);
+                                var xp3 = new MySql.Data.MySqlClient.MySqlParameter("@empCont", rg.empCont);
+                                var xp4 = new MySql.Data.MySqlClient.MySqlParameter("@fecha", fechaSistema.Date);
+                                var xp5 = new MySql.Data.MySqlClient.MySqlParameter("@hora", fechaSistema.ToShortTimeString());
+                                var xp6 = new MySql.Data.MySqlClient.MySqlParameter("@usuCodigo", ficha.usuCodigo);
+                                var xp7 = new MySql.Data.MySqlClient.MySqlParameter("@usuNombre", ficha.usuNombre);
+                                var xp8 = new MySql.Data.MySqlClient.MySqlParameter("@estacion", ficha.estacion);
+                                var xp9 = new MySql.Data.MySqlClient.MySqlParameter("@factorCambio", ficha.factorCambio);
+                                var xp10 = new MySql.Data.MySqlClient.MySqlParameter("@netoMonLocal", rg.netoMonLocal);
+                                var xp11 = new MySql.Data.MySqlClient.MySqlParameter("@fullDivisa", rg.fullDivisa);
+                                var xp12 = new MySql.Data.MySqlClient.MySqlParameter("@tipoEmpVenta", rg.tipoEmpaqueVenta);
+                                var xp13 = new MySql.Data.MySqlClient.MySqlParameter("@tipoPrecioVenta", rg.tipoPrecioVenta);
+                                var xp14 = new MySql.Data.MySqlClient.MySqlParameter("@prdCodigo", ficha.prdCodigo);
+                                var xp15 = new MySql.Data.MySqlClient.MySqlParameter("@prdDesc", ficha.prdDesc);
+                                var xp16 = new MySql.Data.MySqlClient.MySqlParameter("@nota", ficha.nota);
+                                var _sql2 = @"INSERT INTO `productos_precios_historia` (
+                                                `id` ,
+                                                `auto_producto` ,
+                                                `empaque_desc` ,
+                                                `empaque_cont` ,
+                                                `fecha` ,
+                                                `hora` ,
+                                                `usuario_codigo` ,
+                                                `usuario_nombre` ,
+                                                `estacion` ,
+                                                `factor_cambio` ,
+                                                `neto` ,
+                                                `full_Divisa` ,
+                                                `tipoempVenta` ,
+                                                `tipo_precio` ,
+                                                `prd_codigo` ,
+                                                `prd_descripcion` ,
+                                                `nota`
+                                            )
+                                            VALUES (
+                                                NULL, 
+                                                @autoPrd, @empDesc, @empCont, @fecha, @hora, @usuCodigo, @usuNombre, @estacion,
+                                                @factorCambio, @netoMonLocal, @fullDivisa, @tipoEmpVenta, @tipoPrecioVenta, 
+                                                @prdCodigo, @prdDesc, @nota)";
+                                var _nr = cnn.Database.ExecuteSqlCommand(_sql2, xp1, xp2, xp3, xp4,
+                                                                            xp5, xp6, xp7, xp8, xp9,
+                                                                            xp10, xp11, xp12, xp13,
+                                                                            xp14, xp15, xp16);
                                 cnn.SaveChanges();
                             }
                         }
@@ -225,6 +247,57 @@ namespace ProvLibInventario
             {
                 result.Mensaje = Helpers.ENTITY_VerificaError(ex);
                 result.Result = DtoLib.Enumerados.EnumResult.isError;
+            }
+            catch (Exception e)
+            {
+                result.Mensaje = e.Message;
+                result.Result = DtoLib.Enumerados.EnumResult.isError;
+            }
+            return result;
+        }
+        public DtoLib.ResultadoEntidad<DtoLibInventario.Producto.HistoricoPrecio.ModoAdm.Ficha>
+            Producto_ModoAdm_HistoricoPrecio_By(DtoLibInventario.Producto.HistoricoPrecio.Filtro filtro)
+        {
+            var result = new DtoLib.ResultadoEntidad<DtoLibInventario.Producto.HistoricoPrecio.ModoAdm.Ficha>();
+            try
+            {
+                using (var cnn = new invEntities(_cnInv.ConnectionString))
+                {
+                    var p1 = new MySql.Data.MySqlClient.MySqlParameter("@autoPrd", filtro.autoProducto);
+                    var _sql = @"select 
+                                    codigo as prdCodigo, nombre as prdDescripcion 
+                                from productos 
+                                where auto=@autoPrd";
+                    var _ficha = cnn.Database.SqlQuery<DtoLibInventario.Producto.HistoricoPrecio.ModoAdm.Ficha>(_sql, p1).FirstOrDefault();
+                    if (_ficha == null)
+                    {
+                        result = new DtoLib.ResultadoEntidad<DtoLibInventario.Producto.HistoricoPrecio.ModoAdm.Ficha>();
+                        return result;
+                    }
+                    var xp1 = new MySql.Data.MySqlClient.MySqlParameter("@autoPrd", filtro.autoProducto);
+                    var _sql2 = @"SELECT 
+                                    empaque_desc as empDescripcion,
+                                    empaque_cont as empCont,
+                                    fecha,
+                                    hora,
+                                    usuario_codigo as usuCodigo,
+                                    usuario_nombre as usuNombre,
+                                    estacion,
+                                    factor_cambio as factorCambio,
+                                    neto as netoMonLocal,
+                                    full_divisa as fullDivisa,
+                                    tipoempVenta as tipoEmpVta,
+                                    tipo_precio as tipoPrecioVta,
+                                    nota
+                                FROM productos_precios_historia
+                                where auto_producto=@autoPrd";
+                    var _lst = cnn.Database.SqlQuery<DtoLibInventario.Producto.HistoricoPrecio.ModoAdm.Data>(_sql2, xp1).ToList();
+                    _ficha.data = _lst;
+                    result = new DtoLib.ResultadoEntidad<DtoLibInventario.Producto.HistoricoPrecio.ModoAdm.Ficha>()
+                    {
+                        Entidad = _ficha,
+                    };
+                }
             }
             catch (Exception e)
             {

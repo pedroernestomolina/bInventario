@@ -28,7 +28,12 @@ namespace ServiceInventario.MyService
         public DtoLib.Resultado 
             Producto_ModoAdm_ActualizarPrecio(DtoLibInventario.Producto.ActualizarPrecio.ModoAdm.Ficha ficha)
         {
-            return Service.ServiceProv.Producto_ModoAdm_ActualizarPrecio(ficha);
+            return ServiceProv.Producto_ModoAdm_ActualizarPrecio(ficha);
+        }
+        public DtoLib.ResultadoEntidad<DtoLibInventario.Producto.HistoricoPrecio.ModoAdm.Ficha> 
+            Producto_ModoAdm_HistoricoPrecio_By(DtoLibInventario.Producto.HistoricoPrecio.Filtro filtro)
+        {
+            return ServiceProv.Producto_ModoAdm_HistoricoPrecio_By(filtro);
         }
     }
 }

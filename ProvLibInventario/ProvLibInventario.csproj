@@ -82,6 +82,7 @@
     <Compile Include="Proveedor.cs" />
     <Compile Include="Provider.cs" />
     <Compile Include="Reportes.cs" />
+    <Compile Include="Reportes_ModoAdm.cs" />
     <Compile Include="Sistema.cs" />
     <Compile Include="Sucursal.cs" />
     <Compile Include="TallaColorSabor.cs" />

@@ -62,6 +62,7 @@
     <Compile Include="IProvider.cs" />
     <Compile Include="IMovPend.cs" />
     <Compile Include="IReportes.cs" />
+    <Compile Include="IReportes_ModoAdm.cs" />
     <Compile Include="ISistema.cs" />
     <Compile Include="ISucursal.cs" />
     <Compile Include="ITallaColorSabor.cs" />

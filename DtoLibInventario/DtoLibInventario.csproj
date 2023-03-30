@@ -222,6 +222,9 @@
     <Compile Include="Producto\Estatus\Actual\Ficha.cs" />
     <Compile Include="Producto\Estatus\Lista\Resumen.cs" />
     <Compile Include="Producto\Filtro.cs" />
+    <Compile Include="Producto\HistoricoPrecio\Filtro.cs" />
+    <Compile Include="Producto\HistoricoPrecio\ModoAdm\Data.cs" />
+    <Compile Include="Producto\HistoricoPrecio\ModoAdm\Ficha.cs" />
     <Compile Include="Producto\Oferta\Resumen.cs" />
     <Compile Include="Producto\Origen\Resumen.cs" />
     <Compile Include="Producto\Pesado\Resumen.cs" />
@@ -271,6 +274,7 @@
     <Compile Include="Reportes\MaestroPrecio\Ficha.cs" />
     <Compile Include="Reportes\MaestroPrecio\FichaFox.cs" />
     <Compile Include="Reportes\MaestroPrecio\Filtro.cs" />
+    <Compile Include="Reportes\MaestroPrecio\ModoAdm\Ficha.cs" />
     <Compile Include="Reportes\MaestroProducto\Ficha.cs" />
     <Compile Include="Reportes\MaestroProducto\Filtro.cs" />
     <Compile Include="Reportes\ResumenCostoInv\Ficha.cs" />

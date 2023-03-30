@@ -12,16 +12,13 @@ namespace ILibInventario
         ICosto, IPrecio, IKardex, IConcepto, ISucursal, IMovimiento, IUsuario, 
         ITool, IEmpaqueMedida, IConfiguracion, IVisor, IReportes, IPermisos, IAnalisis,
         IAuditoria, ISistema, IMonitorPos, IMovTransito, IMovPend , IEmpresa, ITallaColorSabor,
-        IProducto_ModoAdm
+        IProducto_ModoAdm, IReportes_ModoAdm
     {
-
         DtoLib.ResultadoEntidad<DateTime> 
             FechaServidor();
         DtoLib.ResultadoEntidad<DtoLibInventario.Empresa.Data.Ficha> 
             Empresa_Datos();
         DtoLib.ResultadoEntidad<string>
             Empresa_Sucursal_TipoPrecioManejar(string codEmpresa);
-        //DtoLib.ResultadoEntidad<DtoLibPosOffLine.Sistema.InformacionBD.Ficha> InformacionBD();
     }
-
 }

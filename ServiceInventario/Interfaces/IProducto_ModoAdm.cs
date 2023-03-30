@@ -17,5 +17,7 @@ namespace ServiceInventario.Interfaces
             Producto_ModoAdm_GetCosto_By(string autoPrd);
         DtoLib.Resultado
             Producto_ModoAdm_ActualizarPrecio(DtoLibInventario.Producto.ActualizarPrecio.ModoAdm.Ficha ficha);
+        DtoLib.ResultadoEntidad<DtoLibInventario.Producto.HistoricoPrecio.ModoAdm.Ficha>
+            Producto_ModoAdm_HistoricoPrecio_By(DtoLibInventario.Producto.HistoricoPrecio.Filtro filtro);
     }
 }

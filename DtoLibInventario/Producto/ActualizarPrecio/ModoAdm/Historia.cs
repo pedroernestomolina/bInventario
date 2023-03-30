@@ -9,11 +9,11 @@ namespace DtoLibInventario.Producto.ActualizarPrecio.ModoAdm
 {
     public class Historia
     {
-        public string nota { get; set; }
-        public string precio_id { get; set; }
-        public decimal precio { get; set; }
-        public string empaque { get; set; }
-        public int contenido { get; set; }
-        public decimal factorCambio { get; set; }
+        public string empDesc { get; set; }
+        public int  empCont { get; set; }
+        public decimal netoMonLocal { get; set; }
+        public decimal fullDivisa { get; set; }
+        public string tipoEmpaqueVenta { get; set; }
+        public string tipoPrecioVenta { get; set; }
     }
 }
