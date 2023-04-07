@@ -306,5 +306,66 @@ namespace ProvLibInventario
             }
             return result;
         }
+        public DtoLib.Resultado 
+            Producto_ModoAdm_ActualizarOferta(DtoLibInventario.Producto.ActualizarOferta.ModoAdm.Actualizar.Ficha ficha)
+        {
+            var result = new DtoLib.Resultado();
+            try
+            {
+                using (var cnn = new invEntities(_cnInv.ConnectionString))
+                {
+                    using (var ts = new TransactionScope())
+                    {
+                        var fechaSistema = cnn.Database.SqlQuery<DateTime>("select now()").FirstOrDefault();
+                        var x1 = new MySql.Data.MySqlClient.MySqlParameter("@autoPrd", ficha.autoPrd);
+                        var x2 = new MySql.Data.MySqlClient.MySqlParameter("@fechasist", fechaSistema.Date);
+                        var x3 = new MySql.Data.MySqlClient.MySqlParameter("@estatusOferta", ficha.estatusOferta);
+                        var _sql = @"update productos set 
+                                        fecha_cambio=@fechaSist,
+                                        estatus_oferta=@estatusOferta
+                                    where auto=@autoPrd";
+                        var cnt = cnn.Database.ExecuteSqlCommand(_sql, x1, x2, x3);
+                        cnn.SaveChanges();
+
+                        if (ficha.ofertas != null)
+                        {
+                            foreach (var rg in ficha.ofertas)
+                            {
+                                var p1 = new MySql.Data.MySqlClient.MySqlParameter("@id", rg.idPrecioVta);
+                                var p2 = new MySql.Data.MySqlClient.MySqlParameter("@estatus", rg.estatus);
+                                var p3 = new MySql.Data.MySqlClient.MySqlParameter("@desde", rg.desde);
+                                var p4 = new MySql.Data.MySqlClient.MySqlParameter("@hasta", rg.hasta);
+                                var p5 = new MySql.Data.MySqlClient.MySqlParameter("@porct", rg.portc);
+                                var sql = @"update productos_ext_hnd_precioventa set
+                                                estatus_oferta=@estatus,
+                                                desde_oferta=@desde,
+                                                hasta_oferta=@hasta,
+                                                porct_oferta=@porct
+                                            where id=@id";
+                                var _cnt = cnn.Database.ExecuteSqlCommand(sql, p1, p2, p3, p4, p5);
+                                cnn.SaveChanges();
+                            }
+                        }
+                        ts.Complete();
+                    }
+                }
+            }
+            catch (MySql.Data.MySqlClient.MySqlException ex)
+            {
+                result.Mensaje = Helpers.MYSQL_VerificaError(ex);
+                result.Result = DtoLib.Enumerados.EnumResult.isError;
+            }
+            catch (DbUpdateException ex)
+            {
+                result.Mensaje = Helpers.ENTITY_VerificaError(ex);
+                result.Result = DtoLib.Enumerados.EnumResult.isError;
+            }
+            catch (Exception e)
+            {
+                result.Mensaje = e.Message;
+                result.Result = DtoLib.Enumerados.EnumResult.isError;
+            }
+            return result;
+        }
     }
 }

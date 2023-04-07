@@ -19,6 +19,8 @@ namespace DtoLibInventario.Reportes.MaestroPrecio
         public enumerados.EnumPesado pesado { get; set; }
         public enumerados.EnumPrecio precio { get; set; }
         public string autoDepositoPrincipal { get; set; }
+        public string estatusOferta { get; set; }
+
 
         public Filtro()
         {
@@ -32,6 +34,7 @@ namespace DtoLibInventario.Reportes.MaestroPrecio
             autoDepartamento = "";
             autoTasa = "";
             autoDepositoPrincipal = "";
+            estatusOferta = "";
         }
     }
 }

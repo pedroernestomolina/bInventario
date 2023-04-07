@@ -35,5 +35,10 @@ namespace ServiceInventario.MyService
         {
             return ServiceProv.Producto_ModoAdm_HistoricoPrecio_By(filtro);
         }
+        public DtoLib.Resultado 
+            Producto_ModoAdm_ActualizarOferta(DtoLibInventario.Producto.ActualizarOferta.ModoAdm.Actualizar.Ficha ficha)
+        {
+            return ServiceProv.Producto_ModoAdm_ActualizarOferta(ficha);
+        }
     }
 }

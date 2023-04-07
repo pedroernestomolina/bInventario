@@ -182,6 +182,8 @@
     <Compile Include="Precio\Historico\Filtro.cs" />
     <Compile Include="Precio\Historico\Resumen.cs" />
     <Compile Include="Precio\PrecioCosto\Ficha.cs" />
+    <Compile Include="Producto\ActualizarOferta\ModoAdm\Actualizar\Ficha.cs" />
+    <Compile Include="Producto\ActualizarOferta\ModoAdm\Actualizar\Precio.cs" />
     <Compile Include="Producto\ActualizarPrecio\ModoAdm\Ficha.cs" />
     <Compile Include="Producto\ActualizarPrecio\ModoAdm\Historia.cs" />
     <Compile Include="Producto\ActualizarPrecio\ModoAdm\Precio.cs" />

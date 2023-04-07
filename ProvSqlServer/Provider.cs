@@ -1108,8 +1108,11 @@ namespace ProvSqlServer
         {
             throw new NotImplementedException();
         }
-
         public DtoLib.ResultadoLista<DtoLibInventario.Reportes.MaestroPrecio.ModoAdm.Ficha> Reportes_ModAdm_MaestroPrecio(DtoLibInventario.Reportes.MaestroPrecio.Filtro filtro)
+        {
+            throw new NotImplementedException();
+        }
+        public DtoLib.Resultado Producto_ModoAdm_ActualizarOferta(DtoLibInventario.Producto.ActualizarOferta.ModoAdm.Actualizar.Ficha ficha)
         {
             throw new NotImplementedException();
         }

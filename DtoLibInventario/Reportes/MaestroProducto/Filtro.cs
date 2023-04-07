@@ -7,10 +7,8 @@ using System.Threading.Tasks;
 
 namespace DtoLibInventario.Reportes.MaestroProducto
 {
-    
     public class Filtro
     {
-
         public string autoDepartamento { get; set; }
         public string autoGrupo { get; set; }
         public string autoDeposito { get; set; }
@@ -20,6 +18,7 @@ namespace DtoLibInventario.Reportes.MaestroProducto
         public enumerados.EnumCategoria categoria { get; set; }
         public enumerados.EnumEstatus estatus { get; set; }
         public enumerados.EnumPesado pesado { get; set; }
+        public string estatusOferta { get; set; }
 
 
         public Filtro()
@@ -33,8 +32,7 @@ namespace DtoLibInventario.Reportes.MaestroProducto
             autoDeposito = "";
             autoTasa = "";
             autoGrupo = "";
+            estatusOferta = "";
         }
-
     }
-
 }

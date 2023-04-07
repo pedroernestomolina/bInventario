@@ -49,6 +49,7 @@ namespace ProvLibInventario
                     var pB = new MySql.Data.MySqlClient.MySqlParameter();
                     var pC = new MySql.Data.MySqlClient.MySqlParameter();
                     var pD = new MySql.Data.MySqlClient.MySqlParameter();
+                    var pE = new MySql.Data.MySqlClient.MySqlParameter();
 
                     if (filtro.autoDepartamento != "")
                     {
@@ -139,8 +140,15 @@ namespace ProvLibInventario
                         p9.ParameterName = "@estatusPesado";
                         p9.Value = _f;
                     }
+                    if (filtro.estatusOferta != "")
+                    {
+                        sql_3 += " and p.estatus_oferta=@estatusOferta ";
+                        pE.ParameterName = "@estatusOferta";
+                        pE.Value = filtro.estatusOferta;
+                    }
+
                     var sql = sql_1 + sql_2 + sql_3;
-                    var list = cnn.Database.SqlQuery<DtoLibInventario.Reportes.MaestroProducto.Ficha>(sql, p1, p2, p3, p4, p5, p6, p7, p8, p9, pA, pB, pC, pD).ToList();
+                    var list = cnn.Database.SqlQuery<DtoLibInventario.Reportes.MaestroProducto.Ficha>(sql, p1, p2, p3, p4, p5, p6, p7, p8, p9, pA, pB, pC, pD, pE).ToList();
                     rt.Lista = list;
                 }
             }
