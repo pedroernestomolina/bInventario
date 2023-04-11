@@ -1116,5 +1116,9 @@ namespace ProvSqlServer
         {
             throw new NotImplementedException();
         }
+        public DtoLib.ResultadoEntidad<DtoLibInventario.Permiso.Ficha> Permiso_AsignarOfertaProducto(string autoGrupoUsuario)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

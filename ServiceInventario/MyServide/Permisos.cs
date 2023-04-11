@@ -8,10 +8,8 @@ using System.Threading.Tasks;
 
 namespace ServiceInventario.MyService
 {
-    
     public partial class Service: IService
     {
-
         public DtoLib.ResultadoEntidad<DtoLibInventario.Permiso.Ficha> 
             Permiso_CrearProducto(string autoGrupoUsuario)
         {
@@ -281,6 +279,10 @@ namespace ServiceInventario.MyService
             return ServiceProv.Permiso_CambioMovimientoMasivoPrecio(autoGrupoUsuario);
         }
 
+        public DtoLib.ResultadoEntidad<DtoLibInventario.Permiso.Ficha> 
+            Permiso_AsignarOfertaProducto(string autoGrupoUsuario)
+        {
+            return ServiceProv.Permiso_AsignarOfertaProducto(autoGrupoUsuario);
+        }
     }
-
 }

@@ -127,6 +127,7 @@ namespace ILibInventario
         DtoLib.ResultadoEntidad<DtoLibInventario.Permiso.Ficha>
             Permiso_CambioMovimientoMasivoPrecio(string autoGrupoUsuario);
 
+        DtoLib.ResultadoEntidad<DtoLibInventario.Permiso.Ficha>
+            Permiso_AsignarOfertaProducto(string autoGrupoUsuario);
     }
-
 }

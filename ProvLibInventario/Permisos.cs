@@ -8,10 +8,8 @@ using System.Threading.Tasks;
 
 namespace ProvLibInventario
 {
-
     public partial class Provider : ILibInventario.IProvider
     {
-
         public DtoLib.ResultadoEntidad<string> 
             Permiso_PedirClaveAcceso_NivelMaximo()
         {
@@ -348,6 +346,10 @@ namespace ProvLibInventario
             return Helpers.Permiso_Modulo(autoGrupoUsuario, "0330100000");
         }
 
+        public DtoLib.ResultadoEntidad<DtoLibInventario.Permiso.Ficha> 
+            Permiso_AsignarOfertaProducto(string autoGrupoUsuario)
+        {
+            return Helpers.Permiso_Modulo(autoGrupoUsuario, "0330110000");
+        }
     }
-
 }

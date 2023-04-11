@@ -7,17 +7,14 @@ using System.Threading.Tasks;
 
 namespace ServiceInventario.Interfaces
 {
-    
     public interface IPermisos
     {
-
         DtoLib.ResultadoEntidad<string> 
             Permiso_PedirClaveAcceso_NivelMaximo();
         DtoLib.ResultadoEntidad<string> 
             Permiso_PedirClaveAcceso_NivelMedio();
         DtoLib.ResultadoEntidad<string> 
             Permiso_PedirClaveAcceso_NivelMinimo();
-
 
         DtoLib.ResultadoEntidad<DtoLibInventario.Permiso.Ficha> 
             Permiso_CrearProducto(string autoGrupoUsuario);
@@ -126,6 +123,7 @@ namespace ServiceInventario.Interfaces
         DtoLib.ResultadoEntidad<DtoLibInventario.Permiso.Ficha>
             Permiso_CambioMovimientoMasivoPrecio(string autoGrupoUsuario);
 
+        DtoLib.ResultadoEntidad<DtoLibInventario.Permiso.Ficha>
+            Permiso_AsignarOfertaProducto(string autoGrupoUsuario);
     }
-
 }
