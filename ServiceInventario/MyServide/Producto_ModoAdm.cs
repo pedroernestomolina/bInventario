@@ -40,5 +40,15 @@ namespace ServiceInventario.MyService
         {
             return ServiceProv.Producto_ModoAdm_ActualizarOferta(ficha);
         }
+        public DtoLib.ResultadoLista<DtoLibInventario.Producto.ActualizarOfertaMasiva.ModoAdm.Capturar.Ficha> 
+            Producto_ModoAdm_OfertaMasiva_Capturar(DtoLibInventario.Producto.ActualizarOfertaMasiva.ModoAdm.Capturar.Filtro filtro)
+        {
+            return ServiceProv.Producto_ModoAdm_OfertaMasiva_Capturar(filtro);
+        }
+        public DtoLib.Resultado 
+            Producto_ModoAdm_OfertaMasiva_Actualizar(DtoLibInventario.Producto.ActualizarOfertaMasiva.ModoAdm.Actualizar.Ficha ficha)
+        {
+            return ServiceProv.Producto_ModoAdm_OfertaMasiva_Actualizar(ficha);
+        }
     }
 }

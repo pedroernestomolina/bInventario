@@ -306,7 +306,7 @@ namespace ProvLibInventario
             }
             return result;
         }
-        public DtoLib.Resultado 
+        public DtoLib.Resultado
             Producto_ModoAdm_ActualizarOferta(DtoLibInventario.Producto.ActualizarOferta.ModoAdm.Actualizar.Ficha ficha)
         {
             var result = new DtoLib.Resultado();
@@ -331,6 +331,109 @@ namespace ProvLibInventario
                         {
                             foreach (var rg in ficha.ofertas)
                             {
+                                var p1 = new MySql.Data.MySqlClient.MySqlParameter("@id", rg.idPrecioVta);
+                                var p2 = new MySql.Data.MySqlClient.MySqlParameter("@estatus", rg.estatus);
+                                var p3 = new MySql.Data.MySqlClient.MySqlParameter("@desde", rg.desde);
+                                var p4 = new MySql.Data.MySqlClient.MySqlParameter("@hasta", rg.hasta);
+                                var p5 = new MySql.Data.MySqlClient.MySqlParameter("@porct", rg.portc);
+                                var sql = @"update productos_ext_hnd_precioventa set
+                                                estatus_oferta=@estatus,
+                                                desde_oferta=@desde,
+                                                hasta_oferta=@hasta,
+                                                porct_oferta=@porct
+                                            where id=@id";
+                                var _cnt = cnn.Database.ExecuteSqlCommand(sql, p1, p2, p3, p4, p5);
+                                cnn.SaveChanges();
+                            }
+                        }
+                        ts.Complete();
+                    }
+                }
+            }
+            catch (MySql.Data.MySqlClient.MySqlException ex)
+            {
+                result.Mensaje = Helpers.MYSQL_VerificaError(ex);
+                result.Result = DtoLib.Enumerados.EnumResult.isError;
+            }
+            catch (DbUpdateException ex)
+            {
+                result.Mensaje = Helpers.ENTITY_VerificaError(ex);
+                result.Result = DtoLib.Enumerados.EnumResult.isError;
+            }
+            catch (Exception e)
+            {
+                result.Mensaje = e.Message;
+                result.Result = DtoLib.Enumerados.EnumResult.isError;
+            }
+            return result;
+        }
+        public DtoLib.ResultadoLista<DtoLibInventario.Producto.ActualizarOfertaMasiva.ModoAdm.Capturar.Ficha>
+            Producto_ModoAdm_OfertaMasiva_Capturar(DtoLibInventario.Producto.ActualizarOfertaMasiva.ModoAdm.Capturar.Filtro filtro)
+        {
+            var rt = new DtoLib.ResultadoLista<DtoLibInventario.Producto.ActualizarOfertaMasiva.ModoAdm.Capturar.Ficha>();
+            try
+            {
+                using (var cnn = new invEntities(_cnInv.ConnectionString))
+                {
+                    var p1 = new MySql.Data.MySqlClient.MySqlParameter("@tipoPrecio", filtro.tipoPrecio);
+                    var p2 = new MySql.Data.MySqlClient.MySqlParameter("@tipoEmpaque", filtro.tipoEmpaque);
+                    var p3 = new StringBuilder();
+                    var x = 0;
+                    foreach (var s in filtro.listadPrd)
+                    {
+                        if (x == 1)
+                        {
+                            p3.Append(",");
+                        }
+                        p3.Append("'" + s + "'");
+                        x = 1;
+                    }
+                    var _sql = @"SELECT 
+                                    p.auto as idPrd, 
+                                    p.costo_und as costoUnd, 
+                                    pvta.id as idPrecio,
+                                    pvta.neto_monedaLocal as pnetoVtaUnd,
+                                    empvta.contenido_empaque as contempVta
+                                FROM `productos` as p
+                                join productos_ext_hnd_precioventa as pvta on pvta.auto_producto=p.auto and pvta.id_empresa_hnd_precio=@tipoPrecio
+                                join productos_ext_hnd_empventa as empvta on empvta.id=pvta.id_prd_hnd_empventa and empvta.tipo_empaque=@tipoEmpaque
+                                where p.auto in (" + p3.ToString() + ")";
+                    var _lst = cnn.Database.SqlQuery<DtoLibInventario.Producto.ActualizarOfertaMasiva.ModoAdm.Capturar.Ficha>(_sql, p1, p2).ToList();
+                    rt.Lista = _lst;
+                }
+            }
+            catch (Exception e)
+            {
+                rt.Mensaje = e.Message;
+                rt.Result = DtoLib.Enumerados.EnumResult.isError;
+            }
+            return rt;
+        }
+        public DtoLib.Resultado
+            Producto_ModoAdm_OfertaMasiva_Actualizar(DtoLibInventario.Producto.ActualizarOfertaMasiva.ModoAdm.Actualizar.Ficha ficha)
+        {
+            var result = new DtoLib.Resultado();
+            try
+            {
+                using (var cnn = new invEntities(_cnInv.ConnectionString))
+                {
+                    using (var ts = new TransactionScope())
+                    {
+                        var fechaSistema = cnn.Database.SqlQuery<DateTime>("select now()").FirstOrDefault();
+                        if (ficha.ofertas != null)
+                        {
+                            foreach (var rg in ficha.ofertas)
+                            {
+                                var x1 = new MySql.Data.MySqlClient.MySqlParameter("@autoPrd", rg.autoPrd);
+                                var x2 = new MySql.Data.MySqlClient.MySqlParameter("@fechasist", fechaSistema.Date);
+                                var x3 = new MySql.Data.MySqlClient.MySqlParameter("@estatusOferta", rg.estatusOferta);
+                                var _sql = @"update productos set 
+                                        fecha_cambio=@fechaSist,
+                                        estatus_oferta=@estatusOferta
+                                    where auto=@autoPrd";
+                                var cnt = cnn.Database.ExecuteSqlCommand(_sql, x1, x2, x3);
+                                cnn.SaveChanges();
+
                                 var p1 = new MySql.Data.MySqlClient.MySqlParameter("@id", rg.idPrecioVta);
                                 var p2 = new MySql.Data.MySqlClient.MySqlParameter("@estatus", rg.estatus);
                                 var p3 = new MySql.Data.MySqlClient.MySqlParameter("@desde", rg.desde);

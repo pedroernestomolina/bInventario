@@ -1120,5 +1120,13 @@ namespace ProvSqlServer
         {
             throw new NotImplementedException();
         }
+        public DtoLib.ResultadoLista<DtoLibInventario.Producto.ActualizarOfertaMasiva.ModoAdm.Capturar.Ficha> Producto_ModoAdm_OfertaMasiva_Capturar(DtoLibInventario.Producto.ActualizarOfertaMasiva.ModoAdm.Capturar.Filtro filtro)
+        {
+            throw new NotImplementedException();
+        }
+        public DtoLib.Resultado Producto_ModoAdm_OfertaMasiva_Actualizar(DtoLibInventario.Producto.ActualizarOfertaMasiva.ModoAdm.Actualizar.Ficha ficha)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

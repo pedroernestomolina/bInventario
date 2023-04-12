@@ -21,5 +21,9 @@ namespace ServiceInventario.Interfaces
             Producto_ModoAdm_HistoricoPrecio_By(DtoLibInventario.Producto.HistoricoPrecio.Filtro filtro);
         DtoLib.Resultado
             Producto_ModoAdm_ActualizarOferta(DtoLibInventario.Producto.ActualizarOferta.ModoAdm.Actualizar.Ficha ficha);
+        DtoLib.ResultadoLista<DtoLibInventario.Producto.ActualizarOfertaMasiva.ModoAdm.Capturar.Ficha>
+            Producto_ModoAdm_OfertaMasiva_Capturar(DtoLibInventario.Producto.ActualizarOfertaMasiva.ModoAdm.Capturar.Filtro filtro);
+        DtoLib.Resultado
+            Producto_ModoAdm_OfertaMasiva_Actualizar(DtoLibInventario.Producto.ActualizarOfertaMasiva.ModoAdm.Actualizar.Ficha ficha);
     }
 }
