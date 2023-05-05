@@ -47,6 +47,8 @@ namespace ProvLibInventario
                     var p7 = new MySql.Data.MySqlClient.MySqlParameter();
                     var p8 = new MySql.Data.MySqlClient.MySqlParameter();
                     var p9 = new MySql.Data.MySqlClient.MySqlParameter();
+                    var pa = new MySql.Data.MySqlClient.MySqlParameter();
+                    var pb = new MySql.Data.MySqlClient.MySqlParameter();
                     if (filtro.autoDepositoPrincipal != "")
                     {
                         sql_2 += @" join productos_deposito as pDeposito on pDeposito.auto_producto=p.auto 
@@ -101,10 +103,49 @@ namespace ProvLibInventario
                         p9.ParameterName = "@estatusOferta";
                         p9.Value = filtro.estatusOferta;
                     }
+                    if (filtro.origen != DtoLibInventario.Reportes.enumerados.EnumOrigen.SnDefinir)
+                    {
+                        var f = "";
+                        switch (filtro.origen)
+                        {
+                            case DtoLibInventario.Reportes.enumerados.EnumOrigen.Nacional:
+                                f = "Nacional";
+                                break;
+                            case DtoLibInventario.Reportes.enumerados.EnumOrigen.Importado:
+                                f = "Importado";
+                                break;
+                        }
+                        sql_3 += " and p.origen=@origen";
+                        pa.ParameterName = "@origen";
+                        pa.Value = f;
+                    }
+                    if (filtro.categoria != DtoLibInventario.Reportes.enumerados.EnumCategoria.SnDefinir)
+                    {
+                        var f = "";
+                        switch (filtro.categoria)
+                        {
+                            case DtoLibInventario.Reportes.enumerados.EnumCategoria.BienServicio:
+                                f = "Bien de Servicio";
+                                break;
+                            case DtoLibInventario.Reportes.enumerados.EnumCategoria.MateriaPrima:
+                                f = "Materia Prima";
+                                break;
+                            case DtoLibInventario.Reportes.enumerados.EnumCategoria.ProductoTerminado:
+                                f = "Producto Terminado";
+                                break;
+                            case DtoLibInventario.Reportes.enumerados.EnumCategoria.SubProducto:
+                                f = "Sub Producto";
+                                break;
+                            case DtoLibInventario.Reportes.enumerados.EnumCategoria.UsoInterno:
+                                f = "Uso Interno";
+                                break;
+                        }
+                        sql_3 += " and p.categoria=@categoria";
+                        pb.ParameterName = "@categoria";
+                        pb.Value = f;
+                    }
                     var sql = sql_1 + sql_2 + sql_3;
-                    var list = cnn.Database.SqlQuery<DtoLibInventario.Reportes.MaestroPrecio.ModoAdm.Ficha>(sql, p1, p2, p3,
-                                                                                                        p4, p5, p6,
-                                                                                                        p7, p8, p9).ToList();
+                    var list = cnn.Database.SqlQuery<DtoLibInventario.Reportes.MaestroPrecio.ModoAdm.Ficha>(sql, p1, p2, p3,p4, p5, p6,p7, p8, p9, pa, pb).ToList();
                     rt.Lista = list;
                 }
             }

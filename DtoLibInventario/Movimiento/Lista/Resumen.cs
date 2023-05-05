@@ -7,10 +7,8 @@ using System.Threading.Tasks;
 
 namespace DtoLibInventario.Movimiento.Lista
 {
-    
     public class Resumen
     {
-
         public string autoId { get; set; }
         public DateTime fecha { get; set; }
         public string hora { get; set; }
@@ -29,7 +27,7 @@ namespace DtoLibInventario.Movimiento.Lista
         public string tipo { get; set; }
         public bool isDocAnulado { get { return estatusAnulado == "1"; } }
         public string idDepOrigen { get; set; }
-        public string idDepestino { get; set; }
+        public string idDepDestino { get; set; }
         public enumerados.EnumTipoDocumento docTipo
         {
             get
@@ -72,9 +70,7 @@ namespace DtoLibInventario.Movimiento.Lista
             depositoDestino = "";
             depositoOrigen = "";
             idDepOrigen = "";
-            idDepestino = "";
+            idDepDestino = "";
         }
-
     }
-
 }
