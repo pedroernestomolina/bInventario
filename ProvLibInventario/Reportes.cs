@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 
 namespace ProvLibInventario
 {
-
     public partial class Provider : ILibInventario.IProvider
     {
         public DtoLib.ResultadoLista<DtoLibInventario.Reportes.MaestroProducto.Ficha> 
@@ -538,7 +537,6 @@ namespace ProvLibInventario
                         tp3.ParameterName = "@autoProducto";
                         tp3.Value = filtro.autoProducto;
                     }
-
                     if (filtro.autoDeposito != "")
                     {
                         sql_2 += " and auto_deposito=@autoDeposito ";
@@ -549,6 +547,12 @@ namespace ProvLibInventario
                         tp4.ParameterName = "@autoDeposito";
                         tp4.Value = filtro.autoDeposito;
                     }
+                    if (filtro.autoConcepto != "")
+                    {
+                        sql_2 += " and auto_concepto=@autoConcepto ";
+                        p5.ParameterName = "@autoConcepto";
+                        p5.Value = filtro.autoConcepto;
+                    }
 
                     // EXISTENCIA INICIAL
                     var tsql = tsql_1 + tsql_2 + tsql_3;
@@ -557,7 +561,7 @@ namespace ProvLibInventario
                     // MOVIMIENTOS
                     var sql = sql_1 + sql_2;
                     cnn.Database.CommandTimeout=0;
-                    var mov = cnn.Database.SqlQuery<DtoLibInventario.Reportes.Kardex.Mov>(sql, p1, p2, p3, p4).ToList();
+                    var mov = cnn.Database.SqlQuery<DtoLibInventario.Reportes.Kardex.Mov>(sql, p1, p2, p3, p4, p5).ToList();
                     rt.Entidad = new DtoLibInventario.Reportes.Kardex.Ficha()
                     {
                         exInicial = tlist,
