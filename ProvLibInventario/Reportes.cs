@@ -215,7 +215,7 @@ namespace ProvLibInventario
                             "(SELECT (p.pdf_2/ ((et.tasa/100)+1))  from productos_deposito where auto_producto=p.auto and auto_deposito=@autoDeposito) as pn2, " +
                             "(SELECT (p.pdf_3/ ((et.tasa/100)+1))  from productos_deposito where auto_producto=p.auto and auto_deposito=@autoDeposito) as pn3, " +
                             "(SELECT (p.pdf_4/ ((et.tasa/100)+1))  from productos_deposito where auto_producto=p.auto and auto_deposito=@autoDeposito) as pn4, " +
-                            "(SELECT (p.pdf_4/ ((et.tasa/100)+1))  from productos_deposito where auto_producto=p.auto and auto_deposito=@autoDeposito) as pn5, " +
+                            "(SELECT (p.pdf_pto/ ((et.tasa/100)+1))  from productos_deposito where auto_producto=p.auto and auto_deposito=@autoDeposito) as pn5, " +
                             "es.codigo as codigoSuc, " +
                             "eg.nombre as nombreGrupo, " +
                             "eg.idprecio as precioId ";

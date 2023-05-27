@@ -7,10 +7,8 @@ using System.Threading.Tasks;
 
 namespace DtoLibInventario.Reportes.MaestroInventario
 {
-    
     public class Ficha
     {
-
         private int contenidoCompras { get; set; }
         private decimal costoDivisa { get; set; }
 
@@ -19,7 +17,7 @@ namespace DtoLibInventario.Reportes.MaestroInventario
         public string nombrePrd { get; set; }
         public string referenciaPrd { get; set; }
         public string modeloPrd { get; set; }
-        private string estatusPrd { get; set; }
+        public string estatusPrd { get; set; }
         private string estatusDivisaPrd { get; set; }
         private string estatusCambioPrd { get; set; }
         public string departamento { get; set; }
@@ -57,20 +55,5 @@ namespace DtoLibInventario.Reportes.MaestroInventario
                 return rt;
             }
         }
-
-        public enumerados.EnumEstatus estatus
-        {
-            get
-            {
-                var rt = DtoLibInventario.Reportes.enumerados.EnumEstatus.Activo;
-                if (estatusPrd.Trim().ToUpper() != "ACTIVO")
-                {
-                    rt = DtoLibInventario.Reportes.enumerados.EnumEstatus.Inactivo;
-                }
-                return rt;
-            }
-        }
-
     }
-
 }
