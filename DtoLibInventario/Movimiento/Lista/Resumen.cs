@@ -28,6 +28,7 @@ namespace DtoLibInventario.Movimiento.Lista
         public bool isDocAnulado { get { return estatusAnulado == "1"; } }
         public string idDepOrigen { get; set; }
         public string idDepDestino { get; set; }
+        public decimal? montoDivisa { get; set; }
         public enumerados.EnumTipoDocumento docTipo
         {
             get
@@ -71,6 +72,7 @@ namespace DtoLibInventario.Movimiento.Lista
             depositoOrigen = "";
             idDepOrigen = "";
             idDepDestino = "";
+            montoDivisa = 0m;
         }
     }
 }
