@@ -67,6 +67,7 @@
     <Compile Include="ISucursal.cs" />
     <Compile Include="ITallaColorSabor.cs" />
     <Compile Include="ITasaImpuesto.cs" />
+    <Compile Include="ITomaInv.cs" />
     <Compile Include="ITool.cs" />
     <Compile Include="IUsuario.cs" />
     <Compile Include="IVisor.cs" />

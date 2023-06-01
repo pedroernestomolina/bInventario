@@ -12,7 +12,8 @@ namespace ServiceInventario.Interfaces
         IReportes, IReporteDocumentos, ITool, IDepartamento, IGrupo, IMarca,
         IEmpaqueMedida, IProducto, ITasaImpuesto, IConfiguracion, IPrecio, ICosto, IKardex,
         IProveedor, IVisor, IPermisos, IAnalisis, IAuditoria, ISistema, IMovTransito,
-        IMovPend, IEmpresa, ITallaColorSabor, IProducto_ModoAdm, IReportes_ModoAdm
+        IMovPend, IEmpresa, ITallaColorSabor, IProducto_ModoAdm, IReportes_ModoAdm,
+        ITomaInv
     {
         DtoLib.ResultadoEntidad<DateTime> 
             FechaServidor();

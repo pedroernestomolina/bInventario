@@ -87,6 +87,7 @@
     <Compile Include="Sucursal.cs" />
     <Compile Include="TallaColorSabor.cs" />
     <Compile Include="TasaImpuesto.cs" />
+    <Compile Include="TomaInv.cs" />
     <Compile Include="Tool.cs" />
     <Compile Include="Usuario.cs" />
     <Compile Include="Visor.cs" />

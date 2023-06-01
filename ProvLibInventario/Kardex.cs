@@ -9,10 +9,8 @@ using System.Transactions;
 
 namespace ProvLibInventario
 {
-    
     public partial class Provider : ILibInventario.IProvider
     {
-
         public DtoLib.ResultadoEntidad<DtoLibInventario.Kardex.Movimiento.Resumen.Ficha> 
             Producto_Kardex_Movimiento_Lista_Resumen(DtoLibInventario.Kardex.Movimiento.Resumen.Filtro filtro)
         {
@@ -164,7 +162,6 @@ namespace ProvLibInventario
 
             return result;
         }
-
         public DtoLib.ResultadoEntidad<DtoLibInventario.Kardex.Movimiento.Detalle.Ficha> 
             Producto_Kardex_Movimiento_Lista_Detalle(DtoLibInventario.Kardex.Movimiento.Detalle.Filtro filtro)
         {
@@ -339,7 +336,5 @@ namespace ProvLibInventario
 
             return result;
         }
-
     }
-
 }

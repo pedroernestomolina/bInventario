@@ -1128,5 +1128,28 @@ namespace ProvSqlServer
         {
             throw new NotImplementedException();
         }
+
+        public DtoLib.ResultadoLista<DtoLibInventario.TomaInv.ObtenerToma.Ficha> TomaInv_GetListaPrd(DtoLibInventario.TomaInv.ObtenerToma.Filtro filtro)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public DtoLib.Resultado TomaInv_GenerarToma(DtoLibInventario.TomaInv.GenerarToma.Ficha ficha)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public DtoLib.ResultadoEntidad<DtoLibInventario.TomaInv.Analisis.Ficha> TomaInv_AnalizarToma(int idToma)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public DtoLib.Resultado TomaInv_RechazarItemsToma(DtoLibInventario.TomaInv.RechazarItem.Ficha ficha)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

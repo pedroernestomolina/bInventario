@@ -304,6 +304,14 @@
     <Compile Include="TallaColorSabor\Existencia\Ficha.cs" />
     <Compile Include="TallaColorSabor\Existencia\Filtro.cs" />
     <Compile Include="TasaImpuesto\Resumen.cs" />
+    <Compile Include="TomaInv\Analisis\Ficha.cs" />
+    <Compile Include="TomaInv\Analisis\Item.cs" />
+    <Compile Include="TomaInv\GenerarToma\Ficha.cs" />
+    <Compile Include="TomaInv\GenerarToma\PrdToma.cs" />
+    <Compile Include="TomaInv\ObtenerToma\Ficha.cs" />
+    <Compile Include="TomaInv\ObtenerToma\Filtro.cs" />
+    <Compile Include="TomaInv\RechazarItem\Ficha.cs" />
+    <Compile Include="TomaInv\RechazarItem\Item.cs" />
     <Compile Include="Tool\AjusteNivelMinimoMaximo\Ajustar\Ficha.cs" />
     <Compile Include="Tool\AjusteNivelMinimoMaximo\Capturar\Ficha.cs" />
     <Compile Include="Tool\AjusteNivelMinimoMaximo\Capturar\Filtro.cs" />
