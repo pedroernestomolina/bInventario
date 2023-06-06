@@ -17,5 +17,7 @@ namespace ILibInventario
             TomaInv_AnalizarToma(int idToma);
         DtoLib.Resultado
             TomaInv_RechazarItemsToma(DtoLibInventario.TomaInv.RechazarItem.Ficha ficha);
+        DtoLib.Resultado
+            TomaInv_ProcesarToma(DtoLibInventario.TomaInv.Procesar.Ficha ficha);
     }
 }

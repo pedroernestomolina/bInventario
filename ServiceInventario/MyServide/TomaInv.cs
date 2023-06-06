@@ -30,5 +30,10 @@ namespace ServiceInventario.MyService
         {
             return ServiceProv.TomaInv_RechazarItemsToma(ficha);
         }
+        public DtoLib.Resultado 
+            TomaInv_ProcesarToma(DtoLibInventario.TomaInv.Procesar.Ficha ficha)
+        {
+            return ServiceProv.TomaInv_ProcesarToma(ficha);
+        }
     }
 }

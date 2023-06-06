@@ -103,8 +103,83 @@ namespace ProvLibInventario
                 {
                     using (var ts = new TransactionScope())
                     {
-                        var p1 = new MySql.Data.MySqlClient.MySqlParameter("@idDepositoTomaInv", ficha.IdDepositoTomaInv);
-                        var cmd = @"INSERT INTO tomainv_detalle (
+                        var fechaSistema = cnn.Database.SqlQuery<DateTime>("select now()").FirstOrDefault();
+
+                        var cmd= "UPDATE sistema_contadores set a_toma_inventario=a_toma_inventario+1";
+                        var _sql = cmd;
+                        cnn.Database.ExecuteSqlCommand(_sql);
+                        cnn.SaveChanges();
+
+                        cmd= "select a_toma_inventario from sistema_contadores";
+                        _sql = cmd;
+                        var nroDoc= cnn.Database.SqlQuery<int?>(_sql).FirstOrDefault();
+                        if (nroDoc==null)
+                        {
+                            throw new Exception("PROBLEMA AL ACTUALIZAR CONTADOR DE TOMAS");
+                        }
+                        var snroDoc= nroDoc.ToString().Trim().PadLeft(10,'0');
+
+                        var t1 = new MySql.Data.MySqlClient.MySqlParameter("@idSucursal", ficha.idSucursal);
+                        var t2 = new MySql.Data.MySqlClient.MySqlParameter("@idDeposito", ficha.idDeposito);
+                        var t3 = new MySql.Data.MySqlClient.MySqlParameter("@codigoSucursal", ficha.codigoSucursal);
+                        var t4 = new MySql.Data.MySqlClient.MySqlParameter("@descSucursal", ficha.descSucursal);
+                        var t5 = new MySql.Data.MySqlClient.MySqlParameter("@codigoDeposito", ficha.codigoDeposito);
+                        var t6 = new MySql.Data.MySqlClient.MySqlParameter("@descDeposito", ficha.descDeposito);
+                        var t7 = new MySql.Data.MySqlClient.MySqlParameter("@autorizadoPor", ficha.autorizadoPor);
+                        var t8 = new MySql.Data.MySqlClient.MySqlParameter("@motivo", ficha.motivo);
+                        var t9 = new MySql.Data.MySqlClient.MySqlParameter("@fechaEmision", fechaSistema.Date);
+                        var ta = new MySql.Data.MySqlClient.MySqlParameter("@documentoNro", snroDoc);
+                        var tb = new MySql.Data.MySqlClient.MySqlParameter("@cantItems",ficha.cantItems );
+                        cmd = @"INSERT INTO tomainv (
+                                        `id`, 
+                                        `idSucursal`, 
+                                        `idDeposito`, 
+                                        `estatusAnulado`, 
+                                        `estatusProcesado`, 
+                                        `observaciones_result`, 
+                                        `autoriza_result`, 
+                                        `cntItem_result`, 
+                                        `fecha_result`, 
+                                        `hora_result`, 
+                                        `codigoSucursal`, 
+                                        `descSucursal`, 
+                                        `codigoDeposito`, 
+                                        `descDeposito`, 
+                                        `autorizadoPor`, 
+                                        `motivo`, 
+                                        `fechaEmision`, 
+                                        `documentoNro`, 
+                                        `cantItems`) 
+                                    VALUES (
+                                        NULL,
+                                        @idSucursal, 
+                                        @idDeposito,
+                                        '0',
+                                        '0',
+                                        '', 
+                                        '', 
+                                        0, 
+                                        '2000/01/01', 
+                                        '',
+                                        @codigoSucursal, 
+                                        @descSucursal, 
+                                        @codigoDeposito, 
+                                        @descDeposito, 
+                                        @autorizadoPor, 
+                                        @motivo, 
+                                        @fechaEmision,
+                                        @documentoNro,
+                                        @cantItems)";
+                        _sql = cmd;
+                        cnn.Database.ExecuteSqlCommand(_sql, t1,t2,t3,t4,t5,t6,t7,t8,t9,ta,tb);
+                        cnn.SaveChanges();
+
+                        _sql = "SELECT LAST_INSERT_ID()";
+                        var idEnt = cnn.Database.SqlQuery<int>(_sql).FirstOrDefault();
+
+                        var p1 = new MySql.Data.MySqlClient.MySqlParameter("@idDepositoTomaInv", ficha.idDeposito);
+                        var p2 = new MySql.Data.MySqlClient.MySqlParameter("@idToma", idEnt);
+                        cmd = @"INSERT INTO tomainv_detalle (
                                     `id`,
                                     `idTomaInv`, 
                                     `idPrd`, 
@@ -122,12 +197,12 @@ namespace ProvLibInventario
                                     `estatusAnulado`,
                                     `estatusToma`, 
                                     `idEmpInv`, 
-                                    `descEmpaqueInv`, 
+                                    `descEmpInv`, 
                                     `decimalEmpInv`, 
                                     `contEmpInv`) 
                                 select 
                                     null, 
-                                    1, 
+                                    @idToma,
                                     prod.auto idPrd, 
                                     prod.codigo as codPrd, 
                                     prod.nombre as descPrd, 
@@ -170,8 +245,9 @@ namespace ProvLibInventario
                                         ) as kardex on kardex.auto_producto = prod.auto
 
                                 WHERE prod.auto IN (" + _prdLista.ToString() + ")";
-                        var _sql = cmd;
-                        var v1 = cnn.Database.ExecuteSqlCommand(_sql, p1);
+                        _sql = cmd;
+                        var v1 = cnn.Database.ExecuteSqlCommand(_sql, p1, p2);
+                        cnn.SaveChanges();
                         ts.Complete();
                     }
                 }
@@ -288,6 +364,98 @@ namespace ProvLibInventario
                             cnn.SaveChanges();
                             //
                             cnn.Database.ExecuteSqlCommand(cmd2, p1, p2);
+                            cnn.SaveChanges();
+                        }
+                        ts.Complete();
+                    }
+                }
+            }
+            catch (MySql.Data.MySqlClient.MySqlException ex)
+            {
+                result.Mensaje = Helpers.MYSQL_VerificaError(ex);
+                result.Result = DtoLib.Enumerados.EnumResult.isError;
+            }
+            catch (DbUpdateException ex)
+            {
+                result.Mensaje = Helpers.ENTITY_VerificaError(ex);
+                result.Result = DtoLib.Enumerados.EnumResult.isError;
+            }
+            catch (Exception e)
+            {
+                result.Mensaje = e.Message;
+                result.Result = DtoLib.Enumerados.EnumResult.isError;
+            }
+            return result;
+        }
+        public DtoLib.Resultado 
+            TomaInv_ProcesarToma(DtoLibInventario.TomaInv.Procesar.Ficha ficha)
+        {
+            var result = new DtoLib.Resultado();
+            try
+            {
+                using (var cnn = new invEntities(_cnInv.ConnectionString))
+                {
+                    using (var ts = new TransactionScope())
+                    {
+                        var fechaSistema = cnn.Database.SqlQuery<DateTime>("select now()").FirstOrDefault();
+
+                        var p1 = new MySql.Data.MySqlClient.MySqlParameter("@idTomaInv", ficha.idToma);
+                        var p2 = new MySql.Data.MySqlClient.MySqlParameter("@observaciones", ficha.observaciones);
+                        var p3 = new MySql.Data.MySqlClient.MySqlParameter("@autoriza", ficha.autoriza);
+                        var p4 = new MySql.Data.MySqlClient.MySqlParameter("@cntItem", ficha.cntItems);
+                        var p5 = new MySql.Data.MySqlClient.MySqlParameter("@fecha", fechaSistema.Date);
+                        var p6 = new MySql.Data.MySqlClient.MySqlParameter("@hora", fechaSistema.ToShortTimeString());
+                        var cmd = @"update tomainv set 
+                                        estatusProcesado='1',
+                                        observaciones_result=@observaciones,
+                                        autoriza_result=@autoriza,
+                                        cntItem_result=@cntItem,
+                                        fecha_result=@fecha,
+                                        hora_result=@hora
+                                    where id=@idTomaInv and estatusProcesado='0' and estatusAnulado='0'";
+                        var v1 = cnn.Database.ExecuteSqlCommand(cmd, p1, p2, p3, p4, p5, p6);
+                        if (v1 == 0) 
+                        {
+                            throw new Exception("ERROR AL PROCESAR TOMA");
+                        }
+                        cnn.SaveChanges();
+
+                        var xp1 = new MySql.Data.MySqlClient.MySqlParameter();
+                        var xp2 = new MySql.Data.MySqlClient.MySqlParameter();
+                        var xp3 = new MySql.Data.MySqlClient.MySqlParameter();
+                        var xp4 = new MySql.Data.MySqlClient.MySqlParameter();
+                        var xp5 = new MySql.Data.MySqlClient.MySqlParameter();
+                        cmd = @"INSERT INTO tomainv_result (
+                                        id, 
+                                        idTomaInv,
+                                        idPrd,
+                                        diferencia_und,
+                                        signo,
+                                        descripcion) 
+                                    VALUES (
+                                        NULL, 
+                                        @idToma, 
+                                        @idPrd,
+                                        @diferencia,
+                                        @signo, 
+                                        @descripcion)";
+                        foreach (var rg in ficha.items) 
+                        {
+                            xp1.ParameterName = "@idToma";
+                            xp1.Value = ficha.idToma;
+                            xp2.ParameterName = "@idPrd";
+                            xp2.Value = rg.idProducto;
+                            xp3.ParameterName = "@diferencia";
+                            xp3.Value = rg.diferencia;
+                            xp4.ParameterName = "@signo";
+                            xp4.Value = rg.signo;
+                            xp5.ParameterName = "@descripcion";
+                            xp5.Value = rg.estadoDesc;
+                            v1 = cnn.Database.ExecuteSqlCommand(cmd, xp1, xp2, xp3, xp4, xp5);
+                            if (v1 == 0)
+                            {
+                                throw new Exception("ERROR AL PROCESAR TOMA");
+                            }
                             cnn.SaveChanges();
                         }
                         ts.Complete();
