@@ -35,5 +35,16 @@ namespace ServiceInventario.MyService
         {
             return ServiceProv.TomaInv_ProcesarToma(ficha);
         }
+        //
+        public DtoLib.Resultado 
+            TomaInv_GenerarSolicitud(DtoLibInventario.TomaInv.Solicitud.Generar.Ficha ficha)
+        {
+            return ServiceProv.TomaInv_GenerarSolicitud(ficha);
+        }
+        public DtoLib.Resultado 
+            TomaInv_ConvertirSolicitud_EnToma(string autoSolicitud)
+        {
+            return ServiceProv.TomaInv_ConvertirSolicitud_EnToma(autoSolicitud);
+        }
     }
 }

@@ -19,5 +19,10 @@ namespace ILibInventario
             TomaInv_RechazarItemsToma(DtoLibInventario.TomaInv.RechazarItem.Ficha ficha);
         DtoLib.Resultado
             TomaInv_ProcesarToma(DtoLibInventario.TomaInv.Procesar.Ficha ficha);
+        //
+        DtoLib.Resultado
+            TomaInv_GenerarSolicitud(DtoLibInventario.TomaInv.Solicitud.Generar.Ficha ficha);
+        DtoLib.Resultado
+            TomaInv_ConvertirSolicitud_EnToma(string autoSolicitud);
     }
 }

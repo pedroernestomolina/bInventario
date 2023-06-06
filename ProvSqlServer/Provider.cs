@@ -1157,5 +1157,17 @@ namespace ProvSqlServer
         {
             throw new NotImplementedException();
         }
+
+
+        public DtoLib.Resultado TomaInv_GenerarSolicitud(DtoLibInventario.TomaInv.Solicitud.Generar.Ficha ficha)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public DtoLib.Resultado TomaInv_ConvertirSolicitud_EnToma(string autoSolicitud)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

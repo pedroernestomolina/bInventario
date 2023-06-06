@@ -314,6 +314,8 @@
     <Compile Include="TomaInv\Procesar\Item.cs" />
     <Compile Include="TomaInv\RechazarItem\Ficha.cs" />
     <Compile Include="TomaInv\RechazarItem\Item.cs" />
+    <Compile Include="TomaInv\Solicitud\Generar\Ficha.cs" />
+    <Compile Include="TomaInv\Solicitud\Generar\PrdToma.cs" />
     <Compile Include="Tool\AjusteNivelMinimoMaximo\Ajustar\Ficha.cs" />
     <Compile Include="Tool\AjusteNivelMinimoMaximo\Capturar\Ficha.cs" />
     <Compile Include="Tool\AjusteNivelMinimoMaximo\Capturar\Filtro.cs" />
