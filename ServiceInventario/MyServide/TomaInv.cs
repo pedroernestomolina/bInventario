@@ -21,7 +21,7 @@ namespace ServiceInventario.MyService
             return ServiceProv.TomaInv_GenerarToma(ficha);
         }
         public DtoLib.ResultadoEntidad<DtoLibInventario.TomaInv.Analisis.Ficha> 
-            TomaInv_AnalizarToma(int idToma)
+            TomaInv_AnalizarToma(string idToma)
         {
             return ServiceProv.TomaInv_AnalizarToma(idToma);
         }
@@ -41,10 +41,20 @@ namespace ServiceInventario.MyService
         {
             return ServiceProv.TomaInv_GenerarSolicitud(ficha);
         }
-        public DtoLib.Resultado 
-            TomaInv_ConvertirSolicitud_EnToma(string autoSolicitud)
+        public DtoLib.ResultadoEntidad<string> 
+            TomaInv_EncontrarSolicitudActiva(string codigoEmpSuc)
         {
-            return ServiceProv.TomaInv_ConvertirSolicitud_EnToma(autoSolicitud);
+            return ServiceProv.TomaInv_EncontrarSolicitudActiva(codigoEmpSuc);
+        }
+        public DtoLib.Resultado
+            TomaInv_ConvertirSolicitud_EnToma(DtoLibInventario.TomaInv.ConvertirSolicitud.Ficha ficha)
+        {
+            return ServiceProv.TomaInv_ConvertirSolicitud_EnToma(ficha);
+        }
+        public DtoLib.ResultadoEntidad<string> 
+            TomaInv_Analizar_TomaDisponible()
+        {
+            return ServiceProv.TomaInv_Analizar_TomaDisponible();
         }
     }
 }

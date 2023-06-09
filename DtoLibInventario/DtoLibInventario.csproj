@@ -306,6 +306,7 @@
     <Compile Include="TasaImpuesto\Resumen.cs" />
     <Compile Include="TomaInv\Analisis\Ficha.cs" />
     <Compile Include="TomaInv\Analisis\Item.cs" />
+    <Compile Include="TomaInv\ConvertirSolicitud\Ficha.cs" />
     <Compile Include="TomaInv\GenerarToma\Ficha.cs" />
     <Compile Include="TomaInv\GenerarToma\PrdToma.cs" />
     <Compile Include="TomaInv\ObtenerToma\Ficha.cs" />

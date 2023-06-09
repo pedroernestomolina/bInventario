@@ -1141,7 +1141,7 @@ namespace ProvSqlServer
         }
 
 
-        public DtoLib.ResultadoEntidad<DtoLibInventario.TomaInv.Analisis.Ficha> TomaInv_AnalizarToma(int idToma)
+        public DtoLib.ResultadoEntidad<DtoLibInventario.TomaInv.Analisis.Ficha> TomaInv_AnalizarToma(string idToma)
         {
             throw new NotImplementedException();
         }
@@ -1166,6 +1166,24 @@ namespace ProvSqlServer
 
 
         public DtoLib.Resultado TomaInv_ConvertirSolicitud_EnToma(string autoSolicitud)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public DtoLib.Resultado TomaInv_ConvertirSolicitud_EnToma(DtoLibInventario.TomaInv.ConvertirSolicitud.Ficha ficha)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public DtoLib.ResultadoEntidad<string> TomaInv_EncontrarSolicitudActiva(string codigoEmpSuc)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public DtoLib.ResultadoEntidad<string> TomaInv_Analizar_TomaDisponible()
         {
             throw new NotImplementedException();
         }

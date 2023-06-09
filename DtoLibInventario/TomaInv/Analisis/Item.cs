@@ -14,9 +14,10 @@ namespace DtoLibInventario.TomaInv.Analisis
         public string descPrd { get; set; }
         public decimal fisico { get; set; }
         public decimal? conteo { get; set; }
-        public decimal? vtas { get; set; }
-        public decimal? comp { get; set; }
-        public decimal? inv { get; set; }
-        public decimal fisicoDep { get; set; }
+        public decimal? cntVenta { get; set; }
+        public decimal? cntCompra { get; set; }
+        public decimal? cntMovInv { get; set; }
+        public decimal? cntPorDespachar { get; set; }
+        public decimal? exDeposito { get; set; }
     }
 }

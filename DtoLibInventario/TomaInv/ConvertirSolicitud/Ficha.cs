@@ -5,11 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace DtoLibInventario.TomaInv.RechazarItem
+namespace DtoLibInventario.TomaInv.ConvertirSolicitud
 {
     public class Ficha
     {
-        public string IdToma { get; set; }
-        public List<Item> Items { get; set; }
+        public string  autoSolicitud{ get; set; }
+        public string codigoEmpSuc { get; set; }
     }
 }
