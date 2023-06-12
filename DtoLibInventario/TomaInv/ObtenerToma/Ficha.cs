@@ -15,5 +15,6 @@ namespace DtoLibInventario.TomaInv.ObtenerToma
         public decimal? costoPrd { get; set; }
         public decimal? margen { get; set; }
         public decimal? cnt { get; set; }
+        public decimal? cntMov { get; set; }
     }
 }

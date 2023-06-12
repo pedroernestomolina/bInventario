@@ -48,7 +48,9 @@ namespace ProvLibInventario
                                     nombre as descPrd, 
                                     (divisa/contenido_compras) as costoPrd,
                                     kardex.cnt as cnt, 
-                                    vtas.margen as margen
+                                    vtas.margen as margen, 
+                                    movKardex.cntMov
+
                                 from productos as p 
 
                                 left join (
@@ -73,6 +75,17 @@ namespace ProvLibInventario
                                             and fecha>=DATE_SUB(NOW(), INTERVAL @periodoDias DAY)
                                             group by auto_producto
                                         ) as vtas on vtas.auto_producto=p.auto
+
+                                left join (
+                                            select 
+                                                count(*) as cntMov, auto_producto
+                                            from productos_kardex
+                                            where auto_deposito=@idDeposito
+                                            and estatus_anulado='0'
+                                            and modulo in ('Compras', 'Inventario', 'Ventas')
+                                            group by auto_producto
+                                            ) as movKardex on movKardex.auto_producto = p.auto 
+
                                 where auto_departamento not IN(" + _departExcluir.ToString() + @")
                                         and p.estatus<>'Inactivo' 
                                         and p.categoria<>'Bien de Servicio'";
