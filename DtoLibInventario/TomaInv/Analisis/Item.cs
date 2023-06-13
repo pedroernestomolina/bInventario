@@ -19,5 +19,9 @@ namespace DtoLibInventario.TomaInv.Analisis
         public decimal? cntMovInv { get; set; }
         public decimal? cntPorDespachar { get; set; }
         public decimal? exDeposito { get; set; }
+        public decimal costoMonDivisa { get; set; }
+        public decimal costoMonLocal { get; set; }
+        public int contEmpCompra { get; set; }
+        public string estatusDivisa { get; set; }
     }
 }

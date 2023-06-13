@@ -418,7 +418,7 @@ namespace ProvLibInventario
                     {
                         var fechaSistema = cnn.Database.SqlQuery<DateTime>("select now()").FirstOrDefault();
 
-                        var p1 = new MySql.Data.MySqlClient.MySqlParameter("@idTomaInv", ficha.idToma);
+                        var p1 = new MySql.Data.MySqlClient.MySqlParameter("@idToma", ficha.idToma);
                         var p2 = new MySql.Data.MySqlClient.MySqlParameter("@observaciones", ficha.observaciones);
                         var p3 = new MySql.Data.MySqlClient.MySqlParameter("@autoriza", ficha.autoriza);
                         var p4 = new MySql.Data.MySqlClient.MySqlParameter("@cntItem", ficha.cntItems);
@@ -431,7 +431,7 @@ namespace ProvLibInventario
                                         cntItem_result=@cntItem,
                                         fecha_result=@fecha,
                                         hora_result=@hora
-                                    where id=@idTomaInv and estatusProcesado='0' and estatusAnulado='0'";
+                                    where auto=@idToma and estatusProcesado='0'";
                         var v1 = cnn.Database.ExecuteSqlCommand(cmd, p1, p2, p3, p4, p5, p6);
                         if (v1 == 0) 
                         {
@@ -444,20 +444,30 @@ namespace ProvLibInventario
                         var xp3 = new MySql.Data.MySqlClient.MySqlParameter();
                         var xp4 = new MySql.Data.MySqlClient.MySqlParameter();
                         var xp5 = new MySql.Data.MySqlClient.MySqlParameter();
+                        var xp6 = new MySql.Data.MySqlClient.MySqlParameter();
+                        var xp7 = new MySql.Data.MySqlClient.MySqlParameter();
+                        var xp8 = new MySql.Data.MySqlClient.MySqlParameter();
+                        var xp9 = new MySql.Data.MySqlClient.MySqlParameter();
                         cmd = @"INSERT INTO tomainv_result (
-                                        id, 
-                                        idTomaInv,
                                         idPrd,
                                         diferencia_und,
                                         signo,
-                                        descripcion) 
+                                        descripcion, 
+                                        auto_tomainv,
+                                        costoMonDivisa,
+                                        costoMonLocal,
+                                        contEmpCompra,
+                                        estatusDivisa) 
                                     VALUES (
-                                        NULL, 
-                                        @idToma, 
                                         @idPrd,
                                         @diferencia,
                                         @signo, 
-                                        @descripcion)";
+                                        @descripcion,
+                                        @idToma,
+                                        @costoMonDivisa,
+                                        @costoMonLocal,
+                                        @contEmpCompra,
+                                        @estatusDivisa)";
                         foreach (var rg in ficha.items) 
                         {
                             xp1.ParameterName = "@idToma";
@@ -470,7 +480,15 @@ namespace ProvLibInventario
                             xp4.Value = rg.signo;
                             xp5.ParameterName = "@descripcion";
                             xp5.Value = rg.estadoDesc;
-                            v1 = cnn.Database.ExecuteSqlCommand(cmd, xp1, xp2, xp3, xp4, xp5);
+                            xp6.ParameterName = "@costoMonDivisa";
+                            xp6.Value = rg.costoMonDivisa;
+                            xp7.ParameterName = "@costoMonLocal";
+                            xp7.Value = rg.costoMonLocal;
+                            xp8.ParameterName = "@contEmpCompra";
+                            xp8.Value = rg.contEmpCompra;
+                            xp9.ParameterName = "@estatusDivisa";
+                            xp9.Value = rg.estatusDivisa;
+                            v1 = cnn.Database.ExecuteSqlCommand(cmd, xp1, xp2, xp3, xp4, xp5, xp6, xp7, xp8, xp9);
                             if (v1 == 0)
                             {
                                 throw new Exception("ERROR AL PROCESAR TOMA");
@@ -900,9 +918,14 @@ namespace ProvLibInventario
                                     conteo.cnComp_und as cntCompra,
                                     conteo.cnInv_und as cntMovInv,
                                     conteo.cnDesp_und as cntPorDespachar,
-                                    conteo.cnDeposito_und as exDeposito
+                                    conteo.cnDeposito_und as exDeposito,
+                                    product.divisa as costoMonDivisa, 
+                                    product.costo as costoMonLocal,
+                                    product.contenido_compras as contEmpCompra,
+                                    product.estatus_divisa as estatusDivisa
                                 FROM tomainv_detalle det
                                 join tomainv as toma on det.auto_tomainv=toma.auto
+                                join productos as product on product.auto=det.idPrd
                                 left join tomainv_conteo as conteo on conteo.idPrd=det.idPrd and conteo.auto_tomainv=toma.auto
                                 where toma.auto=@idToma
                                     and toma.estatusProcesado='0'";

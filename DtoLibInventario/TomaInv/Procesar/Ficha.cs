@@ -9,7 +9,7 @@ namespace DtoLibInventario.TomaInv.Procesar
 {
     public class Ficha
     {
-        public int idToma { get; set; }
+        public string idToma { get; set; }
         public string observaciones { get; set; }
         public string autoriza { get; set; }
         public int cntItems { get; set; }

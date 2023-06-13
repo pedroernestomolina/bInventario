@@ -13,5 +13,9 @@ namespace DtoLibInventario.TomaInv.Procesar
         public decimal diferencia { get; set; }
         public int signo { get; set; }
         public string estadoDesc { get; set; }
+        public string estatusDivisa { get; set; }
+        public decimal costoMonDivisa { get; set; }
+        public decimal costoMonLocal { get; set; }
+        public int contEmpCompra { get; set; }
     }
 }
