@@ -49,9 +49,14 @@ namespace ProvLibInventario
                                     (divisa/contenido_compras) as costoPrd,
                                     kardex.cnt as cnt, 
                                     vtas.margen as margen, 
-                                    movKardex.cntMov
+                                    movKardex.cntMov,
+                                    deposito.fecha_conteo as fechaUltConteo,
+                                    deposito.resultado_conteo as ultConteo
+
 
                                 from productos as p 
+                                join productos_deposito as deposito on deposito.auto_producto=p.auto and 
+                                                                        deposito.auto_deposito=@idDeposito
 
                                 left join (
 	                                        select 
