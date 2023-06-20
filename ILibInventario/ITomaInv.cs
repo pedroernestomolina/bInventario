@@ -28,5 +28,10 @@ namespace ILibInventario
             TomaInv_ConvertirSolicitud_EnToma(DtoLibInventario.TomaInv.ConvertirSolicitud.Ficha ficha);
         DtoLib.ResultadoEntidad<string>
             TomaInv_Analizar_TomaDisponible();
+
+        DtoLib.ResultadoLista<DtoLibInventario.TomaInv.Resumen.PorMovAjuste.Ficha>
+            TomaInv_GetLista_PorMovAjuste(DtoLibInventario.TomaInv.Resumen.PorMovAjuste.Filtro filtro);
+        DtoLib.ResultadoLista<DtoLibInventario.TomaInv.Resumen.Resultado.Ficha>
+            TomaInv_GetToma_Resultado(string idToma);
     }
 }

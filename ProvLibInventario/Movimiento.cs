@@ -1,6 +1,7 @@
 ﻿using LibEntityInventario;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Validation;
 using System.Linq;
 using System.Text;
@@ -10,10 +11,8 @@ using System.Transactions;
 
 namespace ProvLibInventario
 {
-
     public partial class Provider : ILibInventario.IProvider
     {
-
         //INSERTAR
         public DtoLib.ResultadoAuto 
             Producto_Movimiento_Ajuste_Insertar(DtoLibInventario.Movimiento.Ajuste.Insertar.Ficha ficha)
@@ -1363,6 +1362,245 @@ namespace ProvLibInventario
             }
             return result;
         }
+        public DtoLib.ResultadoAuto
+            Producto_Movimiento_AjustePorToma_Insertar(DtoLibInventario.Movimiento.AjustePorToma.Insertar.Ficha ficha)
+        {
+            var result = new DtoLib.ResultadoAuto();
+
+            try
+            {
+                using (var cnn = new invEntities(_cnInv.ConnectionString))
+                {
+                    using (var ts = new TransactionScope())
+                    {
+                        var sql = "";
+
+                        sql = "update sistema_contadores set a_productos_movimientos=a_productos_movimientos+1, a_productos_movimientos_ajustes=a_productos_movimientos_ajustes+1";
+                        var r1 = cnn.Database.ExecuteSqlCommand(sql);
+                        if (r1 == 0)
+                        {
+                            result.Mensaje = "PROBLEMA AL ACTUALIZAR TABLA CONTADORES";
+                            result.Result = DtoLib.Enumerados.EnumResult.isError;
+                            return result;
+                        }
+                        var aMov = cnn.Database.SqlQuery<int>("select a_productos_movimientos from sistema_contadores").FirstOrDefault();
+                        var aMovAjuste = cnn.Database.SqlQuery<int>("select a_productos_movimientos_ajustes from sistema_contadores").FirstOrDefault();
+                        var autoMov = aMov.ToString().Trim().PadLeft(10, '0');
+                        var numDoc = aMovAjuste.ToString().Trim().PadLeft(10, '0');
+                        var fechaSistema = cnn.Database.SqlQuery<DateTime>("select now()").FirstOrDefault();
+
+                        var xficha = ficha.mov;
+                        var entMov = new productos_movimientos()
+                        {
+                            auto = autoMov,
+                            auto_concepto = xficha.autoConcepto,
+                            auto_deposito = xficha.autoDepositoOrigen,
+                            auto_destino = xficha.autoDepositoDestino,
+                            auto_remision = xficha.autoRemision,
+                            auto_usuario = xficha.autoUsuario,
+                            autorizado = xficha.autorizado,
+                            cierre_ftp = xficha.cierreFtp,
+                            codigo_concepto = xficha.codConcepto,
+                            codigo_deposito = xficha.codDepositoOrigen,
+                            codigo_destino = xficha.codDepositoDestino,
+                            codigo_sucursal = xficha.codigoSucursal,
+                            codigo_usuario = xficha.codUsuario,
+                            concepto = xficha.desConcepto,
+                            deposito = xficha.desDepositoOrigen,
+                            destino = xficha.desDepositoDestino,
+                            documento = numDoc,
+                            documento_nombre = xficha.documentoNombre,
+                            estacion = xficha.estacion,
+                            estatus_anulado = xficha.estatusAnulado,
+                            estatus_cierre_contable = xficha.estatusCierreContable,
+                            fecha = fechaSistema.Date,
+                            hora = fechaSistema.ToShortTimeString(),
+                            nota = xficha.nota,
+                            renglones = xficha.renglones,
+                            situacion = xficha.situacion,
+                            tipo = xficha.tipo,
+                            total = xficha.total,
+                            usuario = xficha.usuario,
+                        };
+                        cnn.productos_movimientos.Add(entMov);
+                        cnn.SaveChanges();
+
+                        var entMovExtra = new productos_movimientos_extra()
+                        {
+                            auto_movimiento = entMov.auto,
+                            factor_cambio = xficha.factorCambio,
+                            monto_divisa = xficha.montoDivisa,
+                        };
+                        cnn.productos_movimientos_extra.Add(entMovExtra);
+                        cnn.SaveChanges();
+
+                        var sql1 = @"INSERT INTO productos_movimientos_detalle (auto_documento, auto_producto, codigo, nombre, " +
+                            "cantidad, cantidad_bono, cantidad_und, categoria, fecha, tipo, estatus_anulado, contenido_empaque, " +
+                            "empaque, decimales, auto, costo_und, total, costo_compra, estatus_unidad, signo, existencia, " +
+                            "fisica, auto_departamento, auto_grupo, cierre_ftp) " +
+                            "VALUES ( {0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}, {11}, {12}, {13}, {14}, {15}, " +
+                            "{16}, {17}, {18}, {19}, {20}, {21}, {22}, {23}, {24})";
+
+                        var _auto = 0;
+                        foreach (var det in ficha.movDetalles)
+                        {
+                            _auto += 1;
+                            var xauto = _auto.ToString().Trim().PadLeft(10, '0');
+
+                            var vk = cnn.Database.ExecuteSqlCommand(sql1, autoMov, det.autoProducto, det.codigoProducto, det.nombreProducto,
+                                det.cantidad, det.cantidadBono, det.cantidadUnd, det.categoria, fechaSistema.Date, det.tipo,
+                                det.estatusAnulado, det.contEmpaque, det.empaque, det.decimales, xauto, det.costoUnd, det.total,
+                                det.costoCompra, det.estatusUnidad, det.signo, 0, 0, det.autoDepartamento, det.autoGrupo, xficha.cierreFtp);
+                            if (vk == 0)
+                            {
+                                result.Mensaje = "PROBLEMA AL REGISTRAR MOVIMIENTO DETALLE [ " + Environment.NewLine + det.autoProducto + " ]";
+                                result.Result = DtoLib.Enumerados.EnumResult.isError;
+                                return result;
+                            }
+                        };
+
+
+                        //ACTUALIZAR DEPOSITO-ENTRADA MERCANCIA
+                        foreach (var dt in ficha.movDeposito)
+                        {
+                            var entPrdDep = cnn.productos_deposito.FirstOrDefault(f => f.auto_producto == dt.autoProducto && f.auto_deposito == dt.autoDeposito);
+                            if (entPrdDep == null)
+                            {
+                                result.Result = DtoLib.Enumerados.EnumResult.isError;
+                                result.Mensaje = "[ PRODUCTO - DEPOSITO ] NO ENCONTRADO " + Environment.NewLine + "Producto: " + dt.nombreProducto + ", Deposito: " + dt.autoDeposito;
+                                return result;
+                            }
+                            var _ex = false;
+                            if (entPrdDep.fisica >= 0) { _ex = true; }
+
+                            entPrdDep.fisica += dt.cantidadUnd;
+                            entPrdDep.disponible = entPrdDep.fisica;
+                            cnn.SaveChanges();
+
+                            if (_ex && entPrdDep.fisica < 0)
+                            {
+                                result.Result = DtoLib.Enumerados.EnumResult.isError;
+                                result.Mensaje = "[ PROBLEMA CON AJUSTE EXISTENCIA ]" + Environment.NewLine + "Producto: " + dt.nombreProducto + ", Deposito: " + dt.nombreDeposito;
+                                return result;
+                            }
+                        };
+
+
+                        //KARDEX MOV=> ITEMS
+                        var sql2 = @"INSERT INTO productos_kardex (
+                                                    auto_producto, total, auto_deposito, auto_concepto, auto_documento,
+                                                    fecha, hora, documento, modulo, entidad, 
+                                                    signo, cantidad, cantidad_bono, cantidad_und, costo_und,
+                                                    estatus_anulado, nota, precio_und, codigo, siglas,
+                                                    codigo_sucursal, cierre_ftp, codigo_deposito, nombre_deposito, codigo_concepto, 
+                                                    nombre_concepto, factor_cambio) 
+                                     VALUES (
+                                        {0}, {1}, {2}, {3}, {4}, 
+                                        {5}, {6}, {7}, {8}, {9},
+                                        {10}, {11}, {12}, {13}, {14}, 
+                                        {15} ,{16}, {17}, {18}, {19},
+                                        {20}, {21}, {22}, {23}, {24},
+                                        {25}, {26})";
+                        foreach (var dt in ficha.movKardex)
+                        {
+                            var vk = cnn.Database.ExecuteSqlCommand(sql2,
+                                dt.autoProducto, dt.total, dt.autoDeposito, dt.autoConcepto, autoMov,
+                                fechaSistema.Date, fechaSistema.ToShortTimeString(), numDoc, dt.modulo, dt.entidad,
+                                dt.signoMov, dt.cantidad, dt.cantidadBono, dt.cantidadUnd, dt.costoUnd,
+                                dt.estatusAnulado, dt.nota, dt.precioUnd, dt.codigoMov, dt.siglasMov,
+                                dt.codigoSucursal, xficha.cierreFtp, dt.codigoDeposito, dt.nombreDeposito, dt.codigoConcepto,
+                                dt.nombreConcepto, dt.factorCambio);
+                            if (vk == 0)
+                            {
+                                result.Mensaje = "PROBLEMA AL REGISTRAR MOVIMIENTO KARDEX [ " + Environment.NewLine + dt.autoProducto + " ]";
+                                result.Result = DtoLib.Enumerados.EnumResult.isError;
+                                return result;
+                            }
+                            cnn.SaveChanges();
+                        };
+
+                        var sql3 = @"update productos_deposito
+                                     set 
+                                        fecha_conteo = @fecha,
+                                        resultado_conteo=@resultado
+                                    where auto_producto=@autoPrd 
+                                        and auto_deposito=@autoDep";
+                        var y1 = new MySql.Data.MySqlClient.MySqlParameter();
+                        var y2 = new MySql.Data.MySqlClient.MySqlParameter();
+                        var y3 = new MySql.Data.MySqlClient.MySqlParameter();
+                        var y4 = new MySql.Data.MySqlClient.MySqlParameter();
+                        foreach (var dt in ficha.prdToma)
+                        {
+                            y1.ParameterName = "@fecha";
+                            y1.Value = fechaSistema.Date;
+                            y2.ParameterName = "@resultado";
+                            y2.Value = dt.resultadoConteo;
+                            y3.ParameterName = "@autoDep";
+                            y3.Value = dt.autoDeposito;
+                            y4.ParameterName = "@autoPrd";
+                            y4.Value = dt.autoProducto;
+                            var vk = cnn.Database.ExecuteSqlCommand(sql3, y1, y2, y3, y4);
+                            if (vk == 0)
+                            {
+                                result.Mensaje = "PROBLEMA AL ACTUALIZAR MOVIMIENTO CONTEO [ " + Environment.NewLine + dt.autoProducto + " ]";
+                                result.Result = DtoLib.Enumerados.EnumResult.isError;
+                                return result;
+                            }
+                            cnn.SaveChanges();
+                        };
+
+                        var z1 = new MySql.Data.MySqlClient.MySqlParameter("@autoMov",autoMov);
+                        var z2 = new MySql.Data.MySqlClient.MySqlParameter("@autoToma", ficha.idToma);
+                        var sql4 = @"update tomainv
+                                     set 
+                                        estatusMovAjuste='1',
+                                        autoMovAjuste=@autoMov
+                                    where auto=@autoToma and estatusMovAjuste='0'";
+                        var vz = cnn.Database.ExecuteSqlCommand(sql4, z1, z2);
+                        if (vz == 0)
+                        {
+                            result.Mensaje = "PROBLEMA AL ACTUALIZAR TOMA";
+                            result.Result = DtoLib.Enumerados.EnumResult.isError;
+                            return result;
+                        }
+                        cnn.SaveChanges();
+
+                        ts.Complete();
+                        result.Auto = autoMov;
+                    }
+                }
+            }
+            catch (DbEntityValidationException e)
+            {
+                var msg = "";
+                foreach (var eve in e.EntityValidationErrors)
+                {
+                    foreach (var ve in eve.ValidationErrors)
+                    {
+                        msg += ve.ErrorMessage;
+                    }
+                }
+                result.Mensaje = msg;
+                result.Result = DtoLib.Enumerados.EnumResult.isError;
+            }
+            catch (MySql.Data.MySqlClient.MySqlException ex)
+            {
+                result.Mensaje = Helpers.MYSQL_VerificaError(ex);
+                result.Result = DtoLib.Enumerados.EnumResult.isError;
+            }
+            catch (DbUpdateException ex)
+            {
+                result.Mensaje = Helpers.ENTITY_VerificaError(ex);
+                result.Result = DtoLib.Enumerados.EnumResult.isError;
+            }
+            catch (Exception e)
+            {
+                result.Mensaje = e.Message;
+                result.Result = DtoLib.Enumerados.EnumResult.isError;
+            }
+            return result;
+        }
+
 
 
         //GET
@@ -2767,7 +3005,5 @@ namespace ProvLibInventario
 
             return rt;
         }
-
     }
-
 }

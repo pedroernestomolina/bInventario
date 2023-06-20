@@ -113,6 +113,12 @@
     <Compile Include="Movimiento\AjusteInvCero\Insertar\FichaMovDeposito.cs" />
     <Compile Include="Movimiento\AjusteInvCero\Insertar\FichaMovDetalle.cs" />
     <Compile Include="Movimiento\AjusteInvCero\Insertar\FichaMovKardex.cs" />
+    <Compile Include="Movimiento\AjustePorToma\Insertar\Ficha.cs" />
+    <Compile Include="Movimiento\AjustePorToma\Insertar\FichaMov.cs" />
+    <Compile Include="Movimiento\AjustePorToma\Insertar\FichaMovDeposito.cs" />
+    <Compile Include="Movimiento\AjustePorToma\Insertar\FichaMovDetalle.cs" />
+    <Compile Include="Movimiento\AjustePorToma\Insertar\FichaMovKardex.cs" />
+    <Compile Include="Movimiento\AjustePorToma\Insertar\FichaPrdToma.cs" />
     <Compile Include="Movimiento\Ajuste\Insertar\Ficha.cs" />
     <Compile Include="Movimiento\Ajuste\Insertar\FichaMov.cs" />
     <Compile Include="Movimiento\Ajuste\Insertar\FichaMovDeposito.cs" />
@@ -315,6 +321,9 @@
     <Compile Include="TomaInv\Procesar\Item.cs" />
     <Compile Include="TomaInv\RechazarItem\Ficha.cs" />
     <Compile Include="TomaInv\RechazarItem\Item.cs" />
+    <Compile Include="TomaInv\Resumen\PorMovAjuste\Ficha.cs" />
+    <Compile Include="TomaInv\Resumen\PorMovAjuste\Filtro.cs" />
+    <Compile Include="TomaInv\Resumen\Resultado\Ficha.cs" />
     <Compile Include="TomaInv\Solicitud\Generar\Ficha.cs" />
     <Compile Include="TomaInv\Solicitud\Generar\PrdToma.cs" />
     <Compile Include="Tool\AjusteNivelMinimoMaximo\Ajustar\Ficha.cs" />

@@ -56,5 +56,15 @@ namespace ServiceInventario.MyService
         {
             return ServiceProv.TomaInv_Analizar_TomaDisponible();
         }
+        public DtoLib.ResultadoLista<DtoLibInventario.TomaInv.Resumen.PorMovAjuste.Ficha> 
+            TomaInv_GetLista_PorMovAjuste(DtoLibInventario.TomaInv.Resumen.PorMovAjuste.Filtro filtro)
+        {
+            return ServiceProv.TomaInv_GetLista_PorMovAjuste(filtro);
+        }
+        public DtoLib.ResultadoLista<DtoLibInventario.TomaInv.Resumen.Resultado.Ficha> 
+            TomaInv_GetToma_Resultado(string idToma)
+        {
+            return ServiceProv.TomaInv_GetToma_Resultado(idToma);
+        }
     }
 }

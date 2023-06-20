@@ -289,75 +289,6 @@ namespace ProvLibInventario
             }
             return result;
         }
-//        public DtoLib.ResultadoEntidad<DtoLibInventario.TomaInv.Analisis.Ficha> 
-//            TomaInv_AnalizarToma(string idToma)
-//        {
-//            var result = new DtoLib.ResultadoEntidad<DtoLibInventario.TomaInv.Analisis.Ficha>();
-//            try
-//            {
-//                using (var cnn = new invEntities(_cnInv.ConnectionString))
-//                {
-//                    var p1 = new MySql.Data.MySqlClient.MySqlParameter("@idToma", idToma);
-//                    var cmd = @"SELECT 
-//                                    det.idPrd as idPrd, 
-//                                    det.codPrd as codPrd,
-//                                    det.descPrd as descPrd,
-//                                    det.exFisica as fisico,
-//                                    conteo.cant as conteo,
-//
-//                                    (
-//                                        SELECT sum(cantidad_und*signo) as cnt 
-//                                        FROM `productos_kardex` 
-//                                        where auto_producto=det.idPrd
-//                                            and auto_deposito=toma.idDeposito
-//                                            and estatus_anulado='0'
-//                                            and modulo='Ventas'
-//                                            and substring(auto_documento,4)>det.ultDocVta
-//                                    ) as vtas,
-//
-//                                    (
-//                                        SELECT sum(cantidad_und*signo) as cnt
-//                                        FROM `productos_kardex` 
-//                                        where auto_producto=det.idPrd
-//                                            and auto_deposito=toma.idDeposito
-//                                            and estatus_anulado='0'
-//                                            and modulo='Compras'
-//                                            and auto_documento>det.ultDocComp
-//                                    ) as comp,
-//
-//                                    (
-//                                        SELECT sum(cantidad_und*signo) as cnt
-//                                        FROM `productos_kardex` 
-//                                        where auto_producto=det.idPrd
-//                                            and auto_deposito=toma.idDeposito
-//                                            and estatus_anulado='0'
-//                                            and modulo='Inventario'
-//                                            and auto_documento>det.ultDocInv
-//                                    ) as inv,
-//
-//                                    deposito.fisica as fisicoDep
-//
-//                                FROM `tomainv_detalle` det
-//                                join tomainv as toma on det.auto_tomainv=toma.auto
-//                                join productos_deposito as deposito on deposito.auto_producto=det.idPrd and deposito.auto_deposito=toma.idDeposito
-//                                left join tomainv_conteo as conteo on conteo.idPrd=det.idPrd and conteo.auto_tomainv=toma.auto
-//                                where toma.auto=@idToma
-//                                    and toma.estatusProcesado='0'";
-//                    var _sql = cmd;
-//                    var _lst = cnn.Database.SqlQuery<DtoLibInventario.TomaInv.Analisis.Item>(_sql, p1).ToList();
-//                    result.Entidad = new DtoLibInventario.TomaInv.Analisis.Ficha()
-//                    {
-//                        Items = _lst,
-//                    };
-//                }
-//            }
-//            catch (Exception e)
-//            {
-//                result.Mensaje = e.Message;
-//                result.Result = DtoLib.Enumerados.EnumResult.isError;
-//            }
-//            return result;
-//        }
         public DtoLib.Resultado 
             TomaInv_RechazarItemsToma(DtoLibInventario.TomaInv.RechazarItem.Ficha ficha)
         {
@@ -913,6 +844,10 @@ namespace ProvLibInventario
                                     det.codPrd as codPrd,
                                     det.descPrd as descPrd,
                                     det.exFisica as fisico,
+                                    det.contEmpCompra as contEmpCompra,
+                                    det.contEmpInv as contEmpInv ,
+                                    det.descEmpCompra as descEmpCompra,
+                                    det.descEmpInv as descEmpInv ,
                                     conteo.cant as conteo,
                                     conteo.cnVta_und as cntVenta,
                                     conteo.cnComp_und as cntCompra,
@@ -921,7 +856,6 @@ namespace ProvLibInventario
                                     conteo.cnDeposito_und as exDeposito,
                                     product.divisa as costoMonDivisa, 
                                     product.costo as costoMonLocal,
-                                    product.contenido_compras as contEmpCompra,
                                     product.estatus_divisa as estatusDivisa
                                 FROM tomainv_detalle det
                                 join tomainv as toma on det.auto_tomainv=toma.auto
@@ -931,10 +865,22 @@ namespace ProvLibInventario
                                     and toma.estatusProcesado='0'";
                     var _sql = cmd;
                     var _lst = cnn.Database.SqlQuery<DtoLibInventario.TomaInv.Analisis.Item>(_sql, p1).ToList();
-                    result.Entidad = new DtoLibInventario.TomaInv.Analisis.Ficha()
+
+                    var xp1 = new MySql.Data.MySqlClient.MySqlParameter("@idToma", idToma);
+                    _sql = @"select 
+                                descSucursal as sucursal,
+                                descDeposito as deposito,
+                                documento_solicitud_nro as solicitudNro,
+                                documento_toma_nro as tomaNro
+                            from tomainv
+                            where auto=@idToma";
+                    var _ent = cnn.Database.SqlQuery<DtoLibInventario.TomaInv.Analisis.Ficha>(_sql, xp1).FirstOrDefault();
+                    if (_ent == null) 
                     {
-                        Items = _lst,
-                    };
+                        throw new Exception("TOMA NO ENCONTRADA");
+                    }
+                    _ent.Items = _lst;
+                    result.Entidad = _ent;
                 }
             }
             catch (Exception e)
@@ -962,6 +908,83 @@ namespace ProvLibInventario
                     { result.Entidad = _ent; }
                     else
                     { result.Entidad = ""; }
+                }
+            }
+            catch (Exception e)
+            {
+                result.Mensaje = e.Message;
+                result.Result = DtoLib.Enumerados.EnumResult.isError;
+            }
+            return result;
+        }
+        public DtoLib.ResultadoLista<DtoLibInventario.TomaInv.Resumen.PorMovAjuste.Ficha> 
+            TomaInv_GetLista_PorMovAjuste(DtoLibInventario.TomaInv.Resumen.PorMovAjuste.Filtro filtro)
+        {
+            var result = new DtoLib.ResultadoLista<DtoLibInventario.TomaInv.Resumen.PorMovAjuste.Ficha>();
+            try
+            {
+                using (var cnn = new invEntities(_cnInv.ConnectionString))
+                {
+                    var p1 = new MySql.Data.MySqlClient.MySqlParameter("@idSucursal", filtro.idSucursal);
+                    var p2 = new MySql.Data.MySqlClient.MySqlParameter("@idDeposito", filtro.idDeposito);
+                    var cmd = @"select 
+	                                auto as idToma,
+                                    fechaEmision as fechaEmision,
+                                    documento_toma_nro as docTomaNro,
+                                    documento_solicitud_nro as docSolicitudNro, 
+                                    cntItem_result as cntItemResult
+                                from tomainv
+                                where idSucursal=@idSucursal 
+                                and idDeposito=@idDeposito
+                                and estatusProcesado='1'
+                                and estatusMovAjuste='0'";
+                    var _sql = cmd;
+                    var _lst = cnn.Database.SqlQuery<DtoLibInventario.TomaInv.Resumen.PorMovAjuste.Ficha>(_sql, p1, p2).ToList();
+                    result.Lista = _lst;
+                }
+            }
+            catch (Exception e)
+            {
+                result.Mensaje = e.Message;
+                result.Result = DtoLib.Enumerados.EnumResult.isError;
+            }
+            return result;
+        }
+        public DtoLib.ResultadoLista<DtoLibInventario.TomaInv.Resumen.Resultado.Ficha> TomaInv_GetToma_Resultado(string idToma)
+        {
+            var result = new DtoLib.ResultadoLista<DtoLibInventario.TomaInv.Resumen.Resultado.Ficha>();
+            try
+            {
+                using (var cnn = new invEntities(_cnInv.ConnectionString))
+                {
+                    var p1 = new MySql.Data.MySqlClient.MySqlParameter("@idToma", idToma);
+                    var cmd = @"select 
+	                                detalle.idPrd as autoPrd,
+                                    detalle.codPrd as codigoPrd,
+                                    detalle.descPrd as nombrePrd,
+                                    detalle.contEmpCompra as contEmp,
+                                    result.costoMonDivisa as costoDivisa,
+                                    result.costoMonLocal as costo,
+                                    result.diferencia_und as cantidadAjustar,
+                                    result.signo as signo,
+                                    result.descripcion as descTipoAjuste,
+                                    result.estatusDivisa as estatusDivisa,
+                                    product.auto_departamento as autoDepart,
+                                    product.auto_grupo  as autoGrupo,
+                                    product.categoria as catPrd,
+                                    tasa.auto as autoTasa,
+                                    tasa.nombre as descTasa,
+                                    tasa.tasa as valorTasa,
+                                    conteo.cant as conteo 
+                                from tomainv_result as result
+                                join tomainv_conteo as conteo on conteo.auto_tomainv=result.auto_tomainv and conteo.idPrd=result.idPrd
+                                join tomainv_detalle as detalle on detalle.auto_tomainv=result.auto_tomainv and detalle.idPrd=result.idPrd
+                                join productos as product on product.auto=detalle.idPrd
+                                join empresa_tasas as tasa on tasa.auto=product.auto_tasa
+                                where result.auto_tomainv=@idToma";
+                    var _sql = cmd;
+                    var _lst = cnn.Database.SqlQuery<DtoLibInventario.TomaInv.Resumen.Resultado.Ficha>(_sql, p1).ToList();
+                    result.Lista = _lst;
                 }
             }
             catch (Exception e)

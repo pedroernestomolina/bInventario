@@ -18,6 +18,8 @@ namespace ServiceInventario.Interfaces
         DtoLib.ResultadoAuto Producto_Movimiento_Cargo_Insertar(DtoLibInventario.Movimiento.Cargo.Insertar.Ficha ficha);
         DtoLib.ResultadoAuto Producto_Movimiento_DesCargo_Insertar(DtoLibInventario.Movimiento.DesCargo.Insertar.Ficha ficha);
         DtoLib.ResultadoAuto Producto_Movimiento_Ajuste_Insertar(DtoLibInventario.Movimiento.Ajuste.Insertar.Ficha ficha);
+        DtoLib.ResultadoAuto Producto_Movimiento_AjustePorToma_Insertar(DtoLibInventario.Movimiento.AjustePorToma.Insertar.Ficha ficha);
+
         DtoLib.Resultado Producto_Movimiento_Cargo_Anular (DtoLibInventario.Movimiento.Anular.Cargo.Ficha ficha);
         DtoLib.Resultado Producto_Movimiento_Descargo_Anular(DtoLibInventario.Movimiento.Anular.Descargo.Ficha ficha);
         DtoLib.Resultado Producto_Movimiento_Traslado_Anular(DtoLibInventario.Movimiento.Anular.Traslado.Ficha ficha);

@@ -18,6 +18,7 @@ namespace ILibInventario
         DtoLib.ResultadoAuto Producto_Movimiento_Traslado_Insertar(DtoLibInventario.Movimiento.Traslado.Insertar.Ficha ficha);
         DtoLib.ResultadoAuto Producto_Movimiento_Traslado_Devolucion_Insertar(DtoLibInventario.Movimiento.Traslado.Insertar.Ficha ficha);
         DtoLib.ResultadoAuto Producto_Movimiento_AjusteInvCero_Insertar(DtoLibInventario.Movimiento.AjusteInvCero.Insertar.Ficha ficha);
+        DtoLib.ResultadoAuto Producto_Movimiento_AjustePorToma_Insertar(DtoLibInventario.Movimiento.AjustePorToma.Insertar.Ficha ficha);
 
 
         //GET
