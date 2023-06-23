@@ -66,5 +66,17 @@ namespace ServiceInventario.MyService
         {
             return ServiceProv.TomaInv_GetToma_Resultado(idToma);
         }
+
+
+        public DtoLib.ResultadoEntidad<string> 
+            TomaInv_AnalizarToma_GetMotivo(DtoLibInventario.TomaInv.Analisis.Motivo.Obtener.Ficha ficha)
+        {
+            return ServiceProv.TomaInv_AnalizarToma_GetMotivo(ficha);
+        }
+        public DtoLib.Resultado 
+            TomaInv_AnalizarToma_SetMotivo(DtoLibInventario.TomaInv.Analisis.Motivo.Cambiar.Ficha ficha)
+        {
+            return ServiceProv.TomaInv_AnalizarToma_SetMotivo(ficha);
+        }
     }
 }

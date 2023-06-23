@@ -1205,5 +1205,16 @@ namespace ProvSqlServer
         {
             throw new NotImplementedException();
         }
+
+
+        public DtoLib.ResultadoEntidad<string> TomaInv_AnalizarToma_GetMotivo(DtoLibInventario.TomaInv.Analisis.Motivo.Obtener.Ficha ficha)
+        {
+            throw new NotImplementedException();
+        }
+
+        public DtoLib.Resultado TomaInv_AnalizarToma_SetMotivo(DtoLibInventario.TomaInv.Analisis.Motivo.Cambiar.Ficha ficha)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

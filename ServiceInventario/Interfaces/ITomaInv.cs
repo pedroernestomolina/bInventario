@@ -33,5 +33,12 @@ namespace ServiceInventario.Interfaces
             TomaInv_GetLista_PorMovAjuste(DtoLibInventario.TomaInv.Resumen.PorMovAjuste.Filtro filtro);
         DtoLib.ResultadoLista<DtoLibInventario.TomaInv.Resumen.Resultado.Ficha>
             TomaInv_GetToma_Resultado(string idToma);
+
+
+        //OBTIENE/CAMBIA EL MOTIVO POR EL CUAL SURGE LA DIFERENCIA
+        DtoLib.ResultadoEntidad<string>
+            TomaInv_AnalizarToma_GetMotivo(DtoLibInventario.TomaInv.Analisis.Motivo.Obtener.Ficha ficha);
+        DtoLib.Resultado
+            TomaInv_AnalizarToma_SetMotivo(DtoLibInventario.TomaInv.Analisis.Motivo.Cambiar.Ficha ficha);
     }
 }

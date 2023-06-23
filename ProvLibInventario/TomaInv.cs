@@ -859,6 +859,7 @@ namespace ProvLibInventario
                                     conteo.cnInv_und as cntMovInv,
                                     conteo.cnDesp_und as cntPorDespachar,
                                     conteo.cnDeposito_und as exDeposito,
+                                    conteo.motivo as motivo,
                                     product.divisa as costoMonDivisa, 
                                     product.costo as costoMonLocal,
                                     product.estatus_divisa as estatusDivisa
@@ -955,7 +956,8 @@ namespace ProvLibInventario
             }
             return result;
         }
-        public DtoLib.ResultadoLista<DtoLibInventario.TomaInv.Resumen.Resultado.Ficha> TomaInv_GetToma_Resultado(string idToma)
+        public DtoLib.ResultadoLista<DtoLibInventario.TomaInv.Resumen.Resultado.Ficha> 
+            TomaInv_GetToma_Resultado(string idToma)
         {
             var result = new DtoLib.ResultadoLista<DtoLibInventario.TomaInv.Resumen.Resultado.Ficha>();
             try
@@ -990,6 +992,70 @@ namespace ProvLibInventario
                     var _sql = cmd;
                     var _lst = cnn.Database.SqlQuery<DtoLibInventario.TomaInv.Resumen.Resultado.Ficha>(_sql, p1).ToList();
                     result.Lista = _lst;
+                }
+            }
+            catch (Exception e)
+            {
+                result.Mensaje = e.Message;
+                result.Result = DtoLib.Enumerados.EnumResult.isError;
+            }
+            return result;
+        }
+
+
+        //
+        public DtoLib.ResultadoEntidad<string> 
+            TomaInv_AnalizarToma_GetMotivo(DtoLibInventario.TomaInv.Analisis.Motivo.Obtener.Ficha ficha)
+        {
+            var result = new DtoLib.ResultadoEntidad<string>();
+            try
+            {
+                using (var cnn = new invEntities(_cnInv.ConnectionString))
+                {
+                    var p1 = new MySql.Data.MySqlClient.MySqlParameter("@idToma", ficha.idToma);
+                    var p2 = new MySql.Data.MySqlClient.MySqlParameter("@idPrd", ficha.idPrd);
+                    var cmd = @"select 
+                                    motivo
+                                from tomainv_conteo
+                                where auto_tomainv=@idToma
+                                and idPrd=@idPrd";
+                    var _sql = cmd;
+                    var _ent = cnn.Database.SqlQuery<string>(_sql, p1, p2).FirstOrDefault();
+                    if (_ent == null) 
+                    {
+                        throw new Exception("ITEM NO ENCONTRADO");
+                    }
+                    result.Entidad = _ent;
+                }
+            }
+            catch (Exception e)
+            {
+                result.Mensaje = e.Message;
+                result.Result = DtoLib.Enumerados.EnumResult.isError;
+            }
+            return result;
+        }
+        public DtoLib.Resultado 
+            TomaInv_AnalizarToma_SetMotivo(DtoLibInventario.TomaInv.Analisis.Motivo.Cambiar.Ficha ficha)
+        {
+            var result = new DtoLib.Resultado();
+            try
+            {
+                using (var cnn = new invEntities(_cnInv.ConnectionString))
+                {
+                    var p1 = new MySql.Data.MySqlClient.MySqlParameter("@idToma", ficha.idToma);
+                    var p2 = new MySql.Data.MySqlClient.MySqlParameter("@idPrd", ficha.idPrd);
+                    var p3 = new MySql.Data.MySqlClient.MySqlParameter("@motivo", ficha.motivo);
+                    var cmd = @"update tomainv_conteo
+                                    set motivo=@motivo
+                                where auto_tomainv=@idToma
+                                and idPrd=@idPrd";
+                    var _sql = cmd;
+                    var _r = cnn.Database.ExecuteSqlCommand(_sql, p1, p2, p3);
+                    if (_r == 0)
+                    {
+                        throw new Exception("ITEM NO ACTUALIZADO");
+                    }
                 }
             }
             catch (Exception e)

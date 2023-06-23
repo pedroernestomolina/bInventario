@@ -26,5 +26,6 @@ namespace DtoLibInventario.TomaInv.Analisis
         public string descEmpCompra { get; set; }
         public string descEmpInv { get; set; }
         public string estatusDivisa { get; set; }
+        public string motivo { get; set; }
     }
 }
