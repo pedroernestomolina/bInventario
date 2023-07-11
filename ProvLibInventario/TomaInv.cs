@@ -1066,5 +1066,219 @@ namespace ProvLibInventario
             }
             return result;
         }
+
+
+        //VERIFICA SI EXISTE UNA TOMA ACTIVA
+        //USADO CUANDO SE QUIERE GENERAR UN NUEVO CONTEO
+        public DtoLib.ResultadoEntidad<int> 
+            TomaInv_VerificaSiHayUnaTomaActiva()
+        {
+            var result = new DtoLib.ResultadoEntidad<int>();
+            try
+            {
+                using (var cnn = new invEntities(_cnInv.ConnectionString))
+                {
+                    var _sql = @"SELECT count(*) as cnt FROM tomainv WHERE estatusProcesado='0'";
+                    var _ent = cnn.Database.SqlQuery<int?>(_sql).FirstOrDefault();
+                    result.Entidad = 0;
+                    if (_ent.HasValue) 
+                    {
+                        result.Entidad = _ent.Value;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                result.Mensaje = e.Message;
+                result.Result = DtoLib.Enumerados.EnumResult.isError;
+            }
+            return result;
+        }
+
+
+        //GENERA UN NUEVO CONTEO, USADO POR LAS SUCURSALES 
+        public DtoLib.Resultado 
+            TomaInv_GenerarConteo(DtoLibInventario.TomaInv.Solicitud.Generar.Ficha ficha)
+        {
+            var result = new DtoLib.Resultado();
+            try
+            {
+                var _prdLista = new StringBuilder();
+                var _firts = true;
+                foreach (var rg in ficha.ProductosTomarInv)
+                {
+                    if (!_firts)
+                    {
+                        _prdLista.Append(",");
+                    }
+                    _prdLista.Append("'" + rg.idPrd + "'");
+                    _firts = false;
+                }
+
+                using (var cnn = new invEntities(_cnInv.ConnectionString))
+                {
+                    using (var ts = new TransactionScope())
+                    {
+                        var fechaSistema = cnn.Database.SqlQuery<DateTime>("select now()").FirstOrDefault();
+
+                        var cmd = @"UPDATE sistema_contadores set 
+                                            a_toma_inventario_solicitud=a_toma_inventario_solicitud+1, 
+                                            a_toma_inventario_solicitud_numero=a_toma_inventario_solicitud_numero+1";
+                        var _sql = cmd;
+                        cnn.Database.ExecuteSqlCommand(_sql);
+                        cnn.SaveChanges();
+
+                        cmd = "select a_toma_inventario_solicitud from sistema_contadores";
+                        _sql = cmd;
+                        var autoDoc = cnn.Database.SqlQuery<int?>(_sql).FirstOrDefault();
+                        if (autoDoc == null)
+                        {
+                            throw new Exception("PROBLEMA AL ACTUALIZAR CONTADOR DE TOMAS");
+                        }
+
+                        var _xlargo = 10 - ficha.codigoSucursal.Trim().Length;
+                        var sAutoDoc = ficha.codigoSucursal.Trim()+autoDoc.ToString().Trim().PadLeft(_xlargo, '0');
+
+                        cmd = "select a_toma_inventario_solicitud_numero from sistema_contadores";
+                        _sql = cmd;
+                        var nroDoc = cnn.Database.SqlQuery<int?>(_sql).FirstOrDefault();
+                        if (nroDoc == null)
+                        {
+                            throw new Exception("PROBLEMA AL ACTUALIZAR CONTADOR DE TOMAS");
+                        }
+                        var sNroDoc = nroDoc.ToString().Trim().PadLeft(10, '0');
+
+                        var t0 = new MySql.Data.MySqlClient.MySqlParameter("@auto", sAutoDoc);
+                        var t1 = new MySql.Data.MySqlClient.MySqlParameter("@idSucursal", ficha.idSucursal);
+                        var t2 = new MySql.Data.MySqlClient.MySqlParameter("@idDeposito", ficha.idDeposito);
+                        var t3 = new MySql.Data.MySqlClient.MySqlParameter("@codigoSucursal", ficha.codigoSucursal);
+                        var t4 = new MySql.Data.MySqlClient.MySqlParameter("@descSucursal", ficha.descSucursal);
+                        var t5 = new MySql.Data.MySqlClient.MySqlParameter("@codigoDeposito", ficha.codigoDeposito);
+                        var t6 = new MySql.Data.MySqlClient.MySqlParameter("@descDeposito", ficha.descDeposito);
+                        var t7 = new MySql.Data.MySqlClient.MySqlParameter("@autorizadoPor", ficha.autorizadoPor);
+                        var t8 = new MySql.Data.MySqlClient.MySqlParameter("@motivo", ficha.motivo);
+                        var t9 = new MySql.Data.MySqlClient.MySqlParameter("@fechaEmision", fechaSistema.Date);
+                        var ta = new MySql.Data.MySqlClient.MySqlParameter("@documentoNro", sNroDoc);
+                        var tb = new MySql.Data.MySqlClient.MySqlParameter("@cntItems", ficha.cantItems);
+                        cmd = @"INSERT INTO tomainv_solicitud (
+                                        `auto`, 
+                                        `idSucursal`, 
+                                        `idDeposito`, 
+                                        `estatusAnulado`, 
+                                        `codigoSucursal`, 
+                                        `descSucursal`, 
+                                        `codigoDeposito`, 
+                                        `descDeposito`, 
+                                        `autorizadoPor`, 
+                                        `motivo`, 
+                                        `fechaEmision`, 
+                                        `documentoNro`, 
+                                        `cntItems`,
+                                        `estatusTransmitida`) 
+                                    VALUES (
+                                        @auto,
+                                        @idSucursal, 
+                                        @idDeposito,
+                                        '0',
+                                        @codigoSucursal, 
+                                        @descSucursal, 
+                                        @codigoDeposito, 
+                                        @descDeposito, 
+                                        @autorizadoPor, 
+                                        @motivo, 
+                                        @fechaEmision,
+                                        @documentoNro,
+                                        @cntItems,
+                                        '0')";
+                        _sql = cmd;
+                        cnn.Database.ExecuteSqlCommand(_sql, t0, t1, t2, t3, t4, t5, t6, t7, t8, t9, ta, tb);
+                        cnn.SaveChanges();
+
+                        var p1 = new MySql.Data.MySqlClient.MySqlParameter("@autoSolicitud", sAutoDoc);
+                        var p2 = new MySql.Data.MySqlClient.MySqlParameter("@idDepositoTomaInv", ficha.idDeposito);
+                        cmd = @"INSERT INTO tomainv_solicitud_detalle (
+                                    `auto_solicitud`,
+                                    `idPrd`, 
+                                    `codPrd`, 
+                                    `descPrd`, 
+                                    `idEmpCompra`, 
+                                    `descEmpCompra`, 
+                                    `decimalEmpCompra`, 
+                                    `contEmpCompra`, 
+                                    `exFisica`, 
+                                    `fecUltConteo`, 
+                                    `ultDocVta`, 
+                                    `ultDocComp`, 
+                                    `ultDocInv`, 
+                                    `idEmpInv`, 
+                                    `descEmpInv`, 
+                                    `decimalEmpInv`, 
+                                    `contEmpInv`) 
+                                select 
+                                    @autoSolicitud,
+                                    prod.auto idPrd, 
+                                    prod.codigo as codPrd, 
+                                    prod.nombre as descPrd, 
+                                    prodMed.auto as idEmpCompra, 
+                                    prodMed.nombre as descEmpCompra, 
+                                    prodMed.decimales as decimalEmpCompra,
+                                    prod.contenido_compras as contEmpCompra,
+                                    prodDep.fisica as exFisica,
+                                    prodDep.fecha_conteo as fecUltConteo,
+                                    (CASE WHEN kardex.ultDocVta IS NULL THEN '' ELSE kardex.ultDocVta END),
+                                    (CASE WHEN kardex.ultDocComp IS NULL THEN '' ELSE kardex.ultDocComp END),
+                                    (CASE WHEN kardex.ultDocInv IS NULL THEN '' ELSE kardex.ultDocInv END),
+                                    prodExt.auto_emp_inv_1 as idEmpInv,
+                                    prodMedExt.nombre as descEmpInv,
+                                    prodMedExt.decimales as decimalEmpInv,
+                                    prodExt.cont_emp_inv_1 as contEmpInv
+
+                                from productos as prod
+                                join productos_medida as prodMed on prodMed.auto=prod.auto_empaque_compra
+                                join productos_deposito as prodDep on prodDep.auto_producto=prod.auto and prodDep.auto_deposito=@idDepositoTomaInv
+                                join productos_ext as prodExt on prodExt.auto_producto=prod.auto
+                                join productos_medida  as prodMedExt on prodMedExt.auto=prodExt.auto_emp_inv_1
+
+                                LEFT join (
+                                            SELECT
+                                                p.auto_producto,
+                                                MAX(CASE WHEN p.modulo = 'Ventas' THEN substring(p.auto_documento,4) END) AS ultDocVta,
+                                                MAX(CASE WHEN p.modulo = 'Compras' THEN p.auto_documento END) AS ultDocComp,
+                                                MAX(CASE WHEN p.modulo = 'Inventario' THEN p.auto_documento END) AS ultDocInv
+                                            FROM
+                                                productos_kardex AS p
+                                            WHERE
+                                                p.auto_deposito = @idDepositoTomaInv
+                                                AND p.modulo IN ('Ventas', 'Compras', 'Inventario')
+                                                and p.estatus_anulado='0'
+                                            GROUP BY
+                                                p.auto_producto
+                                        ) as kardex on kardex.auto_producto = prod.auto
+
+                                WHERE prod.auto IN (" + _prdLista.ToString() + ")";
+                        _sql = cmd;
+                        var v1 = cnn.Database.ExecuteSqlCommand(_sql, p1, p2);
+                        cnn.SaveChanges();
+                        ts.Complete();
+                    }
+                }
+            }
+            catch (MySql.Data.MySqlClient.MySqlException ex)
+            {
+                result.Mensaje = Helpers.MYSQL_VerificaError(ex);
+                result.Result = DtoLib.Enumerados.EnumResult.isError;
+            }
+            catch (DbUpdateException ex)
+            {
+                result.Mensaje = Helpers.ENTITY_VerificaError(ex);
+                result.Result = DtoLib.Enumerados.EnumResult.isError;
+            }
+            catch (Exception e)
+            {
+                result.Mensaje = e.Message;
+                result.Result = DtoLib.Enumerados.EnumResult.isError;
+            }
+            return result;
+        }
     }
 }

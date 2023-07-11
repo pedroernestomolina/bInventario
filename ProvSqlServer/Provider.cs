@@ -1216,5 +1216,17 @@ namespace ProvSqlServer
         {
             throw new NotImplementedException();
         }
+
+
+        public DtoLib.ResultadoEntidad<int> TomaInv_VerificaSiHayUnaTomaActiva()
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public DtoLib.Resultado TomaInv_GenerarConteo(DtoLibInventario.TomaInv.Solicitud.Generar.Ficha ficha)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

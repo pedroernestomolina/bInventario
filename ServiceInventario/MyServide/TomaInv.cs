@@ -78,5 +78,17 @@ namespace ServiceInventario.MyService
         {
             return ServiceProv.TomaInv_AnalizarToma_SetMotivo(ficha);
         }
+
+
+        public DtoLib.ResultadoEntidad<int> TomaInv_VerificaSiHayUnaTomaActiva()
+        {
+            return ServiceProv.TomaInv_VerificaSiHayUnaTomaActiva();
+        }
+
+        public DtoLib.Resultado 
+            TomaInv_GenerarConteo(DtoLibInventario.TomaInv.Solicitud.Generar.Ficha ficha)
+        {
+            return ServiceProv.TomaInv_GenerarConteo(ficha);
+        }
     }
 }

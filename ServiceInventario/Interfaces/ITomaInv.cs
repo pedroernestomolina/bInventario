@@ -40,5 +40,11 @@ namespace ServiceInventario.Interfaces
             TomaInv_AnalizarToma_GetMotivo(DtoLibInventario.TomaInv.Analisis.Motivo.Obtener.Ficha ficha);
         DtoLib.Resultado
             TomaInv_AnalizarToma_SetMotivo(DtoLibInventario.TomaInv.Analisis.Motivo.Cambiar.Ficha ficha);
+
+        DtoLib.ResultadoEntidad<int>
+            TomaInv_VerificaSiHayUnaTomaActiva();
+
+        DtoLib.Resultado
+            TomaInv_GenerarConteo(DtoLibInventario.TomaInv.Solicitud.Generar.Ficha ficha);
     }
 }
