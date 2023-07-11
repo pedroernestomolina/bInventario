@@ -860,6 +860,7 @@ namespace ProvLibInventario
                                     conteo.cnDesp_und as cntPorDespachar,
                                     conteo.cnDeposito_und as exDeposito,
                                     conteo.motivo as motivo,
+                                    conteo.idTerminal as idTerminal,
                                     product.divisa as costoMonDivisa, 
                                     product.costo as costoMonLocal,
                                     product.estatus_divisa as estatusDivisa
