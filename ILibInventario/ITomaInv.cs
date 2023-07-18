@@ -39,6 +39,8 @@ namespace ILibInventario
             TomaInv_AnalizarToma_GetMotivo(DtoLibInventario.TomaInv.Analisis.Motivo.Obtener.Ficha ficha);
         DtoLib.Resultado
             TomaInv_AnalizarToma_SetMotivo(DtoLibInventario.TomaInv.Analisis.Motivo.Cambiar.Ficha ficha);
+        DtoLib.Resultado
+            TomaInv_AnalizarToma_NoHayExistencia(DtoLibInventario.TomaInv.Analisis.NoHayExistencia.Ficha ficha);
 
         DtoLib.ResultadoEntidad<int>
             TomaInv_VerificaSiHayUnaTomaActiva();

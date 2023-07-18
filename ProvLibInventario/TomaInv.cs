@@ -1066,6 +1066,156 @@ namespace ProvLibInventario
             }
             return result;
         }
+        public DtoLib.Resultado 
+            TomaInv_AnalizarToma_NoHayExistencia(DtoLibInventario.TomaInv.Analisis.NoHayExistencia.Ficha ficha)
+        {
+            var result = new DtoLib.Resultado();
+            try
+            {
+                using (var cnn = new invEntities(_cnInv.ConnectionString))
+                {
+                    using (var ts = new TransactionScope())
+                    {
+                        var _vta = 0m;
+                        var _comp = 0m;
+                        var _inv = 0m;
+                        var _porDesp = 0m;
+                        //
+                        var p1 = new MySql.Data.MySqlClient.MySqlParameter("@idTomaInv",ficha.idTomaInv);
+                        var p2 = new MySql.Data.MySqlClient.MySqlParameter("@idPrd",ficha.idPrd);
+                        var _sql = @"SELECT 
+                                        sum(cantidad_und*signo) 
+                                    FROM productos_kardex as kardex
+                                    JOIN tomainv_detalle as tomaDet ON tomaDet.idPrd = kardex.auto_producto
+                                    JOIN tomainv as toma ON toma.auto = tomaDet.auto_tomainv
+                                    WHERE kardex.auto_producto = @idPrd
+                                        AND toma.auto = @idTomainv
+                                        AND kardex.auto_deposito = toma.idDeposito
+                                        AND kardex.estatus_anulado = '0'
+                                        AND kardex.modulo = 'Ventas'
+                                        AND substring(kardex.auto_documento, 4) > tomaDet.ultDocVta";
+                        decimal? _cntVta = cnn.Database.SqlQuery<decimal?>(_sql, p1, p2).FirstOrDefault();
+                        if (_cntVta.HasValue) 
+                        {
+                            _vta = _cntVta.Value;
+                        }
+
+                        p1 = new MySql.Data.MySqlClient.MySqlParameter("@idTomaInv", ficha.idTomaInv);
+                        p2 = new MySql.Data.MySqlClient.MySqlParameter("@idPrd", ficha.idPrd);
+                        _sql = @"SELECT 
+                                    sum(cantidad_und*signo)
+                                FROM productos_kardex as kardex 
+                                JOIN tomainv_detalle as tomaDet ON tomaDet.idPrd = kardex.auto_producto
+                                JOIN tomainv as toma ON toma.auto = tomaDet.auto_tomainv
+                                WHERE kardex.auto_producto=@idPrd
+                                    AND toma.auto = @idTomaInv
+                                    and kardex.auto_deposito=toma.idDeposito
+                                    and kardex.estatus_anulado='0'
+                                    and kardex.modulo='Compras'
+                                    and kardex.auto_documento>tomaDet.ultDocComp";
+                        decimal? _cntCompra = cnn.Database.SqlQuery<decimal?>(_sql, p1, p2).FirstOrDefault();
+                        if (_cntCompra.HasValue)
+                        {
+                            _comp = _cntCompra.Value;
+                        }
+                        
+                        p1 = new MySql.Data.MySqlClient.MySqlParameter("@idTomaInv", ficha.idTomaInv);
+                        p2 = new MySql.Data.MySqlClient.MySqlParameter("@idPrd", ficha.idPrd);
+                        _sql = @"SELECT 
+                                    sum(cantidad_und*signo) 
+                                FROM productos_kardex as kardex 
+                                JOIN tomainv_detalle as tomaDet ON tomaDet.idPrd = kardex.auto_producto
+                                JOIN tomainv as toma ON toma.auto = tomaDet.auto_tomainv
+                                WHERE kardex.auto_producto=@idPrd
+                                    AND toma.auto = @idTomaInv
+                                    and kardex.auto_deposito=toma.idDeposito
+                                    and kardex.estatus_anulado='0'
+                                    and kardex.modulo='Inventario'
+                                    and kardex.auto_documento>tomaDet.ultDocInv";
+                        decimal? _cntInv = cnn.Database.SqlQuery<decimal?>(_sql, p1, p2).FirstOrDefault();
+                        if (_cntInv.HasValue)
+                        {
+                            _inv = _cntInv.Value;
+                        }
+
+                        p1 = new MySql.Data.MySqlClient.MySqlParameter("@idPrd", ficha.idPrd);
+                        _sql = @"SELECT 
+                                    sum(vdetalle.cantidad_und*vdetalle.signo) as cnt
+		                        FROM `p_verificador` as verificador
+		                        join ventas_detalle as vdetalle on vdetalle.auto_documento=verificador.autoDocumento
+		                        join ventas as ventas on ventas.auto=verificador.autoDocumento
+		                        where verificador.fechaReg=curdate()
+			                        and vdetalle.auto_producto=@idPrd
+			                        and verificador.estatusVer='0'
+			                        and ventas.estatus_anulado='0'";
+                        decimal? _cntPorDesp = cnn.Database.SqlQuery<decimal?>(_sql, p1).FirstOrDefault();
+                        if (_cntPorDesp.HasValue)
+                        {
+                            _porDesp = _cntPorDesp.Value;
+                        }
+
+                        p1 = new MySql.Data.MySqlClient.MySqlParameter("@idPrd", ficha.idPrd);
+                        p2 = new MySql.Data.MySqlClient.MySqlParameter("@idTomaInv", ficha.idTomaInv);
+                        _sql = @"SELECT 
+                                    exFisica
+		                        FROM tomainv_detalle 
+		                        where idPrd=@idPrd 
+			                        and auto_tomainv=@idTomaInv";
+                        decimal? _exFisica = cnn.Database.SqlQuery<decimal?>(_sql, p1, p2).FirstOrDefault();
+                        if (!_exFisica.HasValue) 
+                        {
+                            throw new Exception("EXISTENCIA FISICA DEL PRODUCTO NO ENCONTRADA");
+                        }
+                        var _ex = _exFisica.Value;
+
+                        var cnt = Math.Abs(_ex + _vta + _comp + _inv + _porDesp) * (-1);
+                        p1 = new MySql.Data.MySqlClient.MySqlParameter("@idTomaInv", ficha.idTomaInv);
+                        p2 = new MySql.Data.MySqlClient.MySqlParameter("@idPrd", ficha.idPrd);
+                        var p3 = new MySql.Data.MySqlClient.MySqlParameter("@cnt", cnt);
+                        _sql = @"INSERT INTO tomainv_conteo (
+                                    `idPrd` ,
+                                    `cant` ,
+                                    `fechaRegistro` ,
+                                    `auto_tomainv` ,
+                                    `cnVta_und` ,
+                                    `cnComp_und` ,
+                                    `cnInv_und` ,
+                                    `cnDesp_und` ,
+                                    `cnDeposito_und` ,
+                                    `cierre_ftp` ,
+                                    `motivo` ,
+                                    `idTerminal`
+                                )
+                                VALUES (
+                                    @idPrd, 
+                                    @cnt,
+                                    CURRENT_TIMESTAMP, 
+                                    @idTomaInv, 
+                                    0, 
+                                    0,
+                                    0,
+                                    0, 
+                                    0, 
+                                    '', 
+                                    '', 
+                                    '0')";
+                        var r1 = cnn.Database.ExecuteSqlCommand(_sql, p1, p2, p3);
+                        if (r1 == 0) 
+                        {
+                            throw new Exception("PROBLEMA AL REGISTRAR CONTEO SIN EXISTENCIA");
+                        }
+                        cnn.SaveChanges();
+                        ts.Complete();
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                result.Mensaje = e.Message;
+                result.Result = DtoLib.Enumerados.EnumResult.isError;
+            }
+            return result;
+        }
 
 
         //VERIFICA SI EXISTE UNA TOMA ACTIVA

@@ -1228,5 +1228,11 @@ namespace ProvSqlServer
         {
             throw new NotImplementedException();
         }
+
+
+        public DtoLib.Resultado TomaInv_AnalizarToma_NoHayExistencia(DtoLibInventario.TomaInv.Analisis.NoHayExistencia.Ficha ficha)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

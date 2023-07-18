@@ -315,6 +315,7 @@
     <Compile Include="TomaInv\Analisis\Motivo\Cambiar\Ficha.cs" />
     <Compile Include="TomaInv\Analisis\Motivo\fichaBase.cs" />
     <Compile Include="TomaInv\Analisis\Motivo\Obtener\Ficha.cs" />
+    <Compile Include="TomaInv\Analisis\NoHayExistencia\Ficha.cs" />
     <Compile Include="TomaInv\ConvertirSolicitud\Ficha.cs" />
     <Compile Include="TomaInv\GenerarToma\Ficha.cs" />
     <Compile Include="TomaInv\GenerarToma\PrdToma.cs" />
