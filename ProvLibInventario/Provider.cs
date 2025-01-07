@@ -10,18 +10,14 @@ using System.Threading.Tasks;
 
 namespace ProvLibInventario
 {
-
     public partial class Provider : ILibInventario.IProvider
     {
-
         public static EntityConnectionStringBuilder _cnInv ;
         static MySqlConnectionStringBuilder _cnn2;
         private string _Instancia;
         private string _BaseDatos;
         private string _Usuario;
         private string _Password;
-
-
 
         public Provider(string instancia, string bd, string usu="root")
         {
@@ -53,7 +49,6 @@ namespace ProvLibInventario
             _cnInv.Provider = "MySql.Data.MySqlClient";
             _cnInv.ProviderConnectionString = "data source=" + _Instancia + ";initial catalog=" + _BaseDatos + ";user id=" + _Usuario + ";Password=" + _Password + ";Convert Zero Datetime=True;";
         }
-
         public DtoLib.ResultadoEntidad<DateTime> 
             FechaServidor()
         {
@@ -105,6 +100,10 @@ namespace ProvLibInventario
                                 from sistema";
                     var ent2= ctx.Database.SqlQuery<DtoLibInventario.Empresa.Data.FichaExtra>(sql).FirstOrDefault();
                     nr.extra = ent2;
+
+                    sql = @"select logo from empresa_extra";
+                    var _logo = ctx.Database.SqlQuery<byte[]>(sql).FirstOrDefault();
+                    nr.logo = _logo;
                 }
             }
             catch (Exception e)
@@ -112,7 +111,6 @@ namespace ProvLibInventario
                 result.Mensaje = e.Message;
                 result.Result = DtoLib.Enumerados.EnumResult.isError;
             }
-
             return result;
         }
         public DtoLib.ResultadoEntidad<string> 
@@ -150,5 +148,4 @@ namespace ProvLibInventario
             return result;
         }
     }
-
 }

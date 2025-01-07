@@ -126,13 +126,20 @@ namespace ProvLibInventario
                             if (entPrdDep.fisica >= 0) { _ex = true; }
 
                             entPrdDep.fisica += dt.cantidadUnd;
-                            entPrdDep.disponible = entPrdDep.fisica;
+                            //entPrdDep.disponible = entPrdDep.fisica;
+                            entPrdDep.disponible += dt.cantidadUnd; 
                             cnn.SaveChanges();
 
                             if (_ex && entPrdDep.fisica < 0)
                             {
                                 result.Result = DtoLib.Enumerados.EnumResult.isError;
                                 result.Mensaje = "[ PROBLEMA CON AJUSTE EXISTENCIA ]" + Environment.NewLine + "Producto: " + dt.nombreProducto + ", Deposito: " + dt.nombreDeposito;
+                                return result;
+                            }
+                            if (_ex && entPrdDep.disponible < 0)
+                            {
+                                result.Result = DtoLib.Enumerados.EnumResult.isError;
+                                result.Mensaje = "[ PROBLEMA CON AJUSTE EXISTENCIA -- HAY MERCANCIA EN RESERVA ]" + Environment.NewLine + "Producto: " + dt.nombreProducto + ", Deposito: " + dt.nombreDeposito;
                                 return result;
                             }
                         };
@@ -323,10 +330,18 @@ namespace ProvLibInventario
                                 result.Mensaje = "[ EXISTENCIA NO DISPONIBLE ] " + Environment.NewLine + "Producto: " + dt.nombreProducto + ", Deposito: " + dt.nombreDeposito;
                                 return result;
                             }
+                            if (dt.cantidadUnd > entPrdDepOrigen.disponible)
+                            {
+                                result.Result = DtoLib.Enumerados.EnumResult.isError;
+                                result.Mensaje = "[ EXISTENCIA NO DISPONIBLE / CHEQUEAR MERCANCIA EN RESERVA ] " + Environment.NewLine + "Producto: " + dt.nombreProducto + ", Deposito: " + dt.nombreDeposito;
+                                return result;
+                            }
+                            //
                             entPrdDepOrigen.fisica -= dt.cantidadUnd;
-                            entPrdDepOrigen.disponible = entPrdDepOrigen.fisica;
+                            //entPrdDepOrigen.disponible = entPrdDepOrigen.fisica;
+                            entPrdDepOrigen.disponible -= dt.cantidadUnd; 
                             cnn.SaveChanges();
-
+                            //
                             var entPrdDepDestino = cnn.productos_deposito.FirstOrDefault(f => f.auto_producto == dt.autoProducto && f.auto_deposito == dt.autoDepositoDestino);
                             if (entPrdDepDestino == null)
                             {
@@ -334,8 +349,9 @@ namespace ProvLibInventario
                                 result.Mensaje = "[ REGISTRO NO ENCONTRADO ] " + Environment.NewLine + "Producto: " + dt.nombreProducto + ", Deposito: " + dt.depositoDestino;
                                 return result;
                             }
+                            //
                             entPrdDepDestino.fisica += dt.cantidadUnd;
-                            entPrdDepDestino.disponible = entPrdDepDestino.fisica;
+                            entPrdDepDestino.disponible += dt.cantidadUnd;
                             cnn.SaveChanges();
                         };
 
@@ -524,10 +540,18 @@ namespace ProvLibInventario
                                 result.Mensaje = "[ EXISTENCIA NO DISPONIBLE ]" + Environment.NewLine + "Producto: " + dt.nombreProducto + ", Deposito: " + dt.nombreDeposito;
                                 return result;
                             }
+                            if (dt.cantidadUnd > entPrdDepOrigen.disponible)
+                            {
+                                result.Result = DtoLib.Enumerados.EnumResult.isError;
+                                result.Mensaje = "[ EXISTENCIA NO DISPONIBLE -- HAY MERCANCIA EN RESERVA ]" + Environment.NewLine + "Producto: " + dt.nombreProducto + ", Deposito: " + dt.nombreDeposito;
+                                return result;
+                            }
+                            //
                             entPrdDepOrigen.fisica -= dt.cantidadUnd;
-                            entPrdDepOrigen.disponible = entPrdDepOrigen.fisica;
+                            //entPrdDepOrigen.disponible = entPrdDepOrigen.fisica;
+                            entPrdDepOrigen.disponible -= dt.cantidadUnd; 
                             cnn.SaveChanges();
-
+                            //
                             var entPrdDepDestino = cnn.productos_deposito.FirstOrDefault(f => f.auto_producto == dt.autoProducto && f.auto_deposito == dt.autoDepositoDestino);
                             if (entPrdDepDestino == null)
                             {
@@ -536,7 +560,7 @@ namespace ProvLibInventario
                                 return result;
                             }
                             entPrdDepDestino.fisica += dt.cantidadUnd;
-                            entPrdDepDestino.disponible = entPrdDepDestino.fisica;
+                            entPrdDepDestino.disponible += dt.cantidadUnd;  
                             cnn.SaveChanges();
                         };
 
@@ -726,9 +750,16 @@ namespace ProvLibInventario
                                 result.Mensaje = "[ EXISTENCIA NO DISPONIBLE ] " + Environment.NewLine + "Producto: " + dt.nombreProducto + ", Deposito: " + dt.nombreDeposito;
                                 return result;
                             }
-
+                            if (dt.cantidadUnd > entPrdDep.disponible)
+                            {
+                                result.Result = DtoLib.Enumerados.EnumResult.isError;
+                                result.Mensaje = "[ EXISTENCIA NO DISPONIBLE -- HAY MERCANCIA EN RESERVA ] " + Environment.NewLine + "Producto: " + dt.nombreProducto + ", Deposito: " + dt.nombreDeposito;
+                                return result;
+                            }
+                            //
                             entPrdDep.fisica -= dt.cantidadUnd;
-                            entPrdDep.disponible = entPrdDep.fisica;
+                            //entPrdDep.disponible = entPrdDep.fisica;
+                            entPrdDep.disponible -= dt.cantidadUnd;
                             cnn.SaveChanges();
                         };
 
@@ -982,7 +1013,8 @@ namespace ProvLibInventario
                                 return result;
                             }
                             entPrdDep.fisica += dt.cantidadUnd;
-                            entPrdDep.disponible = entPrdDep.fisica;
+                            //entPrdDep.disponible = entPrdDep.fisica;
+                            entPrdDep.disponible += dt.cantidadUnd;
                             cnn.SaveChanges();
                         };
 
@@ -1969,9 +2001,10 @@ namespace ProvLibInventario
                                 result.Result = DtoLib.Enumerados.EnumResult.isError;
                                 return result;
                             }
-
+                            //
                             entPrdDep.fisica -= cnt;
-                            entPrdDep.disponible = entPrdDep.fisica;
+                            //entPrdDep.disponible = entPrdDep.fisica;
+                            entPrdDep.disponible -= cnt;
                             cnn.SaveChanges();
                         }
                         cnn.SaveChanges();
@@ -2094,9 +2127,10 @@ namespace ProvLibInventario
                                 result.Result = DtoLib.Enumerados.EnumResult.isError;
                                 return result;
                             }
-
+                            //
                             entPrdDep.fisica += cnt;
-                            entPrdDep.disponible = entPrdDep.fisica;
+                            //entPrdDep.disponible = entPrdDep.fisica;
+                            entPrdDep.disponible += cnt;
                             cnn.SaveChanges();
                         }
                         cnn.SaveChanges();
@@ -2221,7 +2255,8 @@ namespace ProvLibInventario
                             }
 
                             entPrdDep.fisica += cnt;
-                            entPrdDep.disponible = entPrdDep.fisica;
+                            //entPrdDep.disponible = entPrdDep.fisica;
+                            entPrdDep.disponible += cnt;
                             cnn.SaveChanges();
                         }
                         cnn.SaveChanges();
@@ -2345,13 +2380,14 @@ namespace ProvLibInventario
                                 result.Result = DtoLib.Enumerados.EnumResult.isError;
                                 return result;
                             }
-
+                            //
                             entPrdDep.fisica += cnt;
-                            entPrdDep.disponible = entPrdDep.fisica;
+                            //entPrdDep.disponible = entPrdDep.fisica;
+                            entPrdDep.disponible += cnt;
                             cnn.SaveChanges();
                         }
                         cnn.SaveChanges();
-
+                        //
                         ts.Complete();
                     }
                 }

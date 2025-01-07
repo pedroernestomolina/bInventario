@@ -7,11 +7,8 @@ using System.Threading.Tasks;
 
 namespace DtoLibInventario.Movimiento.Insertar
 {
-    
     abstract public class BaseFichaMov
     {
-
-
         public string autoConcepto { get; set; }
         public string autoDepositoOrigen { get; set; }
         public string autoDepositoDestino { get; set; }
@@ -40,7 +37,5 @@ namespace DtoLibInventario.Movimiento.Insertar
         public string estatusCierreContable { get; set; }
         public decimal factorCambio { get; set; }
         public decimal montoDivisa { get; set; }
-
     }
-
 }
