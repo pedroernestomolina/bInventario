@@ -7,10 +7,8 @@ using System.Threading.Tasks;
 
 namespace DtoLibInventario.Precio.Editar
 {
-    
     public class Ficha
     {
-
         public string autoProducto { get; set; }
         public string estacion { get; set; }
         public string autoUsuario { get; set; }
@@ -30,8 +28,8 @@ namespace DtoLibInventario.Precio.Editar
         public FichaPrecio dsp_3 { get; set; }
         public FichaPrecio dsp_4 { get; set; }
         public List<FichaHistorica> historia { get; set; }
-
-
+        public List<string> Presentaciones { get; set; }
+        //
         public Ficha() 
         {
             autoProducto = "";
@@ -52,9 +50,8 @@ namespace DtoLibInventario.Precio.Editar
             dsp_2 = null;
             dsp_3 = null;
             dsp_4 = null;
-            historia = null; 
+            historia = null;
+            Presentaciones = new List<string>();
         }
-
     }
-
 }
