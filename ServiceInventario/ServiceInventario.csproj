@@ -48,6 +48,7 @@
     <Compile Include="Interfaces\IDeposito.cs" />
     <Compile Include="Interfaces\IEmpaqueMedida.cs" />
     <Compile Include="Interfaces\IEmpresa.cs" />
+    <Compile Include="Interfaces\IGestionCosto.cs" />
     <Compile Include="Interfaces\IGrupo.cs" />
     <Compile Include="Interfaces\IKardex.cs" />
     <Compile Include="Interfaces\IMarca.cs" />
@@ -80,6 +81,7 @@
     <Compile Include="MyServide\Deposito.cs" />
     <Compile Include="MyServide\EmpaqueMedida.cs" />
     <Compile Include="MyServide\Empresa.cs" />
+    <Compile Include="MyServide\GestionCosto.cs" />
     <Compile Include="MyServide\Grupo.cs" />
     <Compile Include="MyServide\Kardex.cs" />
     <Compile Include="MyServide\Marca.cs" />

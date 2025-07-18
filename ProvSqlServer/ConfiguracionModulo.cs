@@ -7,10 +7,8 @@ using System.Threading.Tasks;
 
 namespace ProvSqlServer
 {
-
     public partial class Provider : ILibInventario.IProvider
     {
-
         public DtoLib.ResultadoEntidad<string> 
             Configuracion_ModuloInventario_Modo()
         {

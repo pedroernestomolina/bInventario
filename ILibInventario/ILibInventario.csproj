@@ -48,6 +48,7 @@
     <Compile Include="IDeposito.cs" />
     <Compile Include="IEmpaqueMedida.cs" />
     <Compile Include="IEmpresa.cs" />
+    <Compile Include="IGestionCosto.cs" />
     <Compile Include="IGrupo.cs" />
     <Compile Include="IKardex.cs" />
     <Compile Include="IMarca.cs" />

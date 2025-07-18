@@ -234,6 +234,7 @@
     <Compile Include="Producto\Estatus\Actual\Ficha.cs" />
     <Compile Include="Producto\Estatus\Lista\Resumen.cs" />
     <Compile Include="Producto\Filtro.cs" />
+    <Compile Include="Producto\GestionCosto\CapturarDataPrdEditarCosto\Ficha.cs" />
     <Compile Include="Producto\HistoricoPrecio\Filtro.cs" />
     <Compile Include="Producto\HistoricoPrecio\ModoAdm\Data.cs" />
     <Compile Include="Producto\HistoricoPrecio\ModoAdm\Ficha.cs" />

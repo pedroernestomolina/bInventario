@@ -7,10 +7,8 @@ using System.Threading.Tasks;
 
 namespace DtoLibInventario.Producto.VerData
 {
-    
     public class Costo
     {
-
         public string codigo { get; set; }
         public string nombre { get; set; }
         public string descripcion { get; set; }
@@ -20,7 +18,7 @@ namespace DtoLibInventario.Producto.VerData
         public Enumerados.EnumEstatus estatus { get; set; }
         public string empaqueCompra { get; set; }
         public int contEmpaqueCompra { get; set; }
-
+        //
         public decimal costoProveedorUnd { get; set; }
         public decimal costoImportacionUnd { get; set; }
         public decimal costoVarioUnd { get; set; }
@@ -29,7 +27,5 @@ namespace DtoLibInventario.Producto.VerData
         public decimal costoPromedioUnd { get; set; }
         public DateTime? fechaUltCambio { get; set; }
         public int Edad { get; set; }
-
     }
-
 }

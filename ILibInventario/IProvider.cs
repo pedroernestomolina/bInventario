@@ -12,7 +12,8 @@ namespace ILibInventario
         ICosto, IPrecio, IKardex, IConcepto, ISucursal, IMovimiento, IUsuario, 
         ITool, IEmpaqueMedida, IConfiguracion, IVisor, IReportes, IPermisos, IAnalisis,
         IAuditoria, ISistema, IMonitorPos, IMovTransito, IMovPend , IEmpresa, ITallaColorSabor,
-        IProducto_ModoAdm, IReportes_ModoAdm, ITomaInv
+        IProducto_ModoAdm, IReportes_ModoAdm, ITomaInv,
+        IGestionCosto
     {
         DtoLib.ResultadoEntidad<DateTime> 
             FechaServidor();

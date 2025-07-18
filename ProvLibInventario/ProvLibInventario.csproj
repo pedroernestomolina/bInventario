@@ -66,6 +66,7 @@
     <Compile Include="Deposito.cs" />
     <Compile Include="EmpaqueMedida.cs" />
     <Compile Include="Empresa.cs" />
+    <Compile Include="GestionCosto.cs" />
     <Compile Include="Grupo.cs" />
     <Compile Include="Helpers.cs" />
     <Compile Include="Kardex.cs" />

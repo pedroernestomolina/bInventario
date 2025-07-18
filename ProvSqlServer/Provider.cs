@@ -1234,5 +1234,10 @@ namespace ProvSqlServer
         {
             throw new NotImplementedException();
         }
+
+        public DtoLib.ResultadoEntidad<DtoLibInventario.Producto.GestionCosto.CapturarDataPrdEditarCosto.Ficha> Producto_GestionCosto_CapturarDataPrdEditarCosto(string idPrd)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
