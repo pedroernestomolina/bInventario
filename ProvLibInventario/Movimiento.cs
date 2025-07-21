@@ -2638,33 +2638,45 @@ namespace ProvLibInventario
             return result;
         }
 
+
         // CAPTURE DE DATA PARA MOVIMIENTO TRASLADO ENTRE DEPOSITO
         public DtoLib.ResultadoEntidad<DtoLibInventario.Movimiento.Traslado.CapturaMov.Ficha> 
             Producto_Movimiento_Traslado_Capture(DtoLibInventario.Movimiento.Traslado.CapturaMov.Filtro filtro)
         {
             var result = new DtoLib.ResultadoEntidad<DtoLibInventario.Movimiento.Traslado.CapturaMov.Ficha>();
-
+            //
             try
             {
                 using (var cnn = new invEntities(_cnInv.ConnectionString))
                 {
-                    var xent = cnn.productos_deposito.FirstOrDefault(f => f.auto_producto == filtro.idProducto 
-                        && f.auto_deposito == filtro.idDepDestino);
-                    if (xent == null) 
-                    {
-                        result.Mensaje = "[ PRODUCTO / DEPOSITO DESTINO ] NO ENCONTRADO";
-                        result.Result = DtoLib.Enumerados.EnumResult.isError;
-                        return result;
-                    }
-
-                    var p1 = new MySql.Data.MySqlClient.MySqlParameter();
-                    var p2 = new MySql.Data.MySqlClient.MySqlParameter();
-                    var p3 = new MySql.Data.MySqlClient.MySqlParameter();
-                    p1.ParameterName = "@autoDeposito";
-                    p1.Value = filtro.idDepOrigen;
-                    p2.ParameterName = "@autoProducto";
-                    p2.Value = filtro.idProducto;
                     var sql_1 = @"SELECT 
+                                      p.auto idPrd, 
+                                      p.codigo codigoPrd, 
+                                      p.nombre descPrd, 
+                                      pdepo.fisica as exFisica, 
+                                      p.contenido_compras contEmpCompra, 
+                                      pmedCompra.nombre descEmpCompra, 
+                                      dep.auto as idDep,
+                                      dep.codigo as codigoDep,
+                                      dep.nombre as descDep
+                                  from productos_deposito as pdepo
+                                  join empresa_depositos as dep  on dep.auto=pdepo.auto_deposito
+                                  join productos as p on p.auto=pdepo.auto_producto
+                                  join productos_medida as pmedCompra on pmedCompra.auto=p.auto_empaque_compra
+                                  where pdepo.auto_deposito=@autoDeposito and pdepo.auto_producto=@autoProducto";
+                    var p1 = new MySql.Data.MySqlClient.MySqlParameter("@autoProducto", filtro.idProducto);
+                    var p2 = new MySql.Data.MySqlClient.MySqlParameter("@autoDeposito", filtro.idDepDestino);
+                    var sql = sql_1;
+                    var entDepDestino = cnn.Database.SqlQuery<DtoLibInventario.Movimiento.Traslado.CapturaMov.DataDepDestino>(sql, p1, p2).FirstOrDefault();
+                    if (entDepDestino == null)
+                    {
+                        throw new Exception("[ PRODUCTO / DEPOSITO DESTINO ] NO ENCONTRADO");
+                    }
+                    //
+                    p1 = new MySql.Data.MySqlClient.MySqlParameter("@autoDeposito", filtro.idDepOrigen);
+                    p2 = new MySql.Data.MySqlClient.MySqlParameter("@autoProducto", filtro.idProducto);
+                    var p3 = new MySql.Data.MySqlClient.MySqlParameter();
+                    sql_1 = @"SELECT 
                                     p.auto autoPrd, 
                                     p.auto_departamento autoDepart, 
                                     p.auto_grupo autoGrupo, 
@@ -2692,15 +2704,17 @@ namespace ProvLibInventario
                                     join productos_ext as pExt on pExt.auto_producto=p.auto
                                     join productos_medida as pMedInv on pExt.auto_emp_inv_1=pMedInv.auto
                                     where pdepo.auto_deposito=@autoDeposito and pdepo.auto_producto=@autoProducto";
-                    var sql = sql_1;
-                    var ent = cnn.Database.SqlQuery<DtoLibInventario.Movimiento.Traslado.CapturaMov.Data>(sql, p1, p2, p3).FirstOrDefault();
+                    sql = sql_1;
+                    var ent = cnn.Database.SqlQuery<DtoLibInventario.Movimiento.Traslado.CapturaMov.Data>(sql, p1, p2).FirstOrDefault();
                     if (ent == null)
                     {
-                        result.Mensaje = "[ PRODUCTO / DEPOSITO ORIGEN ] NO ENCONTRADO";
-                        result.Result = DtoLib.Enumerados.EnumResult.isError;
-                        return result;
+                        throw new Exception("[ PRODUCTO / DEPOSITO ORIGEN ] NO ENCONTRADO");
                     }
-                    result.Entidad = new DtoLibInventario.Movimiento.Traslado.CapturaMov.Ficha() { data = ent };
+                    result.Entidad = new DtoLibInventario.Movimiento.Traslado.CapturaMov.Ficha()
+                    {
+                        data = ent,
+                        dataDepDestino = entDepDestino,
+                    };
                 }
             }
             catch (Exception e)
@@ -2708,7 +2722,7 @@ namespace ProvLibInventario
                 result.Mensaje = e.Message;
                 result.Result = DtoLib.Enumerados.EnumResult.isError;
             }
-
+            //
             return result;
         }
 

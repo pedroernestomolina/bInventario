@@ -160,6 +160,7 @@
     <Compile Include="Movimiento\Lista\Filtro.cs" />
     <Compile Include="Movimiento\Lista\Resumen.cs" />
     <Compile Include="Movimiento\Traslado\CapturaMov\Data.cs" />
+    <Compile Include="Movimiento\Traslado\CapturaMov\DataDepDestino.cs" />
     <Compile Include="Movimiento\Traslado\CapturaMov\Ficha.cs" />
     <Compile Include="Movimiento\Traslado\CapturaMov\Filtro.cs" />
     <Compile Include="Movimiento\Traslado\Capturar\ProductoPorDebajoNivelMinimo\Ficha.cs" />

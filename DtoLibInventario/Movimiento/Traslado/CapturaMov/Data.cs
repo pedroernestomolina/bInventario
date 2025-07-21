@@ -7,10 +7,8 @@ using System.Threading.Tasks;
 
 namespace DtoLibInventario.Movimiento.Traslado.CapturaMov
 {
-    
     public class Data
     {
-
         public string autoPrd { get; set; }
         public string autoDepart { get; set; }
         public string autoGrupo { get; set; }
@@ -32,7 +30,6 @@ namespace DtoLibInventario.Movimiento.Traslado.CapturaMov
         //
         public string nombreEmpInv { get; set; }
         public int contEmpInv { get; set; }
-
 
         public Data() 
         {
@@ -57,7 +54,5 @@ namespace DtoLibInventario.Movimiento.Traslado.CapturaMov
             nombreEmpInv = "";
             contEmpInv = 0;
         }
-
     }
-
 }
