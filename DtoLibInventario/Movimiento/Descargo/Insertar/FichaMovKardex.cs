@@ -7,11 +7,8 @@ using System.Threading.Tasks;
 
 namespace DtoLibInventario.Movimiento.DesCargo.Insertar
 {
-
     public class FichaMovKardex : Movimiento.Insertar.BaseFichaMovKardex 
     {
-
-
         public FichaMovKardex()
         {
             autoProducto = "";
@@ -36,8 +33,8 @@ namespace DtoLibInventario.Movimiento.DesCargo.Insertar
             codigoDeposito = "";
             nombreDeposito = "";
             factorCambio = 0m;
+            cierreFtp = "";
+            nombreProducto = "";
         }
-
     }
-
 }

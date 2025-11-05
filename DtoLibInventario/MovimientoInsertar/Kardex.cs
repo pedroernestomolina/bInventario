@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace DtoLibInventario.Movimiento.Insertar
+namespace DtoLibInventario.MovimientoInsertar
 {
-    abstract public class BaseFichaMovKardex
+    public class Kardex 
     {
         public string autoProducto { get; set; }
         public decimal total { get; set; }
@@ -33,5 +33,33 @@ namespace DtoLibInventario.Movimiento.Insertar
         public decimal factorCambio { get; set; }
         public string cierreFtp { get; set; }
         public string nombreProducto { get; set; }
+
+        public Kardex()
+        {
+            autoProducto = "";
+            total = 0m;
+            autoDeposito = "";
+            autoConcepto = "";
+            modulo = "";
+            entidad = "";
+            signoMov = 1;
+            cantidad = 0m;
+            cantidadBono = 0m;
+            cantidadUnd = 0m;
+            costoUnd = 0m;
+            estatusAnulado = "";
+            nota = "";
+            precioUnd = 0m;
+            codigoMov = "";
+            siglasMov = "";
+            codigoSucursal = "";
+            codigoConcepto = "";
+            nombreConcepto = "";
+            codigoDeposito = "";
+            nombreDeposito = "";
+            factorCambio = 0m;
+            cierreFtp = "";
+            nombreProducto = "";
+        }
     }
 }

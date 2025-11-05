@@ -7,12 +7,8 @@ using System.Threading.Tasks;
 
 namespace DtoLibInventario.Movimiento.Cargo.Insertar
 {
-    
-
     public class FichaMovDetalle : Movimiento.Insertar.BaseFichaMovDetalle
     {
-
-
         public FichaMovDetalle() 
         {
             autoProducto = "";
@@ -34,8 +30,7 @@ namespace DtoLibInventario.Movimiento.Cargo.Insertar
             signo = 1;
             autoDepartamento = "";
             autoGrupo = "";
+            cierreFtp = "";
         }
-
     }
-
 }

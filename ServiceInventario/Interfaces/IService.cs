@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace ServiceInventario.Interfaces
 {
-    
     public interface IService: IDeposito, IConcepto, ISucursal, IMovimiento, IUsuario, 
         IReportes, IReporteDocumentos, ITool, IDepartamento, IGrupo, IMarca,
         IEmpaqueMedida, IProducto, ITasaImpuesto, IConfiguracion, IPrecio, ICosto, IKardex,
         IProveedor, IVisor, IPermisos, IAnalisis, IAuditoria, ISistema, IMovTransito,
         IMovPend, IEmpresa, ITallaColorSabor, IProducto_ModoAdm, IReportes_ModoAdm,
         ITomaInv,
-        IGestionCosto
+        IGestionCosto,
+        IMovimientoInsertar
     {
         DtoLib.ResultadoEntidad<DateTime> 
             FechaServidor();

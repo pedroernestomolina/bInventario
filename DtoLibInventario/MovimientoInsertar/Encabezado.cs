@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace DtoLibInventario.Movimiento.Insertar
+namespace DtoLibInventario.MovimientoInsertar
 {
-    abstract public class BaseFichaMov
+    public class Encabezado
     {
         public string autoConcepto { get; set; }
         public string autoDepositoOrigen { get; set; }
@@ -36,5 +36,35 @@ namespace DtoLibInventario.Movimiento.Insertar
         public string estatusCierreContable { get; set; }
         public decimal factorCambio { get; set; }
         public decimal montoDivisa { get; set; }
+        public Encabezado()
+        {
+            autoConcepto = "";
+            autoDepositoDestino = "";
+            autoDepositoOrigen = "";
+            autoRemision = "";
+            autoUsuario = "";
+            nota = "";
+            estatusAnulado = "";
+            usuario = "";
+            codUsuario = "";
+            estacion = "";
+            codConcepto = "";
+            desConcepto = "";
+            codDepositoOrigen = "";
+            desDepositoOrigen = "";
+            codDepositoDestino = "";
+            desDepositoDestino = "";
+            tipo = "";
+            renglones = 0;
+            documentoNombre = "";
+            autorizado = "";
+            total = 0m;
+            situacion = "";
+            codigoSucursal="";
+            cierreFtp="";
+            estatusCierreContable="";
+            factorCambio=0m;
+            montoDivisa=0m;
+        }
     }
 }

@@ -7,10 +7,8 @@ using System.Threading.Tasks;
 
 namespace ILibInventario
 {
-    
     public interface IMovimiento
     {
-
         //INSERTAR MOVIMIENTOS
         DtoLib.ResultadoAuto Producto_Movimiento_Cargo_Insertar(DtoLibInventario.Movimiento.Cargo.Insertar.Ficha ficha);
         DtoLib.ResultadoAuto Producto_Movimiento_DesCargo_Insertar(DtoLibInventario.Movimiento.DesCargo.Insertar.Ficha ficha);
@@ -60,7 +58,5 @@ namespace ILibInventario
         //CAPTURAR DATA PARA AJUSTAR INVENTARIO A CERO(0)
         DtoLib.ResultadoEntidad<DtoLibInventario.Movimiento.AjusteInvCero.Capture.Ficha> 
             Producto_Movimiento_AjusteInventarioCero_Capture(DtoLibInventario.Movimiento.AjusteInvCero.Capture.Filtro filtro);
-
     }
-
 }

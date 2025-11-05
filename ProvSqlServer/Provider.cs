@@ -1239,5 +1239,23 @@ namespace ProvSqlServer
         {
             throw new NotImplementedException();
         }
+
+
+        public DtoLib.ResultadoEntidad<string> insertarMovimientoCargo(DtoLibInventario.MovimientoInsertar.Cargo.Ficha ficha)
+        {
+            throw new NotImplementedException();
+        }
+        public DtoLib.ResultadoEntidad<string> insertarMovimientoDescargo(DtoLibInventario.MovimientoInsertar.Descargo.Ficha ficha)
+        {
+            throw new NotImplementedException();
+        }
+        public DtoLib.ResultadoEntidad<string> insertarMovimientoTraslado(DtoLibInventario.MovimientoInsertar.Traslado.Ficha ficha)
+        {
+            throw new NotImplementedException();
+        }
+        public DtoLib.ResultadoEntidad<string> insertarMovimientoTrasladoPorDevolucion(DtoLibInventario.MovimientoInsertar.Traslado.Ficha ficha)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

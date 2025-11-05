@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace DtoLibInventario.Movimiento.Insertar
+namespace DtoLibInventario.MovimientoInsertar
 {
-    abstract public class BaseFichaMovDetalle
+    public class Detalle 
     {
         public string autoProducto { get; set; }
         public string codigoProducto { get; set; }
@@ -29,5 +29,28 @@ namespace DtoLibInventario.Movimiento.Insertar
         public string autoDepartamento { get; set; }
         public string autoGrupo { get; set; }
         public string cierreFtp { get; set; }
+        public Detalle() 
+        {
+            autoProducto = "";
+            codigoProducto = "";
+            nombreProducto = "";
+            cantidad=0m;
+            cantidadBono = 0m;
+            cantidadUnd = 0m;
+            categoria = "";
+            tipo = "";
+            estatusAnulado = "";
+            contEmpaque = 0;
+            empaque = "";
+            decimales = "";
+            costoUnd = 0m;
+            total = 0m;
+            costoCompra = 0m;
+            estatusUnidad = "";
+            signo = 1;
+            autoDepartamento = "";
+            autoGrupo = "";
+            cierreFtp = "";
+        }
     }
 }

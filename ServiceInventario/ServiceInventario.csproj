@@ -53,6 +53,7 @@
     <Compile Include="Interfaces\IKardex.cs" />
     <Compile Include="Interfaces\IMarca.cs" />
     <Compile Include="Interfaces\IMovimiento.cs" />
+    <Compile Include="Interfaces\IMovimientoInsertar.cs" />
     <Compile Include="Interfaces\IMovPend.cs" />
     <Compile Include="Interfaces\IMovTransito.cs" />
     <Compile Include="Interfaces\IPermisos.cs" />
@@ -86,6 +87,7 @@
     <Compile Include="MyServide\Kardex.cs" />
     <Compile Include="MyServide\Marca.cs" />
     <Compile Include="MyServide\Movimiento.cs" />
+    <Compile Include="MyServide\MovimientoInsertar.cs" />
     <Compile Include="MyServide\MovPend.cs" />
     <Compile Include="MyServide\MovTransito.cs" />
     <Compile Include="MyServide\Permisos.cs" />

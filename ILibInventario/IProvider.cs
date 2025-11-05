@@ -13,7 +13,8 @@ namespace ILibInventario
         ITool, IEmpaqueMedida, IConfiguracion, IVisor, IReportes, IPermisos, IAnalisis,
         IAuditoria, ISistema, IMonitorPos, IMovTransito, IMovPend , IEmpresa, ITallaColorSabor,
         IProducto_ModoAdm, IReportes_ModoAdm, ITomaInv,
-        IGestionCosto
+        IGestionCosto,
+        IMovimientoInsertar
     {
         DtoLib.ResultadoEntidad<DateTime> 
             FechaServidor();

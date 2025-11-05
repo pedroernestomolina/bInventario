@@ -7,14 +7,10 @@ using System.Threading.Tasks;
 
 namespace DtoLibInventario.Movimiento.Traslado.Insertar
 {
-    
     public class FichaMovDeposito: Movimiento.Insertar.BaseFichaMovDeposito
     {
-
         public string autoDepositoDestino { get; set; }
         public string depositoDestino { get; set; }
-
-
         public FichaMovDeposito() 
         {
             autoProducto = "";
@@ -25,8 +21,5 @@ namespace DtoLibInventario.Movimiento.Traslado.Insertar
             autoDepositoDestino = "";
             depositoDestino = "";
         }
-
-
     }
-
 }

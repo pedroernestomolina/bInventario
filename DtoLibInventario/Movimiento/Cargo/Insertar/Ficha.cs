@@ -7,11 +7,8 @@ using System.Threading.Tasks;
 
 namespace DtoLibInventario.Movimiento.Cargo.Insertar
 {
-    
     public class Ficha
     {
-
-
         public FichaMov mov { get; set; }
         public List<FichaMovDetalle> movDetalles { get; set; }
         public List<FichaMovDeposito> movDeposito { get; set; }
@@ -21,8 +18,6 @@ namespace DtoLibInventario.Movimiento.Cargo.Insertar
         public List<FichaPrdPrecio> prdPrecio { get; set; }
         public List<FichaPrdPrecioMargen> prdPrecioMargen { get; set; }
         public List<FichaPrdPrecioHistorico> prdPrecioHistorico { get; set; }
-
-
         public Ficha()
         {
             mov = new FichaMov();
@@ -35,7 +30,5 @@ namespace DtoLibInventario.Movimiento.Cargo.Insertar
             prdPrecioMargen = new List<FichaPrdPrecioMargen>();
             prdPrecioHistorico = new List<FichaPrdPrecioHistorico>();
         }
-
     }
-
 }

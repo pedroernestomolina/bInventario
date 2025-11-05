@@ -73,6 +73,7 @@
     <Compile Include="Marca.cs" />
     <Compile Include="MonitorPos.cs" />
     <Compile Include="Movimiento.cs" />
+    <Compile Include="MovimientoInsertar.cs" />
     <Compile Include="MovPend.cs" />
     <Compile Include="MovTransito.cs" />
     <Compile Include="Permisos.cs" />

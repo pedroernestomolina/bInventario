@@ -1634,7 +1634,6 @@ namespace ProvLibInventario
         }
 
 
-
         //GET
         public DtoLib.ResultadoEntidad<DtoLibInventario.Movimiento.Ver.Ficha> 
             Producto_Movimiento_GetFicha(string autoDoc)

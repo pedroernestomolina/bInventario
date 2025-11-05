@@ -8,11 +8,8 @@ using System.Threading.Tasks;
 
 namespace ServiceInventario.MyService
 {
-
     public partial class Service: IService
     {
-
-
         //INSERTAR
         public DtoLib.ResultadoAuto Producto_Movimiento_Ajuste_Insertar(DtoLibInventario.Movimiento.Ajuste.Insertar.Ficha ficha)
         {

@@ -105,6 +105,12 @@
     <Compile Include="Marca\Resumen.cs" />
     <Compile Include="MonitorPos\Entidad\Ficha.cs" />
     <Compile Include="MonitorPos\Lista\Filtro.cs" />
+    <Compile Include="MovimientoInsertar\BaseFicha.cs" />
+    <Compile Include="MovimientoInsertar\Cargo\Ficha.cs" />
+    <Compile Include="MovimientoInsertar\ContadorMovimiento.cs" />
+    <Compile Include="MovimientoInsertar\Descargo\Ficha.cs" />
+    <Compile Include="MovimientoInsertar\Traslado\Ficha.cs" />
+    <Compile Include="MovimientoInsertar\VerificarDeposito.cs" />
     <Compile Include="Movimiento\AjusteInvCero\Capture\Data.cs" />
     <Compile Include="Movimiento\AjusteInvCero\Capture\Ficha.cs" />
     <Compile Include="Movimiento\AjusteInvCero\Capture\Filtro.cs" />
@@ -153,6 +159,10 @@
     <Compile Include="Movimiento\Descargo\Insertar\FichaMovDetalle.cs" />
     <Compile Include="Movimiento\Descargo\Insertar\FichaMovKardex.cs" />
     <Compile Include="Movimiento\enumerados.cs" />
+    <Compile Include="MovimientoInsertar\Encabezado.cs" />
+    <Compile Include="MovimientoInsertar\Deposito.cs" />
+    <Compile Include="MovimientoInsertar\Detalle.cs" />
+    <Compile Include="MovimientoInsertar\Kardex.cs" />
     <Compile Include="Movimiento\Insertar\BaseFichaMov.cs" />
     <Compile Include="Movimiento\Insertar\BaseFichaMovDeposito.cs" />
     <Compile Include="Movimiento\Insertar\BaseFichaMovDetalle.cs" />
