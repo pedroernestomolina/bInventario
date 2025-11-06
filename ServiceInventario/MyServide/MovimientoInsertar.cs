@@ -26,9 +26,19 @@ namespace ServiceInventario.MyService
             return ServiceProv.insertarMovimientoTraslado(ficha);
         }
         public DtoLib.ResultadoEntidad<string> 
-            insertarMovimientoTrasladoPorDevolucion(DtoLibInventario.MovimientoInsertar.Traslado.Ficha ficha)
+            insertarMovTrasladoPorDevolucion(DtoLibInventario.MovimientoInsertar.Traslado.Ficha ficha)
         {
             return ServiceProv.insertarMovimientoTrasladoPorDevolucion(ficha);
+        }
+        public DtoLib.ResultadoEntidad<string> 
+            insertarMovAjuste(DtoLibInventario.MovimientoInsertar.Ajuste.Ficha ficha)
+        {
+            return ServiceProv.insertarMovimientoAjuste(ficha);
+        }
+        public DtoLib.ResultadoEntidad<string> 
+            insertarMovAjustePorInventarioEnCero(DtoLibInventario.MovimientoInsertar.AjustePorInventarioEnCero.Ficha ficha)
+        {
+            return ServiceProv.insertarMovimientoAjustePorInventarioEnCero(ficha);
         }
     }
 }

@@ -22,6 +22,7 @@ namespace ProvLibInventario
             }
             return rst;
         }
+        //
         private void
             actualizarContadores_MovCargo(invEntities cnn)
         {
@@ -70,6 +71,19 @@ namespace ProvLibInventario
                 throw new Exception("PROBLEMA AL ACTUALIZAR CONTADORES");
             }
         }
+        private void
+            actualizarContadores_MovAjuste(invEntities cnn)
+        {
+            var _sql = @"update sistema_contadores set 
+                            a_productos_movimientos=a_productos_movimientos+1, 
+                            a_productos_movimientos_ajustes=a_productos_movimientos_ajustes+1";
+            var rst = cnn.Database.ExecuteSqlCommand(_sql);
+            if (rst == 0)
+            {
+                throw new Exception("PROBLEMA AL ACTUALIZAR CONTADORES");
+            }
+        }
+        //
         private DtoLibInventario.MovimientoInsertar.contadorMovimiento
             obtenerContadores_MovCargo(invEntities cnn)
         {
@@ -126,6 +140,21 @@ namespace ProvLibInventario
             }
             return _ent;
         }
+        private DtoLibInventario.MovimientoInsertar.contadorMovimiento
+            obtenerContadores_MovAjuste(invEntities cnn)
+        {
+            var _sql = @"select 
+                            a_productos_movimientos as movimiento,
+                            a_productos_movimientos_ajustes as numeroMovimiento
+                        from sistema_contadores";
+            var _ent = cnn.Database.SqlQuery<DtoLibInventario.MovimientoInsertar.contadorMovimiento>(_sql).FirstOrDefault();
+            if (_ent == null)
+            {
+                throw new Exception("PROBLEMA AL OBTENER CONTADOR MOVIMIENTO");
+            }
+            return _ent;
+        }
+        //
         private void
             insertarEncabezadoMov(
             invEntities cnn,
@@ -493,6 +522,28 @@ namespace ProvLibInventario
             };
             cnn.SaveChanges();
         }
+        private void
+            actualizarDepositoEnCero(
+            invEntities cnn,
+            List<DtoLibInventario.MovimientoInsertar.Deposito> list)
+        {
+            var _sql = @"update productos_deposito set 
+                                fisica=fisica+@cntUnd,
+                                disponible=fisica
+                            where auto_producto=@idPrd and auto_deposito=@idDeposito";
+            foreach (var rg in list)
+            {
+                var p01 = new MySql.Data.MySqlClient.MySqlParameter("@cntUnd", rg.cantidadUnd);
+                var p02 = new MySql.Data.MySqlClient.MySqlParameter("@idPrd", rg.autoProducto);
+                var p03 = new MySql.Data.MySqlClient.MySqlParameter("@idDeposito", rg.autoDeposito);
+                var rst = cnn.Database.ExecuteSqlCommand(_sql, p01, p02, p03);
+                if (rst == 0)
+                {
+                    throw new Exception("PROBLEMA AL ACTUALIZAR DEPOSITO, PRODUCTO: " + rg.nombreProducto + Environment.NewLine + ", DEPOSITO: " + rg.nombreDeposito);
+                }
+            };
+            cnn.SaveChanges();
+        }
         private void 
             verificarDepositoExistenciaNegativa(
             invEntities cnn, 
@@ -522,6 +573,22 @@ namespace ProvLibInventario
                 }
             };
             cnn.SaveChanges();
+        }
+        private void
+            verificarDepositoEnCero(
+            invEntities cnn,
+            string idDeposito)
+        {
+            var _sql = @"select 
+                            count(*) as cnt
+                        from productos_deposito 
+                        where auto_deposito=@idDeposito and (fisica<>0 or disponible<>0)";
+            var p01 = new MySql.Data.MySqlClient.MySqlParameter("@idDeposito", idDeposito);
+            var _cnt = cnn.Database.SqlQuery<int>(_sql, p01).FirstOrDefault();
+            if (_cnt > 0)
+            {
+                throw new Exception("PROBLEMA AL VERIFICAR DEPOSITO EN CERO (FISICO/DISPONIBLE)");
+            }
         }
         //
         public DtoLib.ResultadoEntidad<string>
@@ -675,6 +742,92 @@ namespace ProvLibInventario
                         actualizarDeposito(cnn, ficha.movDepositoOrigen);
                         actualizarDeposito(cnn, ficha.movDepositoDestino);
                         verificarDepositoExistenciaNegativa(cnn, ficha.movDepositoOrigen);
+                        ts.Complete();
+                        //
+                        rt.Entidad = autoMov;
+                    }
+                }
+            }
+            catch (MySql.Data.MySqlClient.MySqlException ex)
+            {
+                throw new Exception(Helpers.MYSQL_VerificaError(ex));
+            }
+            catch (DbUpdateException ex)
+            {
+                throw new Exception(Helpers.ENTITY_VerificaError(ex));
+            }
+            catch (Exception e)
+            {
+                rt.Mensaje = e.Message;
+                rt.Result = DtoLib.Enumerados.EnumResult.isError;
+            }
+            //
+            return rt;
+        }
+        public DtoLib.ResultadoEntidad<string>
+            insertarMovimientoAjuste(DtoLibInventario.MovimientoInsertar.Ajuste.Ficha ficha)
+        {
+            var rt = new DtoLib.ResultadoEntidad<string>();
+            //
+            try
+            {
+                using (var cnn = new invEntities(_cnInv.ConnectionString))
+                {
+                    using (var ts = new TransactionScope())
+                    {
+                        var _fechaSistema = obtenerFechaDelSistema(cnn);
+                        actualizarContadores_MovAjuste(cnn);
+                        var _contadores = obtenerContadores_MovAjuste(cnn);
+                        var autoMov = _contadores.movimiento.ToString().Trim().PadLeft(10, '0');
+                        var numDoc = _contadores.numeroMovimiento.ToString().Trim().PadLeft(10, '0');
+                        insertarEncabezadoMov(cnn, _fechaSistema, autoMov, numDoc, ficha.movEncabezado);
+                        insertarDetallesMov(cnn, _fechaSistema, autoMov, numDoc, ficha.movDetalles);
+                        insertarMovKardex(cnn, _fechaSistema, autoMov, numDoc, ficha.movKardex);
+                        actualizarDeposito(cnn, ficha.movDeposito);
+                        verificarDepositoExistenciaNegativa(cnn, ficha.movDeposito);
+                        ts.Complete();
+                        //
+                        rt.Entidad = autoMov;
+                    }
+                }
+            }
+            catch (MySql.Data.MySqlClient.MySqlException ex)
+            {
+                throw new Exception(Helpers.MYSQL_VerificaError(ex));
+            }
+            catch (DbUpdateException ex)
+            {
+                throw new Exception(Helpers.ENTITY_VerificaError(ex));
+            }
+            catch (Exception e)
+            {
+                rt.Mensaje = e.Message;
+                rt.Result = DtoLib.Enumerados.EnumResult.isError;
+            }
+            //
+            return rt;
+        }
+        public DtoLib.ResultadoEntidad<string> 
+            insertarMovimientoAjustePorInventarioEnCero(DtoLibInventario.MovimientoInsertar.AjustePorInventarioEnCero.Ficha ficha)
+        {
+            var rt = new DtoLib.ResultadoEntidad<string>();
+            //
+            try
+            {
+                using (var cnn = new invEntities(_cnInv.ConnectionString))
+                {
+                    using (var ts = new TransactionScope())
+                    {
+                        var _fechaSistema = obtenerFechaDelSistema(cnn);
+                        actualizarContadores_MovAjuste(cnn);
+                        var _contadores = obtenerContadores_MovAjuste(cnn);
+                        var autoMov = _contadores.movimiento.ToString().Trim().PadLeft(10, '0');
+                        var numDoc = _contadores.numeroMovimiento.ToString().Trim().PadLeft(10, '0');
+                        insertarEncabezadoMov(cnn, _fechaSistema, autoMov, numDoc, ficha.movEncabezado);
+                        insertarDetallesMov(cnn, _fechaSistema, autoMov, numDoc, ficha.movDetalles);
+                        insertarMovKardex(cnn, _fechaSistema, autoMov, numDoc, ficha.movKardex);
+                        actualizarDepositoEnCero(cnn, ficha.movDeposito);
+                        verificarDepositoEnCero(cnn, ficha.idDepositoVerificar);
                         ts.Complete();
                         //
                         rt.Entidad = autoMov;

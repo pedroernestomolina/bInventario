@@ -16,6 +16,10 @@ namespace ServiceInventario.Interfaces
         DtoLib.ResultadoEntidad<string>
             InsertarMovTraslado(DtoLibInventario.MovimientoInsertar.Traslado.Ficha ficha);
         DtoLib.ResultadoEntidad<string>
-            insertarMovimientoTrasladoPorDevolucion(DtoLibInventario.MovimientoInsertar.Traslado.Ficha ficha);
+            insertarMovTrasladoPorDevolucion(DtoLibInventario.MovimientoInsertar.Traslado.Ficha ficha);
+        DtoLib.ResultadoEntidad<string>
+            insertarMovAjuste(DtoLibInventario.MovimientoInsertar.Ajuste.Ficha ficha);
+        DtoLib.ResultadoEntidad<string>
+            insertarMovAjustePorInventarioEnCero(DtoLibInventario.MovimientoInsertar.AjustePorInventarioEnCero.Ficha ficha);
     }
 }

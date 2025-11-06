@@ -105,6 +105,8 @@
     <Compile Include="Marca\Resumen.cs" />
     <Compile Include="MonitorPos\Entidad\Ficha.cs" />
     <Compile Include="MonitorPos\Lista\Filtro.cs" />
+    <Compile Include="MovimientoInsertar\AjustePorInventarioEnCero\Ficha.cs" />
+    <Compile Include="MovimientoInsertar\Ajuste\Ficha.cs" />
     <Compile Include="MovimientoInsertar\BaseFicha.cs" />
     <Compile Include="MovimientoInsertar\Cargo\Ficha.cs" />
     <Compile Include="MovimientoInsertar\ContadorMovimiento.cs" />

@@ -17,5 +17,9 @@ namespace ILibInventario
             insertarMovimientoTraslado(DtoLibInventario.MovimientoInsertar.Traslado.Ficha ficha);
         DtoLib.ResultadoEntidad<string>
             insertarMovimientoTrasladoPorDevolucion(DtoLibInventario.MovimientoInsertar.Traslado.Ficha ficha);
+        DtoLib.ResultadoEntidad<string>
+            insertarMovimientoAjuste(DtoLibInventario.MovimientoInsertar.Ajuste.Ficha ficha);
+        DtoLib.ResultadoEntidad<string>
+            insertarMovimientoAjustePorInventarioEnCero(DtoLibInventario.MovimientoInsertar.AjustePorInventarioEnCero.Ficha ficha);
     }
 }
