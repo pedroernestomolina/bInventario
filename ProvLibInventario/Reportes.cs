@@ -490,15 +490,33 @@ namespace ProvLibInventario
                     var tsql_2 = "where estatus_anulado='0' and fecha>=@desde and fecha<=@hasta ";
                     var tsql_3 = ") as t1";
 
-                    var sql_1 = "SELECT p.auto, p.nombre, p.codigo, p.referencia, p.modelo, pmed.decimales, " +
-                        "kard.fecha, kard.hora, kard.modulo, kard.siglas, kard.documento, kard.nombre_deposito, " +
-                        "kard.cantidad_und, kard.nombre_concepto, kard.signo, kard.codigo_sucursal, kard.entidad ";
-
-                    var sql_2="FROM `productos_kardex` as kard "+
-                        "join productos p on p.auto=kard.auto_producto "+
-                        "join productos_medida pmed on  pmed.auto=p.auto_empaque_compra "+
-                        "where estatus_anulado='0' ";
-
+                    var sql_1 = @"SELECT 
+                                        p.auto, 
+                                        p.nombre, 
+                                        p.codigo, 
+                                        p.referencia, 
+                                        p.modelo, 
+                                        pmed.decimales, 
+                                        kard.fecha, 
+                                        kard.hora, 
+                                        kard.modulo, 
+                                        kard.siglas, 
+                                        kard.documento, 
+                                        kard.nombre_deposito, 
+                                        kard.cantidad_und, 
+                                        kard.nombre_concepto, 
+                                        kard.signo, 
+                                        kard.codigo_sucursal, 
+                                        kard.entidad,
+                                        kard.estatus_anulado as EstatusAnulado ";
+                    //var sql_2="FROM `productos_kardex` as kard "+
+                    //    "join productos p on p.auto=kard.auto_producto "+
+                    //    "join productos_medida pmed on  pmed.auto=p.auto_empaque_compra "+
+                    //    "where estatus_anulado='0' ";
+                    var sql_2 = @"FROM `productos_kardex` as kard
+                                    join productos p on p.auto=kard.auto_producto 
+                                    join productos_medida pmed on  pmed.auto=p.auto_empaque_compra 
+                                where 1=1 ";
                     var p1 = new MySql.Data.MySqlClient.MySqlParameter();
                     var p2 = new MySql.Data.MySqlClient.MySqlParameter();
                     var p3 = new MySql.Data.MySqlClient.MySqlParameter();
@@ -507,12 +525,11 @@ namespace ProvLibInventario
                     var p6 = new MySql.Data.MySqlClient.MySqlParameter();
                     var p7 = new MySql.Data.MySqlClient.MySqlParameter();
                     var p8 = new MySql.Data.MySqlClient.MySqlParameter();
-
                     var tp1 = new MySql.Data.MySqlClient.MySqlParameter();
                     var tp2 = new MySql.Data.MySqlClient.MySqlParameter();
                     var tp3 = new MySql.Data.MySqlClient.MySqlParameter();
                     var tp4 = new MySql.Data.MySqlClient.MySqlParameter();
-                    
+
                     sql_2 += " and fecha>=@desde ";
                     p1.ParameterName = "@desde";
                     p1.Value = filtro.desde;

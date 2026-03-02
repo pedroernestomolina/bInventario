@@ -7,10 +7,8 @@ using System.Threading.Tasks;
 
 namespace DtoLibInventario.Movimiento.Ver
 {
-
     public class Ficha
     {
-
         public string documentoNro { get; set; }
         public DateTime fecha { get; set; }
         public string tipoDocumento { get; set; }
@@ -31,7 +29,5 @@ namespace DtoLibInventario.Movimiento.Ver
         public enumerados.EnumTipoDocumento docTipo { get; set; }
         public string estatusAnulado { get; set; }
         public List<Detalle> detalles { get; set; }
-
     }
-
 }

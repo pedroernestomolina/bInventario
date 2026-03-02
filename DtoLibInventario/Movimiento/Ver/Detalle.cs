@@ -7,10 +7,8 @@ using System.Threading.Tasks;
 
 namespace DtoLibInventario.Movimiento.Ver
 {
-    
     public class Detalle
     {
-
         public string codigo { get; set; }
         public string descripcion { get; set; }
         public decimal cantidad { get; set; }
@@ -22,7 +20,5 @@ namespace DtoLibInventario.Movimiento.Ver
         public decimal importe { get; set; }
         public bool esUnidad { get; set; }
         public string decimales { get; set; }
-
     }
-
 }

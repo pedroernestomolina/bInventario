@@ -1265,5 +1265,9 @@ namespace ProvSqlServer
         {
             throw new NotImplementedException();
         }
+        public DtoLib.ResultadoEntidad<DtoLibInventario.MovimientoRecuperar.Entidad.Ficha> recuperarMovimientoFicha(string autoDoc)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

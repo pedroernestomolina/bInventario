@@ -55,6 +55,7 @@
     <Compile Include="IMonitorPos.cs" />
     <Compile Include="IMovimiento.cs" />
     <Compile Include="IMovimientoInsertar.cs" />
+    <Compile Include="IMovimientoRecuperar.cs" />
     <Compile Include="IMovTransito.cs" />
     <Compile Include="invEntities.cs" />
     <Compile Include="IPermisos.cs" />

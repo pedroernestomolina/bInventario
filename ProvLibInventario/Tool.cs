@@ -19,7 +19,7 @@ namespace ProvLibInventario
             Tools_AjusteNivelMinimoMaximo_GetLista(DtoLibInventario.Tool.AjusteNivelMinimoMaximo.Capturar.Filtro filtro)
         {
             var result = new DtoLib.ResultadoLista<DtoLibInventario.Tool.AjusteNivelMinimoMaximo.Capturar.Ficha>();
-
+            //
             try
             {
                 using (var cnn = new invEntities(_cnInv.ConnectionString))
@@ -36,20 +36,40 @@ namespace ProvLibInventario
                         "JOIN productos_medida as med on p.auto_empaque_compra=med.auto " +
                         "where dep.auto_deposito=@dep and p.estatus='Activo' ";
 
+                    var _cmd_1 = @"SELECT 
+                                    p.auto as autoProducto, 
+                                    p.codigo as codigoProducto, 
+                                    p.nombre as nombreProducto, 
+                                    p.referencia as referenciaProducto, 
+                                    p.estatus_cambio as esSuspendido, 
+                                    p.estatus_pesado as estatusPesado,
+                                    dep.fisica as fisica, 
+                                    dep.nivel_minimo as nivelMinimo, 
+                                    dep.nivel_optimo as nivelOptimo, 
+                                    med.decimales,
+                                    med.nombre as descEmpqCompra,
+                                    p.contenido_compras as contEmpqCompra
+                        FROM productos_deposito as dep 
+                        JOIN productos as p on dep.auto_producto=p.auto 
+                        JOIN productos_medida as med on p.auto_empaque_compra=med.auto ";
+                    var _cmd_2 = @" where dep.auto_deposito=@dep and p.estatus='Activo' ";
+
+                    //
                     var dep = new MySql.Data.MySqlClient.MySqlParameter("@dep", filtro.autoDeposito);
                     var p1 = new MySql.Data.MySqlClient.MySqlParameter();
                     var p2 = new MySql.Data.MySqlClient.MySqlParameter();
                     if (filtro.autoDepartamento != "")
                     {
                         cmd += "and p.auto_departamento=@p1 ";
+                        _cmd_2 += " and p.auto_departamento=@p1 ";
                         p1.ParameterName = "@p1";
                         p1.Value = filtro.autoDepartamento;
                     }
-
                     if (filtro.cadena.Trim() != "")
                     {
                         var xcadena = filtro.cadena.Trim();
                         cmd += " and p.nombre like @p2 ";
+                        _cmd_2 += " and p.nombre like @p2 ";
                         p2.ParameterName = "@p2";
                         if (xcadena.Substring(0, 1) == "*")
                             if (xcadena.Length > 1)
@@ -59,8 +79,9 @@ namespace ProvLibInventario
                         else
                             p2.Value = xcadena + "%";
                     }
-
-                    var list = cnn.Database.SqlQuery<DtoLibInventario.Tool.AjusteNivelMinimoMaximo.Capturar.Ficha>(cmd, dep, p1, p2).ToList();
+                    //
+                    var _cmd = _cmd_1 + _cmd_2;
+                    var list = cnn.Database.SqlQuery<DtoLibInventario.Tool.AjusteNivelMinimoMaximo.Capturar.Ficha>(_cmd, dep, p1, p2).ToList();
                     result.Lista = list;
                 }
             }
@@ -79,7 +100,7 @@ namespace ProvLibInventario
                 result.Mensaje = e.Message;
                 result.Result = DtoLib.Enumerados.EnumResult.isError;
             }
-
+            //
             return result;
         }
         public DtoLib.Resultado

@@ -113,6 +113,9 @@
     <Compile Include="MovimientoInsertar\Descargo\Ficha.cs" />
     <Compile Include="MovimientoInsertar\Traslado\Ficha.cs" />
     <Compile Include="MovimientoInsertar\VerificarDeposito.cs" />
+    <Compile Include="MovimientoRecuperar\Entidad\Detalle.cs" />
+    <Compile Include="MovimientoRecuperar\Entidad\Encabezado.cs" />
+    <Compile Include="MovimientoRecuperar\Entidad\Ficha.cs" />
     <Compile Include="Movimiento\AjusteInvCero\Capture\Data.cs" />
     <Compile Include="Movimiento\AjusteInvCero\Capture\Ficha.cs" />
     <Compile Include="Movimiento\AjusteInvCero\Capture\Filtro.cs" />

@@ -29,6 +29,7 @@ namespace DtoLibInventario.Reportes.Kardex
         private int signo { get; set; }
         private string entidad { get; set; }
         private decimal? exInicial { get; set; }
+        public string EstatusAnulado { get; set; }
 
 
         public string autoPrd { get { return auto; } }

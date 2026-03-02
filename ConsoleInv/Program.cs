@@ -7,18 +7,23 @@ using System.Threading.Tasks;
 
 namespace ConsoleInv
 {
-
-
     class Program
     {
-
         static void Main(string[] args)
         {
-
             //ILibInventario.IProvider invPrv = new ProvSqlServer.Provider("localhost", "pita");
-            ILibInventario.IProvider invPrv = new ProvLibInventario.Provider("localhost", "pita");
-            var filtro = new DtoLibInventario.TallaColorSabor.Existencia.Filtro() { autoPrd= "0000002660", autoDep="0000000023" };
-            invPrv.TallaColorSabor_ExDep(filtro);
+            try
+            {
+                ILibInventario.IProvider invPrv = new ProvLibInventario.Provider("10.10.100.138", "zufu");
+                var rst = invPrv.recuperarMovimientoFicha("0000010909");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+
+            //var filtro = new DtoLibInventario.TallaColorSabor.Existencia.Filtro() { autoPrd= "0000002660", autoDep="0000000023" };
+            //invPrv.TallaColorSabor_ExDep(filtro);
 
             //invPrv.FechaServidor();
             //invPrv.Empresa_Datos();
@@ -104,7 +109,5 @@ namespace ConsoleInv
 
             //var r01 = invPrv.Producto_GetExistencia("0000000432");
         }
-
     }
-
 }

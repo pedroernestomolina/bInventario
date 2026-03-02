@@ -14,7 +14,8 @@ namespace ServiceInventario.Interfaces
         IMovPend, IEmpresa, ITallaColorSabor, IProducto_ModoAdm, IReportes_ModoAdm,
         ITomaInv,
         IGestionCosto,
-        IMovimientoInsertar
+        IMovimientoInsertar,
+        IMovimientoRecuperar
     {
         DtoLib.ResultadoEntidad<DateTime> 
             FechaServidor();

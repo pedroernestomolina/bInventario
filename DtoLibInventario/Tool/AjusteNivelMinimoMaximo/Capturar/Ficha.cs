@@ -4,13 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-
 namespace DtoLibInventario.Tool.AjusteNivelMinimoMaximo.Capturar
 {
-    
     public class Ficha
     {
-
         public string autoProducto { get; set; }
         public string codigoProducto { get; set; }
         public string nombreProducto { get; set; }
@@ -21,7 +18,9 @@ namespace DtoLibInventario.Tool.AjusteNivelMinimoMaximo.Capturar
         public decimal nivelOptimo { get; set; }
         public string esPesado { get; set; }
         public string esSuspendido { get; set; }
-
+        //
+        public string estatusPesado { get; set; }
+        public decimal contEmpqCompra { get; set; }
+        public string descEmpqCompra { get; set; }
     }
-
 }

@@ -10,7 +10,7 @@ using System.Transactions;
 
 namespace ProvLibInventario
 {
-    public partial class Provider : ILibInventario.IProvider
+    public partial class Provider: ILibInventario.IProvider
     {
         private DateTime
             obtenerFechaDelSistema(invEntities cnn)
