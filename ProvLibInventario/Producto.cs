@@ -1733,12 +1733,23 @@ namespace ProvLibInventario
                             }
                         }
                         //
-                        var _insert_catalogo = "";
+                        //
+                        var _insert_catalogo = @"INSERT INTO `web_catalogo_producto` (
+                                                    `id`, 
+                                                    `id_prd_catalogo`, 
+                                                    `codigo_prd_catalogo`, 
+                                                    `desc_prd_catalogo`, 
+                                                    `estatus_prd_catalogo`, 
+                                                    `img_prd_catalogo`, 
+                                                    `mime_type`, 
+                                                    `nombre_archivo`
+                                                ) VALUES (
+                                                    NULL, @autoPrd, '', '', '1', NULL, 'image/jpeg', '')";
                         var xp1_catalogo = new MySql.Data.MySqlClient.MySqlParameter("@autoPrd", entPrd.auto);
                         var rt_catalogo = cnn.Database.ExecuteSqlCommand(_insert_catalogo, xp1_catalogo);
                         if (rt_catalogo == 0)
                         {
-                            throw new Exception("NO SE PUDO INSERTAR PRODUCTO EN CATALOGO");
+                            throw new Exception("NO SE PUDO INSERTAR PRODUCTO EN WEB CATALOGO");
                         }
                         //
                         ts.Complete();
