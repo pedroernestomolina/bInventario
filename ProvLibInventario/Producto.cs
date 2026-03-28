@@ -1732,6 +1732,15 @@ namespace ProvLibInventario
                                 cnn.SaveChanges();
                             }
                         }
+                        //
+                        var _insert_catalogo = "";
+                        var xp1_catalogo = new MySql.Data.MySqlClient.MySqlParameter("@autoPrd", entPrd.auto);
+                        var rt_catalogo = cnn.Database.ExecuteSqlCommand(_insert_catalogo, xp1_catalogo);
+                        if (rt_catalogo == 0)
+                        {
+                            throw new Exception("NO SE PUDO INSERTAR PRODUCTO EN CATALOGO");
+                        }
+                        //
                         ts.Complete();
                         rt.Auto = autoPrd;
                     }
